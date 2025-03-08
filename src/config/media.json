@@ -1,0 +1,41 @@
+{
+  "videos": {
+    "hero": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/hero-vid.mp4"
+  },
+  "audio": {
+    "backgroundMusic": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/Swimming.mp3"
+  },
+  "images": {
+    "placeholders": {
+      "aboutUsSection": {
+        "1": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/homepage_about_image1.jpeg",
+        "2": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/homepage_about_image4.jpeg",
+        "3": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/homepage_about_image6.jpeg",
+        "4": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/homepage_about_image7.jpeg",
+        "5": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/homepage_about_image8.jpeg"
+      },
+      "servicesSection": {
+        "luxuryCar": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_privatepickup.heic",
+        "executiveChauffeur": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_privatepickup.heic",
+        "airportTransfers": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_airport.jpeg",
+        "events": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_prom.jpeg",
+        "securityChauffeurs": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/300x200?text=Security+Chauffeurs",
+        "heroLoading": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/1920x1080?text=Video+Loading"
+      }
+    },
+    "logo": {
+      "original": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/logo.png"
+    }
+  },
+  "socialMedia": {
+    "whatsapp": "https://wa.me/19059098747",
+    "facebook": "https://facebook.com/presidentialchauffeurs",
+    "instagram": "https://www.instagram.com/presidentialchauffeursinc/",
+    "tiktok": "https://tiktok.com/@presidentialchauffeurs"
+  },
+  "contact": {
+    "phone": "905-909-8747",
+    "email": "presidentialchauffersinc@gmail.com",
+    "location": "Toronto, Ontario Canada"
+  }
+}
