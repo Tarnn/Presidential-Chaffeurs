@@ -128,9 +128,9 @@ const AboutSection: React.FC = () => {
                 <Typography
                   variant="h3"
                   sx={{
-                    mb: 2,
+                    mb: 0,
                     fontWeight: 700,
-                    textAlign: "center", // Center the text horizontally
+                    textAlign: "center",
                     fontSize: { xs: "2rem", md: "2.75rem" },
                     color: "#FFFFFF",
                     minHeight: { xs: "auto", md: "60px" },
@@ -145,8 +145,8 @@ const AboutSection: React.FC = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    mb: 4,
-                    textAlign: "center", // Center the text horizontally
+                    mb: 2,
+                    textAlign: "center",
                     fontSize: { xs: "1.5rem", md: "2rem" },
                     color: "#D0A42B",
                     fontWeight: 600,

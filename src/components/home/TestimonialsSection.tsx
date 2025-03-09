@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import StarIcon from "@mui/icons-material/Star";
+import GoogleIcon from "@mui/icons-material/Google";
 import { FormattedMessage } from "react-intl";
 
 // Custom CSS to control spacing and height
@@ -135,38 +136,45 @@ const TestimonialsSection: React.FC = () => {
               <Box
                 key={testimonial.id}
                 sx={{
-                  p: { xs: 2, sm: 3 },
+                  p: { xs: 2, sm: 2.5 },
                   textAlign: "center",
                   color: "#FFFFFF",
                   backgroundColor: "#FFFFFF",
                   borderRadius: "8px",
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                   mx: { xs: 0.5, sm: 1 },
-                  height: { xs: "320px", sm: "300px" },
+                  height: { xs: "280px", sm: "260px" },
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
                 }}
               >
                 {/* Reviewer Info */}
-                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <Box sx={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center",
+                  mb: 1.5,
+                  gap: 1
+                }}>
+                  <GoogleIcon sx={{ color: "#4285F4", fontSize: 18 }} />
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "bold", color: "#2a2a2a", mr: 1 }}
+                    sx={{ fontWeight: "bold", color: "#2a2a2a" }}
                   >
                     {testimonial.author}
                   </Typography>
                   <Typography variant="caption" sx={{ color: "#888" }}>
-                    {testimonial.date}
+                    • {testimonial.date}
                   </Typography>
                 </Box>
 
                 {/* Star Rating */}
-                <Box sx={{ display: "flex", mb: 2, justifyContent: "center" }}>
+                <Box sx={{ display: "flex", mb: 1.5, justifyContent: "center" }}>
                   {[...Array(testimonial.rating)].map((_, index) => (
                     <StarIcon
                       key={index}
-                      sx={{ color: "#D0A42B", fontSize: 20 }}
+                      sx={{ color: "#D0A42B", fontSize: 18 }}
                     />
                   ))}
                 </Box>
@@ -176,13 +184,15 @@ const TestimonialsSection: React.FC = () => {
                   variant="body2"
                   sx={{
                     color: "#2a2a2a",
-                    mb: 2,
+                    mb: 1.5,
                     flexGrow: 1,
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     display: "-webkit-box",
-                    WebkitLineClamp: 4, // Limit to 4 lines
+                    WebkitLineClamp: 4,
                     WebkitBoxOrient: "vertical",
+                    fontSize: "0.875rem",
+                    lineHeight: 1.5,
                   }}
                 >
                   {testimonial.text}
