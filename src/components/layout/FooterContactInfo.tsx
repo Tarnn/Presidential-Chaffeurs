@@ -7,12 +7,14 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import mediaConfig from "../../config/media.json";
 import { FormattedMessage } from "react-intl";
 
-interface FooterContactInfoProps {
-  handleWhatsAppClick: () => void;
-}
+const FooterContactInfo: React.FC = () => {
+  const { phone, email, location, whatsapp } = mediaConfig.contact;
 
-const FooterContactInfo: React.FC<FooterContactInfoProps> = ({ handleWhatsAppClick }) => {
-  const { phone, email, location } = mediaConfig.contact;
+  const handleWhatsAppClick = () => {
+    const encodedMessage = encodeURIComponent(whatsapp.message);
+    const whatsappUrl = `https://wa.me/${whatsapp.number}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <Box sx={{ textAlign: "left" }}>

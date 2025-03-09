@@ -3,10 +3,18 @@ import { Box } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 interface WhatsAppButtonProps {
-  onClick: () => void;
+  phoneNumber: string; // Phone number in international format without + or spaces
+  message?: string; // Optional message to pre-fill
 }
 
-const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ onClick }) => {
+const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ phoneNumber, message = "Hello! I'm interested in your chauffeur services." }) => {
+  const handleClick = () => {
+    // Format the URL for WhatsApp's click-to-chat feature
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <Box
       sx={{
@@ -25,7 +33,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ onClick }) => {
         cursor: "pointer",
         "&:hover": { backgroundColor: "#1EB754" },
       }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <WhatsAppIcon sx={{ color: "#FFFFFF", fontSize: "32px" }} />
     </Box>

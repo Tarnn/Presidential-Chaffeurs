@@ -4,15 +4,17 @@ import WhatsAppButton from "./WhatsAppButton";
 import FooterSocialLinks from "./FooterSocialLinks";
 import FooterQuickLinks from "./FooterQuickLinks";
 import FooterContactInfo from "./FooterContactInfo";
+import mediaConfig from "../../config/media.json";
 
-interface FooterProps {
-  handleWhatsAppClick: () => void;
-}
+const Footer: React.FC = () => {
+  const { whatsapp } = mediaConfig.contact;
 
-const Footer: React.FC<FooterProps> = ({ handleWhatsAppClick }) => {
   return (
     <>
-      <WhatsAppButton onClick={handleWhatsAppClick} />
+      <WhatsAppButton 
+        phoneNumber={whatsapp.number}
+        message={whatsapp.message}
+      />
       <Box
         sx={{
           bgcolor: "#1a1a1a",
@@ -36,7 +38,7 @@ const Footer: React.FC<FooterProps> = ({ handleWhatsAppClick }) => {
               <FooterQuickLinks />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <FooterContactInfo handleWhatsAppClick={handleWhatsAppClick} />
+              <FooterContactInfo />
             </Grid>
           </Grid>
           <Box

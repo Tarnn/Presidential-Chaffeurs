@@ -49,6 +49,10 @@
   "contact": {
     "phone": "905-909-8747",
     "email": "presidentialchauffersinc@gmail.com",
-    "location": "Toronto, Ontario Canada"
+    "location": "Toronto, Ontario Canada",
+    "whatsapp": {
+      "number": "9059098747",
+      "message": "Hello! I'm interested in booking your chauffeur services."
+    }
   }
 }
