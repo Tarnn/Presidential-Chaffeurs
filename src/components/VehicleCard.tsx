@@ -6,6 +6,7 @@ import {
   Button,
   TextField,
   Box,
+  Alert,
 } from "@mui/material";
 import Slider from "react-slick";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -25,14 +26,10 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     date: "",
   });
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // Add debug logging for the sitekey
+  // Get ReCAPTCHA site key from environment variables
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-  console.log('All env variables:', import.meta.env);
-  console.log('ReCAPTCHA site key:', recaptchaSiteKey);
-  if (!recaptchaSiteKey) {
-    console.error('ReCAPTCHA site key is missing or undefined');
-  }
 
   const sliderSettings = {
     dots: true,
@@ -45,8 +42,15 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    if (!recaptchaSiteKey) {
+      setError("ReCAPTCHA configuration is missing. Please try again later.");
+      return;
+    }
+
     if (!captchaToken) {
-      alert("Please complete the CAPTCHA");
+      setError("Please complete the CAPTCHA verification");
       return;
     }
 
@@ -61,7 +65,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       setFormData({ purpose: "", date: "" });
       setCaptchaToken(null);
     } catch (error) {
-      alert("Error submitting inquiry.");
+      setError("Error submitting inquiry. Please try again later.");
     }
   };
 
@@ -97,7 +101,13 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
             {vehicle.description}
           </Typography>
           <Typography variant="body1">Rate: ${vehicle.rate}/day</Typography>
+          
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
             <TextField
               label="Purpose of Travel"
               fullWidth
@@ -132,10 +142,12 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
                 },
               }}
             />
-            <ReCAPTCHA
-              sitekey={recaptchaSiteKey || ''}
-              onChange={(token) => setCaptchaToken(token)}
-            />
+            {recaptchaSiteKey && (
+              <ReCAPTCHA
+                sitekey={recaptchaSiteKey}
+                onChange={(token) => setCaptchaToken(token)}
+              />
+            )}
             <Button
               type="submit"
               variant="contained"

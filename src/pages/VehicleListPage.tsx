@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Grid, Typography, Box } from "@mui/material";
-import axios from "axios";
 import VehicleCard from "../components/VehicleCard";
 import { Vehicle } from "../types";
 import media from "../config/media.json";
+// Import static vehicle data
+import vehicleData from "../vehicle.json";
 
 const VehicleListPage: React.FC = () => {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-
-  useEffect(() => {
-    axios
-      .get("/api/vehicles")
-      .then((response) => setVehicles(response.data as Vehicle[]))
-      .catch((error) => console.error("Error fetching vehicles:", error));
-  }, []);
+  // Use static data instead of state and API call
+  const vehicles: Vehicle[] = vehicleData;
 
   return (
     <Box component="section">
