@@ -1,30 +1,158 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, Paper } from '@mui/material';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { Container, Typography, Box, Paper, CircularProgress, Fade } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import media from '../config/media.json';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+
+interface S3Image {
+  id: string;
+  url: string;
+  key: string;
+  fileType: 'webp' | 'heic';
+  loaded?: boolean;
+}
+
+const IMAGES_PER_PAGE = 12;
+const GALLERY_PREFIX = 'gallery_';
+
+// Initialize S3 Client
+const s3Client = new S3Client({
+  region: import.meta.env.VITE_AWS_REGION,
+  credentials: {
+    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID?.trim() || '',
+    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY?.trim() || '',
+  },
+  maxAttempts: 3,
+});
+
+// Verify credentials before component renders
+const verifyCredentials = async () => {
+  const credentials = await s3Client.config.credentials();
+  console.log('Verifying credentials:', {
+    accessKeyId: credentials.accessKeyId,
+    hasSecretKey: !!credentials.secretAccessKey,
+    expiration: credentials.expiration,
+  });
+};
+
+verifyCredentials().catch(console.error);
 
 const GalleryPage: React.FC = () => {
-  const [instagramPosts, setInstagramPosts] = useState<any[]>([]);
+  const [images, setImages] = useState<S3Image[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [continuationToken, setContinuationToken] = useState<string | undefined>();
 
-  useEffect(() => {
-    // Replace with your Instagram Graph API token and user ID
-    const fetchInstagramPosts = async () => {
-      try {
-        const response = await fetch(
-          `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink&access_token=YOUR_ACCESS_TOKEN`
-        );
-        const data = await response.json();
-        setInstagramPosts(data.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching Instagram posts:', error);
-        setLoading(false);
+  // Create a ref for the intersection observer target
+  const observerTarget = useRef<HTMLDivElement>(null);
+
+  // Add new state for tracking loaded images
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+
+  // Handle image load
+  const handleImageLoad = (imageId: string) => {
+    setLoadedImages(prev => new Set([...Array.from(prev), imageId]));
+  };
+
+  const fetchImages = async (token?: string) => {
+    try {
+      setLoading(true);
+      
+      // Debug logging
+      console.log('AWS Config:', {
+        region: import.meta.env.VITE_AWS_REGION,
+        bucket: import.meta.env.VITE_S3_BUCKET_NAME,
+        keyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+        // Log the first and last 4 characters of the secret key to verify it's loaded (never log the full key)
+        secretKeyCheck: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY ? 
+          `${import.meta.env.VITE_AWS_SECRET_ACCESS_KEY.substring(0, 4)}...${import.meta.env.VITE_AWS_SECRET_ACCESS_KEY.slice(-4)}` : 
+          'not set'
+      });
+      
+      // Verify S3 client configuration
+      console.log('S3 Client Config:', {
+        region: s3Client.config.region,
+        credentials: await s3Client.config.credentials(),
+      });
+      
+      const command = new ListObjectsV2Command({
+        Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
+        MaxKeys: IMAGES_PER_PAGE,
+        ContinuationToken: token,
+        Prefix: GALLERY_PREFIX,
+      });
+
+      console.log('Sending S3 command...');
+      const response = await s3Client.send(command);
+      console.log('S3 Response:', response);
+      
+      if (response.Contents) {
+        const galleryImages = response.Contents
+          .filter(obj => obj.Key && (obj.Key.endsWith('.webp') || obj.Key.endsWith('.heic')))
+          .map(obj => {
+            const fileType = obj.Key?.endsWith('.webp') ? 'webp' as const : 'heic' as const;
+            return {
+              id: obj.Key || '',
+              key: obj.Key || '',
+              url: `https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${obj.Key}`,
+              fileType,
+              loaded: false
+            };
+          });
+
+        // Sort images by their number in the filename
+        const sortedImages = galleryImages.sort((a, b) => {
+          const numA = parseInt(a.key.replace(GALLERY_PREFIX, '').split('.')[0]);
+          const numB = parseInt(b.key.replace(GALLERY_PREFIX, '').split('.')[0]);
+          return numA - numB;
+        });
+
+        setImages(prev => token ? [...prev, ...sortedImages] : sortedImages);
+        setHasMore(!!response.IsTruncated);
+        setContinuationToken(response.NextContinuationToken);
+        setError(null);
       }
-    };
+    } catch (error: any) {
+      console.error('Error details:', {
+        message: error.message,
+        name: error.name,
+        code: error.code,
+        requestId: error.$metadata?.requestId,
+        cfId: error.$metadata?.cfId,
+      });
+      setError('Failed to load gallery images. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchInstagramPosts();
+  // Intersection Observer callback
+  const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
+    const [target] = entries;
+    if (target.isIntersecting && hasMore && !loading) {
+      fetchImages(continuationToken);
+    }
+  }, [continuationToken, hasMore, loading]);
+
+  // Set up the intersection observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: '20px',
+      threshold: 1.0,
+    });
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [handleObserver]);
+
+  // Initial fetch
+  useEffect(() => {
+    fetchImages();
   }, []);
 
   return (
@@ -78,78 +206,70 @@ const GalleryPage: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* Instagram Feed Section */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <InstagramIcon sx={{ fontSize: 40, mb: 2, color: 'primary.main' }} />
-          <Typography variant="h4" gutterBottom>
-            Follow Our Journey
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 4 }}>
-            Stay updated with our latest events and services on Instagram
-          </Typography>
-        </Box>
-
-        {loading ? (
+        {error ? (
           <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography>Loading Instagram feed...</Typography>
+            <Typography color="error">{error}</Typography>
           </Box>
         ) : (
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-              gap: 3,
-            }}
-          >
-            {instagramPosts.map((post) => (
-              <Paper
-                key={post.id}
-                elevation={2}
-                sx={{
-                  overflow: 'hidden',
-                  transition: 'transform 0.3s ease-in-out',
-                  '&:hover': {
-                    transform: 'scale(1.02)',
-                  },
-                }}
-              >
-                <a
-                  href={post.permalink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'none' }}
+          <>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                gap: 3,
+                minHeight: '200px',
+              }}
+            >
+              {images.map((image) => (
+                <Fade 
+                  key={image.id}
+                  in={loadedImages.has(image.id)}
+                  timeout={1000}
+                  style={{ transitionDelay: '200ms' }}
                 >
-                  <Box
-                    component="img"
-                    src={post.media_url}
-                    alt={post.caption || 'Instagram post'}
+                  <Paper
+                    elevation={2}
                     sx={{
-                      width: '100%',
-                      height: '300px',
-                      objectFit: 'cover',
+                      overflow: 'hidden',
+                      transition: 'transform 0.3s ease-in-out',
+                      opacity: loadedImages.has(image.id) ? 1 : 0,
+                      '&:hover': {
+                        transform: 'scale(1.02)',
+                      },
                     }}
-                  />
-                  {post.caption && (
-                    <Box sx={{ p: 2 }}>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                        }}
-                      >
-                        {post.caption}
-                      </Typography>
-                    </Box>
-                  )}
-                </a>
-              </Paper>
-            ))}
-          </Box>
+                  >
+                    <Box
+                      component="img"
+                      src={image.url}
+                      alt={`Gallery image ${image.key.replace(GALLERY_PREFIX, '').split('.')[0]}`}
+                      onLoad={() => handleImageLoad(image.id)}
+                      sx={{
+                        width: '100%',
+                        height: '300px',
+                        objectFit: 'cover',
+                      }}
+                      loading="lazy"
+                    />
+                  </Paper>
+                </Fade>
+              ))}
+            </Box>
+            
+            {/* Intersection Observer Target */}
+            <Box
+              ref={observerTarget}
+              sx={{
+                width: '100%',
+                height: '50px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                mt: 4,
+              }}
+            >
+              {loading && <CircularProgress />}
+            </Box>
+          </>
         )}
       </Container>
     </Box>
