@@ -45,15 +45,17 @@ const VehicleCardWithReCaptcha: React.FC<VehicleCardProps> = (props) => {
 const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const intl = useIntl();
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const [formData, setFormData] = useState<{ purpose: string; date: string; description: string }>({
+  const [formData, setFormData] = useState<{ purpose: string; date: string; description: string; email: string }>({
     purpose: "",
     date: "",
-    description: ""
+    description: "",
+    email: ""
   });
-  const [formErrors, setFormErrors] = useState<{ purpose: boolean; date: boolean; description: boolean }>({
+  const [formErrors, setFormErrors] = useState<{ purpose: boolean; date: boolean; description: boolean; email: boolean }>({
     purpose: false,
     date: false,
-    description: false
+    description: false,
+    email: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -200,14 +202,21 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     const newFormErrors = {
       purpose: !formData.purpose.trim(),
       date: !formData.date.trim(),
-      description: !formData.description.trim()
+      description: !formData.description.trim(),
+      email: !formData.email.trim()
     };
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!newFormErrors.email && !emailRegex.test(formData.email)) {
+      newFormErrors.email = true;
+    }
     
     setFormErrors(newFormErrors);
     
-    // Check if any field is empty
-    if (newFormErrors.purpose || newFormErrors.date || newFormErrors.description) {
-      setError(intl.formatMessage({ id: "vehiclePage.formValidationError" }) || "Please fill out all fields");
+    // Check if any field is empty or invalid
+    if (newFormErrors.purpose || newFormErrors.date || newFormErrors.description || newFormErrors.email) {
+      setError(intl.formatMessage({ id: "vehiclePage.formValidationError" }) || "Please fill out all fields correctly");
       return;
     }
     
@@ -217,7 +226,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     currentDate.setHours(0, 0, 0, 0); // Reset time part for proper comparison
     
     if (selectedDate < currentDate) {
-      setFormErrors({...newFormErrors, date: true});
+      setFormErrors({...newFormErrors, date: true, email: newFormErrors.email});
       setError(intl.formatMessage({ id: "vehiclePage.pastDateError" }) || "Please select a future date");
       return;
     }
@@ -241,12 +250,13 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         purpose: formData.purpose,
         date: formData.date,
         description: formData.description,
+        email: formData.email,
         captchaToken: token,
       });
       
       alert(intl.formatMessage({ id: "vehiclePage.submitSuccess" }));
-      setFormData({ purpose: "", date: "", description: "" });
-      setFormErrors({ purpose: false, date: false, description: false });
+      setFormData({ purpose: "", date: "", description: "", email: "" });
+      setFormErrors({ purpose: false, date: false, description: false, email: false });
     } catch (error) {
       setError(intl.formatMessage({ id: "vehiclePage.submitError" }));
     } finally {
@@ -383,6 +393,28 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
                 label: { color: formErrors.purpose ? "error.main" : "#D0A42B" },
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": { borderColor: formErrors.purpose ? "error.main" : "#D0A42B" },
+                },
+                "& .MuiFormHelperText-root": {
+                  color: "error.main"
+                }
+              }}
+            />
+            <TextField
+              label={intl.formatMessage({ id: "vehiclePage.emailLabel", defaultMessage: "Your Email" })}
+              type="email"
+              fullWidth
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              error={formErrors.email}
+              helperText={formErrors.email ? intl.formatMessage({ id: "vehiclePage.emailError", defaultMessage: "Please enter a valid email address" }) : ""}
+              sx={{
+                mb: 2,
+                input: { color: "white" },
+                label: { color: formErrors.email ? "error.main" : "#D0A42B" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: formErrors.email ? "error.main" : "#D0A42B" },
                 },
                 "& .MuiFormHelperText-root": {
                   color: "error.main"
