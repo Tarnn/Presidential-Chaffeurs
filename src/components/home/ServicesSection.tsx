@@ -73,7 +73,7 @@ const services = [
     icon: <DirectionsCarIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .executiveChauffeur as string,
-    link: "/services/executive",
+    link: "/services",
   },
   {
     titleId: "services.airport.title",
@@ -81,7 +81,7 @@ const services = [
     icon: <FlightIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .airportTransfers as string,
-    link: "/services/airport-transfers",
+    link: "/services",
   },
   {
     titleId: "services.wedding.title",
@@ -89,7 +89,7 @@ const services = [
     icon: <CelebrationIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .weddings as string,
-    link: "/services/weddings",
+    link: "/services",
   },
   {
     titleId: "services.event.title",
@@ -97,7 +97,7 @@ const services = [
     icon: <EventIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .events as string,
-    link: "/services/events",
+    link: "/services",
   },
 ];
 

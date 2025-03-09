@@ -39,5 +39,27 @@
   "about.trustedByElite": "La Confiance de l'Élite",
   "about.trustedDescription": "Nous sommes fiers d'avoir la confiance des dirigeants d'entreprise de premier plan, des athlètes célèbres et des icônes de l'industrie du divertissement. Notre engagement envers la discrétion et le professionnalisme garantit leur confiance à chaque voyage.",
   "about.eliteStandard": "STANDARD D'ÉLITE",
-  "about.trustedChauffeurs": "CHAUFFEURS DE CONFIANCE"
+  "about.trustedChauffeurs": "CHAUFFEURS DE CONFIANCE",
+  
+  "aboutPage.hero.title": "À PROPOS DE <span style=\"color: #D0A42B\">NOUS</span>",
+  "aboutPage.intro.title": "CHAUFFEURS <span style=\"color: #D0A42B\">PRÉSIDENTIELS</span>",
+  "aboutPage.intro.description": "Chez Chauffeurs Présidentiels, nous sommes fiers de notre engagement inébranlable à offrir un luxe, une discrétion et une sophistication inégalés, garantissant une expérience extraordinaire à chaque client. Reconnus pour notre service signature gants blancs, nous allons au-delà pour créer des voyages sur mesure qui dépassent constamment les attentes de notre clientèle distinguée.",
+  "aboutPage.services.description1": "Notre Service de Chauffeur Exécutif offre une expérience véritablement sur mesure et flexible, conçue pour répondre à une large gamme d'occasions avec précision et élégance. Que vous planifiez un mariage exquis, recherchiez un cadre glamour pour une séance photo, assistiez à un événement musical de haut niveau, ou ayez besoin de services de transport aéroport - que ce soit pour des célébrités de renommée mondiale, des dirigeants d'entreprise ou des garçons d'honneur se préparant pour un mariage - Chauffeurs Présidentiels est votre partenaire de confiance.",
+  "aboutPage.services.description2": "Nous nous spécialisons également dans les événements tapis rouge, le transport d'entreprise, les événements sportifs et les soirées mémorables à Toronto, garantissant que chaque moment est marqué par l'opulence et le professionnalisme. Notre flotte, comprenant des véhicules de luxe emblématiques tels que Rolls Royce, Bentley et Maybach, incarne le summum du style et du confort, élevant chaque voyage au rang de déclaration de prestige.",
+  "aboutPage.services.description3": "Basés à Toronto et desservant fièrement la région du Grand Toronto, nous nous engageons à satisfaire chacune de vos demandes avec un soin et une attention méticuleux aux détails, car chez Chauffeurs Présidentiels, chaque client est un VIP, méritant ce qu'il y a de mieux.",
+  
+  "aboutPage.commitment.title": "NOTRE <span style=\"color: #D0A42B\">ENGAGEMENT</span>",
+  "aboutPage.commitment.description": "Chez Chauffeurs Présidentiels, nous nous consacrons à fournir des services de chauffeur exceptionnels avec une attention inébranlable à la discrétion, la fiabilité et le souci du détail. Nous planifions méticuleusement chaque voyage pour offrir une expérience sans faille à nos clients estimés.",
+  
+  "aboutPage.whyChoose.title": "Pourquoi Choisir Chauffeurs Présidentiels?",
+  "aboutPage.whyChoose.description": "Chez Chauffeurs Présidentiels, nous allons au-delà du simple transport pour offrir une expérience de service gants blancs adaptée à vos plus hautes exigences.",
+  "aboutPage.whyChoose.point1": "Service gants blancs adapté à vos besoins.",
+  "aboutPage.whyChoose.point2": "Chauffeurs d'élite formés à la discrétion et au professionnalisme.",
+  "aboutPage.whyChoose.point3": "Flotte de luxe comprenant des véhicules Rolls Royce, Bentley et Maybach.",
+  "aboutPage.whyChoose.point4": "Service fiable disponible 24/7 dans toute la région du Grand Toronto.",
+  "aboutPage.whyChoose.cta": "FAITES VOTRE RÉSERVATION",
+
+  "aboutPage.trusted.title": "LA CONFIANCE DE L'ÉLITE",
+  "aboutPage.trusted.description1": "Nous sommes fiers d'avoir la confiance des dirigeants d'entreprise de premier plan, des athlètes célèbres et des icônes de l'industrie du divertissement. Notre engagement envers la discrétion et le professionnalisme garantit leur confiance à chaque voyage.",
+  "aboutPage.trusted.description2": "Avec des années d'expérience, Presidential a gagné sa place en tant que fournisseur de confiance de services de chauffeur haut de gamme fiables. Notre clientèle d'élite apprécie notre professionnalisme et notre capacité à s'adapter à leurs emplois du temps exigeants."
 }

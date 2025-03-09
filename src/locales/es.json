@@ -39,5 +39,27 @@
   "about.trustedByElite": "La Confianza de la Élite",
   "about.trustedDescription": "Nos enorgullece contar con la confianza de destacados ejecutivos empresariales, atletas célebres e íconos de la industria del entretenimiento. Nuestro compromiso con la discreción y el profesionalismo garantiza su confianza en cada viaje.",
   "about.eliteStandard": "ESTÁNDAR DE ÉLITE",
-  "about.trustedChauffeurs": "CHÓFERES DE CONFIANZA"
+  "about.trustedChauffeurs": "CHÓFERES DE CONFIANZA",
+  
+  "aboutPage.hero.title": "SOBRE <span style=\"color: #D0A42B\">NOSOTROS</span>",
+  "aboutPage.intro.title": "CHÓFERES <span style=\"color: #D0A42B\">PRESIDENCIALES</span>",
+  "aboutPage.intro.description": "En Choferes Presidenciales, nos enorgullecemos de nuestro inquebrantable compromiso con la entrega de lujo, discreción y sofisticación sin igual, asegurando una experiencia extraordinaria para cada cliente. Reconocidos por nuestro servicio distintivo de guante blanco, vamos más allá para crear viajes personalizados y sin problemas que superan constantemente las expectativas de nuestra distinguida clientela.",
+  "aboutPage.services.description1": "Nuestro Servicio de Chofer Ejecutivo ofrece una experiencia verdaderamente personalizada y flexible, diseñada para atender una amplia gama de ocasiones con precisión y elegancia. Ya sea que esté planeando una boda exquisita, buscando un escenario glamoroso para una sesión fotográfica, asistiendo a un evento musical de alto perfil, o requiriendo servicios de recogida y entrega en el aeropuerto, ya sea para celebridades de fama mundial, ejecutivos de negocios o padrinos preparándose para un día de boda, Choferes Presidenciales es su socio de confianza.",
+  "aboutPage.services.description2": "También nos especializamos en eventos de alfombra roja, transporte corporativo, eventos deportivos y noches memorables en Toronto, asegurando que cada momento esté marcado por la opulencia y el profesionalismo. Nuestra flota, que incluye vehículos de lujo icónicos como Rolls Royce, Bentley y Maybach, encarna el pináculo del estilo y el confort, elevando cada viaje a una declaración de prestigio.",
+  "aboutPage.services.description3": "Con sede en Toronto y sirviendo con orgullo al Área del Gran Toronto, estamos comprometidos a cumplir cada una de sus solicitudes con cuidado meticuloso y atención al detalle, porque en Choferes Presidenciales, cada cliente es un VIP, merecedor de nada menos que lo mejor.",
+  
+  "aboutPage.commitment.title": "NUESTRO <span style=\"color: #D0A42B\">COMPROMISO</span>",
+  "aboutPage.commitment.description": "En Choferes Presidenciales, nos dedicamos a brindar servicios de chofer excepcionales con un enfoque inquebrantable en la discreción, la confiabilidad y la atención al detalle. Planificamos meticulosamente cada viaje para proporcionar una experiencia sin problemas para nuestros estimados clientes.",
+  
+  "aboutPage.whyChoose.title": "¿Por Qué Elegir Choferes Presidenciales?",
+  "aboutPage.whyChoose.description": "En Choferes Presidenciales, vamos más allá del transporte para ofrecer una experiencia de servicio de guante blanco adaptada a su más alto estándar.",
+  "aboutPage.whyChoose.point1": "Servicio de guante blanco adaptado a sus necesidades.",
+  "aboutPage.whyChoose.point2": "Choferes de élite entrenados en discreción y profesionalismo.",
+  "aboutPage.whyChoose.point3": "Flota de lujo con vehículos Rolls Royce, Bentley y Maybach.",
+  "aboutPage.whyChoose.point4": "Servicio confiable disponible 24/7 en toda el Área del Gran Toronto.",
+  "aboutPage.whyChoose.cta": "HAGA SU RESERVA",
+
+  "aboutPage.trusted.title": "CONFIADO POR LA ÉLITE",
+  "aboutPage.trusted.description1": "Nos enorgullece contar con la confianza de destacados ejecutivos empresariales, atletas célebres e íconos de la industria del entretenimiento. Nuestro compromiso con la discreción y el profesionalismo asegura su confianza en cada viaje.",
+  "aboutPage.trusted.description2": "Con años de experiencia, Presidential se ha ganado su lugar como proveedor confiable de servicios de chofer de guante blanco. Nuestra clientela de élite valora nuestro profesionalismo y capacidad para adaptarnos a sus exigentes horarios."
 }

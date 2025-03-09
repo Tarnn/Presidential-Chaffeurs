@@ -40,5 +40,27 @@
   "about.trustedDescription": "We are proud to be entrusted by leading business executives, celebrated athletes, and entertainment industry icons. Our commitment to discretion and professionalism ensures their trust in every journey.",
   "about.eliteStandard": "ELITE STANDARD",
   "about.trustedChauffeurs": "TRUSTED CHAUFFEURS",
-  "about.bookNow": "BOOK NOW"
+  "about.bookNow": "BOOK NOW",
+
+  "aboutPage.hero.title": "About Us",
+  "aboutPage.intro.title": "PRESIDENTIAL CHAUFFEURS",
+  "aboutPage.intro.description": "At Presidential Chauffeurs, we take pride in our steadfast dedication to delivering unparalleled luxury, discretion, and sophistication, ensuring an extraordinary experience for every client. Renowned for our signature white-glove service, we go above and beyond to craft tailored, seamless journeys that consistently surpass the expectations of our distinguished clientele.",
+  "aboutPage.services.description1": "Our Executive Chauffeur Service offers a truly bespoke and flexible experience, designed to cater to a wide array of occasions with precision and elegance. Whether you're planning an exquisite wedding, seeking a glamorous photoshoot backdrop, attending a high-profile music event, or requiring seamless airport pickup and drop-off services—be it for world-famous celebrities, business executives, or groomsmen preparing for a wedding day—Presidential Chauffeurs is your trusted partner.",
+  "aboutPage.services.description2": "We also specialize in red carpet events, corporate transportation, sporting events, and memorable nights out in Toronto, ensuring every moment is marked by opulence and professionalism. Our fleet, featuring iconic luxury vehicles such as Rolls Royces, Bentleys, and Maybachs, embodies the pinnacle of style and comfort, elevating every journey into a statement of prestige.",
+  "aboutPage.services.description3": "Based in Toronto and proudly serving the Greater Toronto Area, we are committed to fulfilling your every request with meticulous care and attention to detail, because at Presidential Chauffeurs, every client is a VIP, deserving of nothing less than the best.",
+  
+  "aboutPage.commitment.title": "OUR COMMITMENT",
+  "aboutPage.commitment.description": "At Presidential Chauffeurs, we are dedicated to delivering exceptional chauffeur services with an unwavering focus on discretion, reliability and attention to detail. We meticulously plan every journey to provide a seamless experience for our esteemed clients.",
+  
+  "aboutPage.whyChoose.title": "Why Choose Presidential Chauffeurs?",
+  "aboutPage.whyChoose.description": "At Presidential Chauffeurs, we go beyond transportation to deliver a white-glove service experience tailored to meet your highest standard.",
+  "aboutPage.whyChoose.point1": "White-Glove service tailored to your needs.",
+  "aboutPage.whyChoose.point2": "Elite chauffeurs trained in discretion and professionalism.",
+  "aboutPage.whyChoose.point3": "Luxury fleet featuring Rolls Royce, Bentley, and Maybach vehicles.",
+  "aboutPage.whyChoose.point4": "Reliable service available 24/7 across the Greater Toronto Area.",
+  "aboutPage.whyChoose.cta": "MAKE YOUR RESERVATION",
+
+  "aboutPage.trusted.title": "TRUSTED BY THE ELITE",
+  "aboutPage.trusted.description1": "We are proud to be entrusted by leading business executives, celebrated athletes, and entertainment industry icons. Our commitment to discretion and professionalism ensures their trust in every journey.",
+  "aboutPage.trusted.description2": "With years of experience, Presidential has earned its place as a trusted provider of reliable, white-glove chauffeur services. Our elite clientele values our professionalism and ability to accommodate their demanding schedules."
 }
