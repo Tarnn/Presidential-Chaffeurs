@@ -1,20 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Grid, Typography, Box } from "@mui/material";
-import axios from "axios";
-import VehicleCard from "../components/VehicleCard";
-import { Vehicle } from "../types";
+import React from "react";
+import { Typography, Box } from "@mui/material";
 import media from "../config/media.json";
 
-const VehicleListPage: React.FC = () => {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-
-  useEffect(() => {
-    axios
-      .get("/api/vehicles")
-      .then((response) => setVehicles(response.data as Vehicle[]))
-      .catch((error) => console.error("Error fetching vehicles:", error));
-  }, []);
-
+const ServicesPage: React.FC = () => {
   return (
     <Box component="section">
       {/* Hero Section */}
@@ -29,8 +17,8 @@ const VehicleListPage: React.FC = () => {
       >
         <Box
           component="img"
-          src={media.images.placeholders.fleet["1"]}
-          alt="Fleet Hero"
+          src={media.images.placeholders.services["1"]}
+          alt="Services Hero"
           sx={{
             width: '100%',
             height: '100%',
@@ -64,22 +52,12 @@ const VehicleListPage: React.FC = () => {
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             }}
           >
-            Our Elite Fleet
+            Services We Provide
           </Typography>
         </Box>
-      </Box>
-
-      <Box sx={{ px: 4 }}>
-        <Grid container spacing={4}>
-          {vehicles.map((vehicle) => (
-            <Grid item xs={12} sm={6} md={4} key={vehicle.id}>
-              <VehicleCard vehicle={vehicle} />
-            </Grid>
-          ))}
-        </Grid>
       </Box>
     </Box>
   );
 };
 
-export default VehicleListPage;
+export default ServicesPage; 

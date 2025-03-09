@@ -22,6 +22,15 @@
         "securityChauffeurs": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/300x200?text=Security+Chauffeurs",
         "heroLoading": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/1920x1080?text=Video+Loading",
         "weddings": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_weddings.webp"
+      },
+      "gallery": {
+        "1": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/garllary_hero.jpeg"
+      },
+      "fleet": {
+        "1": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/fleet_hero.heic"
+      },
+      "services": {
+        "1": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_hero.heic"
       }
     },
     "logo": {
