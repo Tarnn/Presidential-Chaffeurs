@@ -128,6 +128,15 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 <FormattedMessage id="nav.fleet" />
               </motion.span>
             </Button>
+            <Button component={Link} to="/gallery">
+              <motion.span
+                whileHover={{ color: "#D0A42B" }}
+                transition={{ duration: 0.3 }}
+                style={{ color: "#FFFFFF" }}
+              >
+                <FormattedMessage id="nav.gallery" />
+              </motion.span>
+            </Button>
           </Box>
           <IconButton
             edge="end"
@@ -229,6 +238,9 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
           </MenuItem>
           <MenuItem onClick={handleCloseNavMenu} component={Link} to="/vehicles">
             <FormattedMessage id="nav.fleet" />
+          </MenuItem>
+          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/gallery">
+            <FormattedMessage id="nav.gallery" />
           </MenuItem>
         </Menu>
       </Toolbar>

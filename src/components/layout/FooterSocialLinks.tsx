@@ -6,6 +6,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TikTokIcon from "@mui/icons-material/MusicNote"; // Using MusicNote as a placeholder for TikTok
 import { motion } from "framer-motion";
 import mediaConfig from "../../config/media.json";
+import { FormattedMessage } from "react-intl";
 
 const FooterSocialLinks: React.FC = () => {
   const { whatsapp, facebook, instagram, tiktok } = mediaConfig.socialMedia;
@@ -13,10 +14,10 @@ const FooterSocialLinks: React.FC = () => {
   return (
     <Box sx={{ textAlign: "left" }}>
       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: "#FFFFFF" }}>
-        24 HOURS
+        <FormattedMessage id="footer.24hours" />
       </Typography>
       <Typography variant="body2" sx={{ mb: 2, color: "#FFFFFF" }}>
-        Monday to Sunday – 24 Hours
+        <FormattedMessage id="footer.hours" />
       </Typography>
       <Box sx={{ display: "flex", gap: 2 }}>
         <motion.a

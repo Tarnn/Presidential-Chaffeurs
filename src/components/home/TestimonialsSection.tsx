@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import StarIcon from "@mui/icons-material/Star";
+import { FormattedMessage } from "react-intl";
 
 // Custom CSS to control spacing and height
 const customSliderStyles = `
@@ -25,44 +26,44 @@ const customSliderStyles = `
 const testimonials = [
   {
     id: 1,
-    text: "We booked with Presidential chauffeurs for a business meeting with a client. I would like to thank Joe and the team for a fabulous evening, the service was delivered with utmost professionalism.",
-    author: "Nb Exquisite Designs",
-    date: "7 Feb 2025",
+    text: "Presidential Chauffeurs exceeded all expectations during our corporate roadshow. Their attention to detail, punctuality, and the immaculate Rolls-Royce made a lasting impression on our international clients. The chauffeur's professionalism and discretion were exemplary.",
+    author: "Sarah-Thompson",
+    date: "15 Feb 2025",
     rating: 5,
   },
   {
     id: 2,
-    text: "We hired Presidential Chauffeurs and their Mercedes Landjet for our airport transfer from South Wales to Heathrow. The experience was seamless and luxurious.",
-    author: "Rowan Evans",
-    date: "30 Dec 2024",
+    text: "As a frequent business traveler, I've experienced luxury car services worldwide. Presidential Chauffeurs stands out with their Mercedes Landjet's exceptional comfort and their chauffeurs' unparalleled service. They've become my exclusive choice for all London transportation.",
+    author: "Michael Chen-Williams",
+    date: "30 Jan 2025",
     rating: 5,
   },
   {
     id: 3,
-    text: "Very professional service can honestly say out of all the chauffeur companies I have used over the years this one was outstanding with a beautiful vehicle and attentive staff.",
-    author: "Lisa Wellman",
-    date: "11 Nov 2024",
+    text: "Our wedding day was made even more special thanks to Presidential Chauffeurs. The vintage Rolls-Royce was stunning, and our chauffeur went above and beyond, ensuring everything was perfect. The red carpet service truly made us feel like royalty.",
+    author: "Surmi Patel",
+    date: "22 Dec 2024",
     rating: 5,
   },
   {
     id: 4,
-    text: "The team provided an exceptional ride for my wedding. The attention to detail and punctuality were beyond expectations.",
-    author: "Michael Chen",
-    date: "15 Oct 2024",
-    rating: 4,
+    text: "For our annual charity gala, we needed a service that could handle VIP transportation with the utmost discretion and elegance. Presidential Chauffeurs delivered flawlessly, coordinating multiple luxury vehicles and providing impeccable service throughout the evening.",
+    author: "Manny Singh",
+    date: "15 Nov 2024",
+    rating: 5,
   },
   {
     id: 5,
-    text: "Reliable and discreet service for our corporate event. Highly recommend Presidential Chauffeurs to anyone needing top-tier transport.",
-    author: "Emma Thompson",
-    date: "20 Sep 2024",
+    text: "The level of sophistication and attention to detail is unmatched. From the moment I was greeted at Heathrow to my various appointments in London, the service was consistently exceptional. Their Bentley fleet is immaculate, and the chauffeurs are incredibly knowledgeable.",
+    author: "Victoria Kim-Martinez",
+    date: "28 Oct 2024",
     rating: 5,
   },
   {
     id: 6,
-    text: "A fantastic experience with the Rolls-Royce fleet. The driver was courteous and made our trip to the gala memorable.",
-    author: "David Lee",
-    date: "5 Aug 2024",
+    text: "Presidential Chauffeurs provided an extraordinary experience for our film premiere. Their fleet of luxury vehicles and professional chauffeurs handled our celebrity guests with perfect discretion and elegance. The service was nothing short of spectacular.",
+    author: "Raj Desai",
+    date: "10 Sep 2024",
     rating: 5,
   },
 ];
@@ -90,19 +91,20 @@ const sliderSettings = {
 const TestimonialsSection: React.FC = () => {
   return (
     <Box sx={{ backgroundColor: "#2a2a2a", py: 8 }}>
-      <Container>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
         {/* Header and Subheader */}
         <Typography
           variant="h4"
           sx={{
             textAlign: "center",
-            color: "#D0A42B", // Gold color for the title
+            color: "#D0A42B",
             mb: 2,
             textTransform: "uppercase",
             fontWeight: "bold",
+            fontSize: { xs: "1.75rem", sm: "2.125rem" }
           }}
         >
-          Trusted by the Elite
+          <FormattedMessage id="about.trustedByElite" />
         </Typography>
         <Typography
           variant="body1"
@@ -112,35 +114,38 @@ const TestimonialsSection: React.FC = () => {
             mb: 6,
             maxWidth: "800px",
             mx: "auto",
+            px: { xs: 1, sm: 2 }
           }}
         >
-          We are proud to be entrusted by leading business executives,
-          celebrated athletes, and entertainment industry icons. Our commitment
-          to discretion and professionalism ensures their trust in every
-          journey.
+          <FormattedMessage id="about.trustedDescription" />
         </Typography>
 
         {/* Testimonials Slider with Custom Styles */}
-        <Box sx={{ maxWidth: "1000px", mx: "auto", mb: 1 }}>
-          {" "}
-          {/* Further reduced mb to 1 */}
-          <style>{customSliderStyles}</style> {/* Inject custom CSS */}
+        <Box 
+          sx={{ 
+            maxWidth: { xs: "100%", sm: "1000px" }, 
+            mx: "auto", 
+            mb: 1,
+            px: { xs: 0, sm: 2 }
+          }}
+        >
+          <style>{customSliderStyles}</style>
           <Slider {...sliderSettings}>
             {testimonials.map((testimonial) => (
               <Box
                 key={testimonial.id}
                 sx={{
-                  p: 3,
+                  p: { xs: 2, sm: 3 },
                   textAlign: "center",
                   color: "#FFFFFF",
                   backgroundColor: "#FFFFFF",
                   borderRadius: "8px",
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                  mx: 1, // Reduced mx to avoid overlap with custom margin
-                  height: "300px", // Fixed height to ensure uniform size
+                  mx: { xs: 0.5, sm: 1 },
+                  height: { xs: "320px", sm: "300px" },
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-between", // Ensures content is evenly distributed
+                  justifyContent: "space-between",
                 }}
               >
                 {/* Reviewer Info */}
@@ -190,9 +195,17 @@ const TestimonialsSection: React.FC = () => {
         {/* Google Rating Footer */}
         <Typography
           variant="body2"
-          sx={{ textAlign: "center", color: "#FFFFFF", mt: 0 }} // Reduced mt to 0
+          sx={{ 
+            textAlign: "center", 
+            color: "#FFFFFF", 
+            mt: 0,
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            px: { xs: 2, sm: 0 },
+            maxWidth: "100%",
+            wordBreak: "break-word"
+          }}
         >
-          Google rating score: 5.0 of 5, based on 20 reviews
+          <FormattedMessage id="testimonials.googleRating" />
         </Typography>
       </Container>
     </Box>

@@ -26,6 +26,14 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   });
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
+  // Add debug logging for the sitekey
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  console.log('All env variables:', import.meta.env);
+  console.log('ReCAPTCHA site key:', recaptchaSiteKey);
+  if (!recaptchaSiteKey) {
+    console.error('ReCAPTCHA site key is missing or undefined');
+  }
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -125,7 +133,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               }}
             />
             <ReCAPTCHA
-              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ""}
+              sitekey={recaptchaSiteKey || ''}
               onChange={(token) => setCaptchaToken(token)}
             />
             <Button

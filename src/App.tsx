@@ -8,6 +8,7 @@ import { IntlProvider } from "react-intl";
 import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import VehicleListPage from "./pages/VehicleListPage";
+import GalleryPage from "./pages/GalleryPage";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
@@ -101,6 +102,7 @@ const App: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutUsPage />} />
             <Route path="/vehicles" element={<VehicleListPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/services/:type" element={<div>Service Page</div>} />
           </Routes>
           <Footer handleWhatsAppClick={handleWhatsAppClick} />

@@ -50,7 +50,7 @@ const AudioControls: React.FC = () => {
     <Box
       sx={{
         position: "fixed",
-        bottom: { xs: 80, md: 88 },
+        bottom: { xs: 100, md: 108 },
         right: { xs: 16, md: 24 },
         zIndex: 1000,
         backgroundColor: "rgba(42, 42, 42, 0.8)",

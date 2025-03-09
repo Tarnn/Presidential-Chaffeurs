@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, Box, Button } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FormattedMessage } from "react-intl";
 import mediaConfig from "../../config/media.json";
 
 const HeroSection: React.FC = () => {
@@ -91,7 +92,7 @@ const HeroSection: React.FC = () => {
             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)" 
           }}
         >
-          PRESIDENTIAL CHAUFFEURS
+          <FormattedMessage id="hero.title" />
         </Typography>
         <Typography 
           variant="h6" 
@@ -103,12 +104,12 @@ const HeroSection: React.FC = () => {
             textShadow: "1px 1px 3px rgba(0, 0, 0, 0.7)" 
           }}
         >
-          EXECUTIVE CHAUFFEUR SERVICES FOR ELITE CLIENTELE
+          <FormattedMessage id="hero.subtitle" />
         </Typography>
         <Button 
           variant="contained" 
           component={RouterLink} 
-          to="/book" 
+          to="/vehicles" 
           sx={{ 
             background: "linear-gradient(45deg, #D0A42B, #B08A23)",
             color: "#000000",
@@ -120,7 +121,7 @@ const HeroSection: React.FC = () => {
             boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" 
           }}
         >
-          BOOK NOW
+          <FormattedMessage id="nav.bookNow" />
         </Button>
       </motion.div>
     </Box>

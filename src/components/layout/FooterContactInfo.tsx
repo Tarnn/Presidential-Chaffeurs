@@ -5,6 +5,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import mediaConfig from "../../config/media.json";
+import { FormattedMessage } from "react-intl";
 
 interface FooterContactInfoProps {
   handleWhatsAppClick: () => void;
@@ -16,7 +17,7 @@ const FooterContactInfo: React.FC<FooterContactInfoProps> = ({ handleWhatsAppCli
   return (
     <Box sx={{ textAlign: "left" }}>
       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: "#FFFFFF" }}>
-        CONTACT INFO
+        <FormattedMessage id="footer.contactInfo" />
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

@@ -2,37 +2,99 @@ import React from "react";
 import {
   Typography,
   Box,
-  Grid,
   Container,
   Card,
   CardMedia,
   CardContent,
+  IconButton,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FormattedMessage } from "react-intl";
 import mediaConfig from "../../config/media.json";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import FlightIcon from "@mui/icons-material/Flight";
+import EventIcon from "@mui/icons-material/Event";
+import CelebrationIcon from '@mui/icons-material/Celebration';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const NextArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: 'absolute',
+        right: -20,
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 2,
+        color: '#D0A42B',
+        '&:hover': {
+          color: '#FFFFFF',
+        },
+      }}
+    >
+      <ArrowForwardIosIcon />
+    </IconButton>
+  );
+};
+
+const PrevArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: 'absolute',
+        left: -20,
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 2,
+        color: '#D0A42B',
+        '&:hover': {
+          color: '#FFFFFF',
+        },
+      }}
+    >
+      <ArrowBackIosIcon />
+    </IconButton>
+  );
+};
 
 const services = [
   {
-    title: "Executive Chauffeur",
-    description:
-      "Our Executive Chauffeur Service offers a completely flexible and bespoke experience. From executive transfers to weddings and red carpet events.",
+    titleId: "services.executive.title",
+    descriptionId: "services.executive.description",
+    icon: <DirectionsCarIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .executiveChauffeur as string,
     link: "/services/executive",
   },
   {
-    title: "Executive Airport Transfers",
-    description:
-      "Presidential Chauffeurs Airport Transfer service provides our clients with top-notch, bespoke and reliable service.",
+    titleId: "services.airport.title",
+    descriptionId: "services.airport.description",
+    icon: <FlightIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .airportTransfers as string,
     link: "/services/airport-transfers",
   },
   {
-    title: "Events",
-    description:
-      "No matter the occasion, we can cater for your needs. Birthdays, Weddings, Red Carpet Events, Sporting Events, Business Events/Conferences, Photo/Video Shoots.",
+    titleId: "services.wedding.title",
+    descriptionId: "services.wedding.description",
+    icon: <CelebrationIcon sx={{ fontSize: "2rem" }} />,
+    image: (mediaConfig as any).images.placeholders.servicesSection
+      .weddings as string,
+    link: "/services/weddings",
+  },
+  {
+    titleId: "services.event.title",
+    descriptionId: "services.event.description",
+    icon: <EventIcon sx={{ fontSize: "2rem" }} />,
     image: (mediaConfig as any).images.placeholders.servicesSection
       .events as string,
     link: "/services/events",
@@ -40,14 +102,50 @@ const services = [
 ];
 
 const ServicesSection: React.FC = () => {
+  const settings = {
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+        },
+      },
+    ],
+  };
+
   return (
     <Box sx={{ backgroundColor: "#1a1a1a", py: 8 }}>
       <Container>
         <Typography
           variant="h4"
-          sx={{ mb: 3, textAlign: "center", fontWeight: 700 }}
+          sx={{ 
+            mb: 3, 
+            textAlign: "center",
+            maxWidth: "800px",
+            mx: "auto",
+            fontWeight: 700 
+          }}
         >
-          Our Services
+          <FormattedMessage id="services.title" />
         </Typography>
         <Typography
           variant="body1"
@@ -57,26 +155,21 @@ const ServicesSection: React.FC = () => {
             textAlign: "center",
             maxWidth: "800px",
             mx: "auto",
+            lineHeight: 1.8,
           }}
         >
-          We pride ourselves on delivering an exceptional experience by
-          combining a stunning fleet of luxury vehicles with our signature white
-          glove service. Furthermore, every journey is tailored to meet the
-          unique needs of our elite clientele, ensuring unmatched
-          professionalism and attention to detail.
+          <FormattedMessage id="services.description" />
         </Typography>
-        <Grid container spacing={4}>
-          {services.map((service, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <RouterLink
-                  to={service.link}
-                  style={{ textDecoration: "none", color: "inherit" }}
+        <Box sx={{ mx: -2 }}>
+          <Slider {...settings}>
+            {services.map((service, index) => (
+              <Box key={index} sx={{ px: 2, height: 550 }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  viewport={{ once: true }}
+                  style={{ height: "100%" }}
                 >
                   <Card
                     sx={{
@@ -84,59 +177,75 @@ const ServicesSection: React.FC = () => {
                       color: "#FFFFFF",
                       border: "1px solid #D0A42B",
                       borderRadius: 2,
-                      transition: "transform 0.3s, box-shadow 0.3s",
-                      "&:hover": {
-                        transform: "scale(1.05)",
-                        boxShadow: "0 8px 16px rgba(208, 164, 43, 0.3)",
-                      },
-                      minHeight: "450px",
+                      height: "100%",
                       display: "flex",
                       flexDirection: "column",
-                      justifyContent: "space-between",
-                      cursor: "pointer",
                     }}
                   >
                     <CardMedia
                       component="img"
-                      height="250"
+                      height={250}
                       image={service.image}
-                      alt={service.title}
+                      alt={service.titleId}
                       sx={{ objectFit: "cover" }}
                     />
                     <CardContent
                       sx={{
+                        p: 3,
                         flexGrow: 1,
                         display: "flex",
                         flexDirection: "column",
-                        justifyContent: "space-between",
+                        height: 300,
                       }}
                     >
-                      <Box>
-                        <Typography variant="h6" sx={{ mb: 1 }}>
-                          {service.title}
+                      <Box sx={{ mb: "auto" }}>
+                        <Typography variant="h6" sx={{ mb: 2 }}>
+                          <FormattedMessage id={service.titleId} />
                         </Typography>
-                        <Typography variant="body2" sx={{ mb: 2 }}>
-                          {service.description}
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            mb: 3,
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 6,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          <FormattedMessage id={service.descriptionId} />
                         </Typography>
                       </Box>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          color: "#D0A42B",
-                          fontWeight: 500,
-                          "&:hover": { textDecoration: "underline" },
-                          alignSelf: "flex-start",
-                        }}
+                      <RouterLink
+                        to={service.link}
+                        style={{ textDecoration: "none" }}
                       >
-                        Learn More
-                      </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: "#D0A42B",
+                            fontWeight: 500,
+                            width: "fit-content",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              color: "#FFFFFF",
+                              textDecoration: "underline",
+                            },
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 0.5,
+                          }}
+                        >
+                          <FormattedMessage id="common.learnMore" />
+                        </Typography>
+                      </RouterLink>
                     </CardContent>
                   </Card>
-                </RouterLink>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
+                </motion.div>
+              </Box>
+            ))}
+          </Slider>
+        </Box>
       </Container>
     </Box>
   );

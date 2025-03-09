@@ -3,7 +3,7 @@
     "hero": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/hero-vid.mp4"
   },
   "audio": {
-    "backgroundMusic": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/Swimming.mp3"
+    "backgroundMusic": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/background_song.mp3"
   },
   "images": {
     "placeholders": {
@@ -20,7 +20,8 @@
         "airportTransfers": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_airport.jpeg",
         "events": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_prom.jpeg",
         "securityChauffeurs": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/300x200?text=Security+Chauffeurs",
-        "heroLoading": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/1920x1080?text=Video+Loading"
+        "heroLoading": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/1920x1080?text=Video+Loading",
+        "weddings": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_weddings.webp"
       }
     },
     "logo": {
