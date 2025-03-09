@@ -99,7 +99,7 @@ const HeroSection: React.FC = () => {
           sx={{ 
             fontFamily: "Roboto, sans-serif",
             color: "#D0A42B",
-            fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+            fontSize: { xs: "0.875rem", sm: "1.1rem", md: "1.5rem" },
             mb: { xs: 2, sm: 3, md: 4 },
             textShadow: "1px 1px 3px rgba(0, 0, 0, 0.7)" 
           }}
