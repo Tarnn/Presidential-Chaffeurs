@@ -6,7 +6,11 @@ import FooterQuickLinks from "./FooterQuickLinks";
 import FooterContactInfo from "./FooterContactInfo";
 import mediaConfig from "../../config/media.json";
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  handleWhatsAppClick: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ handleWhatsAppClick }) => {
   const { whatsapp } = mediaConfig.contact;
 
   return (
