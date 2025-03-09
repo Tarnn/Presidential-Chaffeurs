@@ -1,27 +1,63 @@
 import React from "react";
 import { Typography, Box } from "@mui/material";
+import media from "../config/media.json";
 
-const AboutUsPage: React.FC = () => (
-  <Box
-    sx={{
-      py: 6,
-      color: "text.primary",
-      background: "#2a2a2a",
-      minHeight: "80vh",
-    }}
-  >
-    <Typography variant="h4" sx={{ textAlign: "center", mb: 4 }}>
-      About Presidential Chauffeurs
-    </Typography>
-    <Typography variant="body1" sx={{ maxWidth: "800px", mx: "auto" }}>
-      At Presidential Chauffeurs, we redefine luxury transportation. Founded
-      with a vision to offer the ultimate in comfort, style, and
-      professionalism, our service caters to discerning clients who demand
-      nothing less than excellence. Our hand-picked fleet of high-end vehicles
-      and expertly trained chauffeurs ensure every journey is an event in
-      itself.
-    </Typography>
-  </Box>
-);
+const AboutUsPage: React.FC = () => {
+  return (
+    <Box component="section">
+      {/* Hero Section */}
+      <Box
+        sx={{
+          position: 'relative',
+          height: '30vh',
+          width: '100%',
+          overflow: 'hidden',
+          mb: 6,
+        }}
+      >
+        <Box
+          component="img"
+          src={media.images.placeholders.aboutUs["1"]}
+          alt="About Us Hero"
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 63%',
+            filter: 'brightness(0.7)',
+            imageRendering: 'high-quality',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+            color: 'white',
+            width: '100%',
+            padding: 4,
+          }}
+        >
+          <Typography 
+            variant="h2"
+            component="h1" 
+            gutterBottom 
+            sx={{ 
+              fontWeight: 'bold',
+              mb: 3,
+              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+            }}
+          >
+            About Us
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
 
 export default AboutUsPage;

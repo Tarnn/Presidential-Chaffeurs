@@ -31,6 +31,9 @@
       },
       "services": {
         "1": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/services_hero.heic"
+      },
+      "aboutUs": {
+        "1": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/aboutus_hero.jpeg"
       }
     },
     "logo": {

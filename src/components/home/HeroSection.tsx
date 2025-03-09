@@ -88,7 +88,7 @@ const HeroSection: React.FC = () => {
             fontFamily: "Cinzel, serif",
             fontWeight: 700,
             color: "#FFFFFF",
-            fontSize: { xs: "2rem", sm: "2.5rem", md: "3.5rem" },
+            fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3.5rem" },
             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)" 
           }}
         >
