@@ -62,5 +62,10 @@
 
   "aboutPage.trusted.title": "TRUSTED BY THE ELITE",
   "aboutPage.trusted.description1": "We are proud to be entrusted by leading business executives, celebrated athletes, and entertainment industry icons. Our commitment to discretion and professionalism ensures their trust in every journey.",
-  "aboutPage.trusted.description2": "With years of experience, Presidential has earned its place as a trusted provider of reliable, white-glove chauffeur services. Our elite clientele values our professionalism and ability to accommodate their demanding schedules."
+  "aboutPage.trusted.description2": "With years of experience, Presidential has earned its place as a trusted provider of reliable, white-glove chauffeur services. Our elite clientele values our professionalism and ability to accommodate their demanding schedules.",
+
+  "galleryPage.title": "Our Gallery",
+  "galleryPage.description": "Explore our collection of memorable moments captured at real events with our valued clients. Each photo tells a story of luxury, elegance, and exceptional service.",
+  "galleryPage.titleStart": "GALL",
+  "galleryPage.titleEnd": "ERY"
 }

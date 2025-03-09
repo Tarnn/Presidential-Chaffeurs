@@ -99,9 +99,14 @@ const HeroSection: React.FC = () => {
           sx={{ 
             fontFamily: "Roboto, sans-serif",
             color: "#D0A42B",
-            fontSize: { xs: "0.875rem", sm: "1.1rem", md: "1.5rem" },
+            fontSize: { xs: "0.75rem", sm: "1.1rem", md: "1.5rem" },
+            lineHeight: { xs: 1.2, sm: 1.5, md: 1.6 },
             mb: { xs: 2, sm: 3, md: 4 },
-            textShadow: "1px 1px 3px rgba(0, 0, 0, 0.7)" 
+            textShadow: "1px 1px 3px rgba(0, 0, 0, 0.7)",
+            maxWidth: { xs: "100%", sm: "none" },
+            mx: "auto",
+            px: { xs: 2, sm: 0 },
+            whiteSpace: "nowrap"
           }}
         >
           <FormattedMessage id="hero.subtitle" />

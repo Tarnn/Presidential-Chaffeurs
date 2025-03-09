@@ -211,8 +211,28 @@ const GalleryPage: React.FC = () => {
             padding: 4,
           }}
         >
-          <Typography variant="h1" component="h1" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
-            <FormattedMessage id="nav.gallery" defaultMessage="Gallery" />
+          <Typography 
+            variant="h1" 
+            component="h1" 
+            gutterBottom 
+            sx={{ 
+              fontWeight: 'bold', 
+              mb: 3,
+              fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3.5rem" },
+              fontFamily: "Cinzel, serif",
+              textTransform: 'uppercase',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '2px'
+            }}
+          >
+            <Box component="span" sx={{ color: 'white' }}>
+              <FormattedMessage id="galleryPage.titleStart" />
+            </Box>
+            <Box component="span" sx={{ color: '#D0A42B' }}>
+              <FormattedMessage id="galleryPage.titleEnd" />
+            </Box>
           </Typography>
         </Box>
       </Box>

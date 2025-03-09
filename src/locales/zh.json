@@ -106,5 +106,7 @@
   "servicesPage.wedding.point5": "婚宴场地和婚礼后交通服务",
 
   "galleryPage.title": "我们的图库",
-  "galleryPage.description": "探索我们与尊贵客户在真实活动中捕捉的难忘时刻集锦。每张照片都诉说着奢华、优雅和卓越服务的故事。"
+  "galleryPage.description": "探索我们与尊贵客户在真实活动中捕捉的难忘时刻集锦。每张照片都诉说着奢华、优雅和卓越服务的故事。",
+  "galleryPage.titleStart": "图",
+  "galleryPage.titleEnd": "库"
 }
