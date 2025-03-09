@@ -27,6 +27,14 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElLang, setAnchorElLang] = useState<null | HTMLElement>(null);
 
+  // Function to scroll to top when a link is clicked
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -89,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
             gap: 1.5,
             alignItems: "center"
           }}>
-            <Button component={Link} to="/about">
+            <Button component={Link} to="/" onClick={scrollToTop}>
               <motion.span
                 whileHover={{ color: "#D0A42B" }}
                 transition={{ duration: 0.3 }}
@@ -98,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 <FormattedMessage id="nav.aboutUs" />
               </motion.span>
             </Button>
-            <Button component={Link} to="/services">
+            <Button component={Link} to="/services" onClick={scrollToTop}>
               <motion.span
                 whileHover={{ color: "#D0A42B" }}
                 transition={{ duration: 0.3 }}
@@ -107,7 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 <FormattedMessage id="nav.services" />
               </motion.span>
             </Button>
-            <Button component={Link} to="/vehicles">
+            <Button component={Link} to="/vehicles" onClick={scrollToTop}>
               <motion.span
                 whileHover={{ color: "#D0A42B" }}
                 transition={{ duration: 0.3 }}
@@ -116,7 +124,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 <FormattedMessage id="nav.fleet" />
               </motion.span>
             </Button>
-            <Button component={Link} to="/gallery">
+            <Button component={Link} to="/gallery" onClick={scrollToTop}>
               <motion.span
                 whileHover={{ color: "#D0A42B" }}
                 transition={{ duration: 0.3 }}
@@ -175,21 +183,48 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
           anchorEl={anchorElNav}
           open={Boolean(anchorElNav)}
           onClose={handleCloseNavMenu}
-          onClick={handleCloseNavMenu}
           PaperProps={{
-            sx: { backgroundColor: "#2a2a2a", color: "#D0A42B" },
+            sx: { backgroundColor: "#2a2a2a", color: "#FFFFFF" },
           }}
         >
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/about">
+          <MenuItem 
+            component={Link} 
+            to="/" 
+            onClick={() => {
+              handleCloseNavMenu();
+              scrollToTop();
+            }}
+          >
             <FormattedMessage id="nav.aboutUs" />
           </MenuItem>
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/services">
+          <MenuItem 
+            component={Link} 
+            to="/services" 
+            onClick={() => {
+              handleCloseNavMenu();
+              scrollToTop();
+            }}
+          >
             <FormattedMessage id="nav.services" />
           </MenuItem>
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/vehicles">
+          <MenuItem 
+            component={Link} 
+            to="/vehicles" 
+            onClick={() => {
+              handleCloseNavMenu();
+              scrollToTop();
+            }}
+          >
             <FormattedMessage id="nav.fleet" />
           </MenuItem>
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/gallery">
+          <MenuItem 
+            component={Link} 
+            to="/gallery" 
+            onClick={() => {
+              handleCloseNavMenu();
+              scrollToTop();
+            }}
+          >
             <FormattedMessage id="nav.gallery" />
           </MenuItem>
         </Menu>

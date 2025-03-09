@@ -1,10 +1,11 @@
 import React from "react";
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, Container } from "@mui/material";
 import VehicleCard from "../components/VehicleCard";
 import { Vehicle } from "../types";
 import media from "../config/media.json";
 // Import static vehicle data
 import vehicleData from "../vehicle.json";
+import { FormattedMessage } from "react-intl";
 
 const VehicleListPage: React.FC = () => {
   // Use static data instead of state and API call
@@ -19,7 +20,7 @@ const VehicleListPage: React.FC = () => {
           height: '30vh',
           width: '100%',
           overflow: 'hidden',
-          mb: 6,
+          mb: 4,
         }}
       >
         <Box
@@ -55,24 +56,34 @@ const VehicleListPage: React.FC = () => {
             gutterBottom 
             sx={{ 
               fontWeight: 'bold',
-              mb: 3,
+              mb: 2,
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '8px',
+              flexWrap: 'wrap'
             }}
           >
-            Our Elite Fleet
+            <Box component="span" sx={{ color: 'white' }}>
+              <FormattedMessage id="vehiclePage.titleStart" defaultMessage="Our Elite" />
+            </Box>
+            <Box component="span" sx={{ color: '#D0A42B' }}>
+              <FormattedMessage id="vehiclePage.titleEnd" defaultMessage="Fleet" />
+            </Box>
           </Typography>
         </Box>
       </Box>
 
-      <Box sx={{ px: 4 }}>
-        <Grid container spacing={4}>
+      <Container maxWidth="lg" sx={{ mb: 6 }}>
+        <Grid container spacing={2}>
           {vehicles.map((vehicle) => (
-            <Grid item xs={12} sm={6} md={4} key={vehicle.id}>
+            <Grid item xs={12} sm={6} md={4} key={vehicle.id} sx={{ display: 'flex' }}>
               <VehicleCard vehicle={vehicle} />
             </Grid>
           ))}
         </Grid>
-      </Box>
+      </Container>
     </Box>
   );
 };

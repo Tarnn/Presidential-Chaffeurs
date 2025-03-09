@@ -31,7 +31,7 @@ const AudioControls: React.FC = () => {
           try {
             await audioRef.current?.play();
           } catch (error) {
-            console.error("Error playing audio:", error);
+            // Removed console.error
           }
         };
         playAudio();

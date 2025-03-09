@@ -56,7 +56,7 @@
   "aboutPage.whyChoose.point4": "ਗ੍ਰੇਟਰ ਟੋਰਾਂਟੋ ਏਰੀਆ ਵਿੱਚ 24/7 ਉਪਲਬਧ ਭਰੋਸੇਯੋਗ ਸੇਵਾ।",
   "aboutPage.whyChoose.cta": "ਆਪਣੀ ਬੁਕਿੰਗ ਕਰੋ",
   "aboutPage.trusted.title": "ਐਲੀਟ ਦਾ ਭਰੋਸਾ",
-  "aboutPage.trusted.description1": "ਸਾਨੂੰ ਪ੍ਰਮੁੱਖ ਕਾਰੋਬਾਰੀ ਅਧਿਕਾਰੀਆਂ, ਪ੍ਰਸਿੱਧ ਐਥਲੀਟਾਂ ਅਤੇ ਮਨੋਰੰਜਨ ਉਦਯੋਗ ਦੀਆਂ ਹਸਤੀਆਂ ਦਾ ਭਰੋਸਾ ਪ੍ਰਾਪਤ ਹੈ। ਵਿਵੇਕ ਅਤੇ ਪੇਸ਼ੇਵਰਤਾ ਪ੍ਰਤੀ ਸਾਡੀ ਵਚਨਬੱਧਤਾ ਹਰ ਯਾਤਰਾ ਵਿੱਚ ਉਨ੍ਹਾਂ ਦਾ ਭਰੋਸਾ ਯਕੀਨੀ ਬਣਾਉਂਦੀ ਹੈ।",
+  "aboutPage.trusted.description1": "ਸਾਨੂੰ ਪ੍ਰਮੁੱਖ ਕਾਰੋਬਾਰੀ ਅਧਿਕਾਰੀਆਂ, ਪ੍ਰਸਿੱਧ ਐਥਲੀਟਾਂ ਅਤੇ ਮਨੋਰੰਜਨ ਉਦਯੋਗ ਦੀਆਂ ਹਸਤੀਆਂ ਦੁਆਰਾ ਭਰੋਸਾ ਪ੍ਰਾਪਤ ਹੈ। ਵਿਵੇਕ ਅਤੇ ਪੇਸ਼ੇਵਰਤਾ ਪ੍ਰਤੀ ਸਾਡੀ ਵਚਨਬੱਧਤਾ ਹਰ ਯਾਤਰਾ ਵਿੱਚ ਉਨ੍ਹਾਂ ਦਾ ਭਰੋਸਾ ਯਕੀਨੀ ਬਣਾਉਂਦੀ ਹੈ।",
   "aboutPage.trusted.description2": "ਸਾਲਾਂ ਦੇ ਤਜਰਬੇ ਨਾਲ, ਪ੍ਰੈਜ਼ੀਡੈਂਸ਼ੀਅਲ ਨੇ ਭਰੋਸੇਯੋਗ, ਵ੍ਹਾਈਟ-ਗਲੋਵ ਸ਼ੋਫਰ ਸੇਵਾਵਾਂ ਦੇ ਭਰੋਸੇਯੋਗ ਪ੍ਰਦਾਤਾ ਵਜੋਂ ਆਪਣੀ ਜਗ੍ਹਾ ਬਣਾਈ ਹੈ। ਸਾਡੀ ਐਲੀਟ ਕਲਾਇੰਟੇਲ ਸਾਡੀ ਪੇਸ਼ੇਵਰਤਾ ਅਤੇ ਉਨ੍ਹਾਂ ਦੇ ਮੰਗ ਭਰੇ ਕਾਰਜਕ੍ਰਮਾਂ ਨੂੰ ਸਮਾਯੋਜਿਤ ਕਰਨ ਦੀ ਯੋਗਤਾ ਦੀ ਕਦਰ ਕਰਦੀ ਹੈ।",
   "aboutPage.hero.about": "ਸਾਡੇ",
   "aboutPage.hero.us": "ਬਾਰੇ",
@@ -102,5 +102,36 @@
   "galleryPage.title": "ਸਾਡੀ ਗੈਲਰੀ",
   "galleryPage.description": "ਸਾਡੇ ਕੀਮਤੀ ਗਾਹਕਾਂ ਨਾਲ ਅਸਲ ਸਮਾਗਮਾਂ ਵਿੱਚ ਕੈਪਚਰ ਕੀਤੇ ਯਾਦਗਾਰੀ ਪਲਾਂ ਦਾ ਸਾਡਾ ਸੰਗ੍ਰਹਿ ਦੇਖੋ। ਹਰ ਫੋਟੋ ਸ਼ਾਨ, ਸੁੰਦਰਤਾ ਅਤੇ ਅਸਾਧਾਰਨ ਸੇਵਾ ਦੀ ਕਹਾਣੀ ਦੱਸਦੀ ਹੈ।",
   "galleryPage.titleStart": "ਗੈਲ",
-  "galleryPage.titleEnd": "ਰੀ"
+  "galleryPage.titleEnd": "ਰੀ",
+  "vehiclePage.title": "ਸਾਡਾ ਐਲੀਟ ਫਲੀਟ",
+  "vehiclePage.titleStart": "ਸਾਡਾ ਐਲੀਟ",
+  "vehiclePage.titleEnd": "ਫਲੀਟ",
+  "vehiclePage.requestService": "ਚੌਫਰ ਸੇਵਾ ਦੀ ਬੇਨਤੀ ਕਰੋ",
+  "vehiclePage.purposeLabel": "ਯਾਤਰਾ ਦਾ ਉਦੇਸ਼",
+  "vehiclePage.dateLabel": "ਪਸੰਦੀਦਾ ਤਾਰੀਖ",
+  "vehiclePage.descriptionLabel": "ਵਾਧੂ ਵੇਰਵੇ",
+  "vehiclePage.ratePerDay": "ਦਰ: ਕੀਮਤ ਲਈ ਸੰਪਰਕ ਕਰੋ",
+  "vehiclePage.captchaError": "ਕਿਰਪਾ ਕਰਕੇ CAPTCHA ਤਸਦੀਕ ਪੂਰਾ ਕਰੋ",
+  "vehiclePage.configError": "ReCAPTCHA ਕੌਨਫਿਗਰੇਸ਼ਨ ਗੁੰਮ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+  "vehiclePage.submitError": "ਪੁੱਛਗਿੱਛ ਜਮ੍ਹਾਂ ਕਰਨ ਵਿੱਚ ਗਲਤੀ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+  "vehiclePage.submitSuccess": "ਤੁਹਾਡੀ ਪੁੱਛਗਿੱਛ ਸਫਲਤਾਪੂਰਵਕ ਜਮ੍ਹਾਂ ਕਰ ਦਿੱਤੀ ਗਈ ਹੈ।",
+  "vehiclePage.formValidationError": "ਕਿਰਪਾ ਕਰਕੇ ਸਾਰੇ ਲੋੜੀਂਦੇ ਖੇਤਰ ਭਰੋ",
+  "vehiclePage.pastDateError": "ਕਿਰਪਾ ਕਰਕੇ ਭਵਿੱਖ ਦੀ ਤਾਰੀਖ ਚੁਣੋ",
+  "vehiclePage.requiredField": "ਇਹ ਖੇਤਰ ਲੋੜੀਂਦਾ ਹੈ",
+  "vehiclePage.dateError": "ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਵੈਧ ਭਵਿੱਖ ਦੀ ਤਾਰੀਖ ਚੁਣੋ",
+  
+  "vehicle.cullinan.name": "ਰੋਲਸ-ਰੋਇਸ ਕੁਲੀਨਨ",
+  "vehicle.cullinan.description": "ਲਗਜ਼ਰੀ ਐਸਯੂਵੀ ਦਾ ਸਿਖਰ, ਜੋ ਅਭਿਜਾਤ ਯਾਤਰਾ ਲਈ ਬੇਮਿਸਾਲ ਆਰਾਮ ਅਤੇ ਮੌਜੂਦਗੀ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ।",
+  
+  "vehicle.ghost.name": "ਰੋਲਸ-ਰੋਇਸ ਘੋਸਟ",
+  "vehicle.ghost.description": "ਆਟੋਮੋਟਿਵ ਸ਼ਾਨ ਦਾ ਪ੍ਰਤੀਕ, ਜੋ ਸਹਿਜ ਲਗਜ਼ਰੀ ਅਤੇ ਸ਼ਾਂਤ ਡਰਾਈਵਿੰਗ ਅਨੁਭਵ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ।",
+  
+  "vehicle.phantom.name": "ਰੋਲਸ-ਰੋਇਸ ਫੈਂਟਮ",
+  "vehicle.phantom.description": "ਆਟੋਮੋਟਿਵ ਲਗਜ਼ਰੀ ਦਾ ਪਰਮ ਪ੍ਰਤੀਕ, ਜੋ ਕਾਰੀਗਰੀ ਅਤੇ ਪਰਿਸ਼ਕਾਰ ਦੀ ਸਿਖਰ ਦਾ ਪ੍ਰਤੀਨਿਧਤਾ ਕਰਦੀ ਹੈ।",
+  
+  "vehicle.maybach.name": "ਮੇਬੈਕ 62ਐਸ",
+  "vehicle.maybach.description": "ਜਰਮਨ ਇੰਜੀਨੀਅਰਿੰਗ ਦਾ ਇੱਕ ਸ਼ਾਹਕਾਰ, ਜੋ ਅਸਾਧਾਰਨ ਪਿਛਲੀ-ਸੀਟ ਲਗਜ਼ਰੀ ਅਤੇ ਬੇਮਿਸਾਲ ਚੌਫਰ-ਚਾਲਿਤ ਅਨੁਭਵ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ।",
+  
+  "vehicle.silverarrow.name": "ਰੋਲਸ-ਰੋਇਸ ਸਿਲਵਰ ਐਰੋ",
+  "vehicle.silverarrow.description": "ਇੱਕ ਦੁਰਲੱਭ ਅਤੇ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਹਕਾਰ ਜੋ ਸਮੇਂ ਤੋਂ ਪਰੇ ਡਿਜ਼ਾਈਨ ਨੂੰ ਅਤਿ-ਆਧੁਨਿਕ ਤਕਨਾਲੋਜੀ ਨਾਲ ਜੋੜਦਾ ਹੈ, ਬੇਮਿਸਾਲ ਲਗਜ਼ਰੀ ਅਨੁਭਵ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ।"
 }

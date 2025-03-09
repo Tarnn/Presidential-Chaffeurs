@@ -13,6 +13,7 @@ import ServicesPage from "./pages/ServicesPage";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
+import ScrollToTop from "./components/common/ScrollToTop";
 // Import locale data
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
@@ -88,8 +89,6 @@ const App: React.FC = () => {
           "Hello, I have an inquiry about Presidential Chauffeurs"
       )}`;
       window.open(url, "_blank");
-    } else {
-      console.error("WhatsApp number not found in .env");
     }
   };
 
@@ -108,6 +107,7 @@ const App: React.FC = () => {
           </Routes>
           <Footer handleWhatsAppClick={handleWhatsAppClick} />
           <AudioControls />
+          <ScrollToTop />
         </Router>
       </ThemeProvider>
     </IntlProvider>

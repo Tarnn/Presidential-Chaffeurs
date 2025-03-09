@@ -108,5 +108,37 @@
   "galleryPage.title": "Notre Galerie",
   "galleryPage.description": "Explorez notre collection de moments mémorables capturés lors d'événements réels avec nos précieux clients. Chaque photo raconte une histoire de luxe, d'élégance et de service exceptionnel.",
   "galleryPage.titleStart": "GALE",
-  "galleryPage.titleEnd": "RIE"
+  "galleryPage.titleEnd": "RIE",
+
+  "vehiclePage.title": "Notre Flotte d'Élite",
+  "vehiclePage.titleStart": "Notre Flotte",
+  "vehiclePage.titleEnd": "d'Élite",
+  "vehiclePage.requestService": "Demander un Service de Chauffeur",
+  "vehiclePage.purposeLabel": "Objectif du Voyage",
+  "vehiclePage.dateLabel": "Date Préférée",
+  "vehiclePage.descriptionLabel": "Détails Supplémentaires",
+  "vehiclePage.ratePerDay": "Tarif: Contactez-nous pour les prix",
+  "vehiclePage.captchaError": "Veuillez compléter la vérification CAPTCHA",
+  "vehiclePage.configError": "La configuration ReCAPTCHA est manquante. Veuillez réessayer plus tard.",
+  "vehiclePage.submitError": "Erreur lors de l'envoi de la demande. Veuillez réessayer plus tard.",
+  "vehiclePage.submitSuccess": "Votre demande a été soumise avec succès.",
+  "vehiclePage.formValidationError": "Veuillez remplir tous les champs obligatoires",
+  "vehiclePage.pastDateError": "Veuillez sélectionner une date future",
+  "vehiclePage.requiredField": "Ce champ est obligatoire",
+  "vehiclePage.dateError": "Veuillez sélectionner une date future valide",
+  
+  "vehicle.cullinan.name": "Rolls-Royce Cullinan",
+  "vehicle.cullinan.description": "Le summum des SUV de luxe, offrant un confort et une présence inégalés pour les voyages d'élite.",
+  
+  "vehicle.ghost.name": "Rolls-Royce Ghost",
+  "vehicle.ghost.description": "L'épitomé de l'élégance automobile, offrant un luxe sans effort et une expérience de conduite sereine.",
+  
+  "vehicle.phantom.name": "Rolls-Royce Phantom",
+  "vehicle.phantom.description": "Le symbole ultime du luxe automobile, représentant le summum de l'artisanat et de la sophistication.",
+  
+  "vehicle.maybach.name": "Maybach 62S",
+  "vehicle.maybach.description": "Un chef-d'œuvre de l'ingénierie allemande, offrant un luxe exceptionnel aux places arrière et une expérience avec chauffeur incomparable.",
+  
+  "vehicle.silverarrow.name": "Rolls-Royce Silver Arrow",
+  "vehicle.silverarrow.description": "Un chef-d'œuvre rare et exclusif qui allie design intemporel et technologie de pointe, offrant une expérience de luxe inégalée."
 }

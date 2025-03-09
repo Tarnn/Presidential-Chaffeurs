@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Container, Typography, Box, Paper, CircularProgress, Fade, Fab, Zoom } from '@mui/material';
+import { Container, Typography, Box, Paper, CircularProgress, Fade, Modal, IconButton } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import CloseIcon from '@mui/icons-material/Close';
 import media from '../config/media.json';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
@@ -29,14 +29,11 @@ const s3Client = new S3Client({
 // Verify credentials before component renders
 const verifyCredentials = async () => {
   const credentials = await s3Client.config.credentials();
-  console.log('Verifying credentials:', {
-    accessKeyId: credentials.accessKeyId,
-    hasSecretKey: !!credentials.secretAccessKey,
-    expiration: credentials.expiration,
-  });
 };
 
-verifyCredentials().catch(console.error);
+verifyCredentials().catch(() => {
+  // Error handled silently
+});
 
 const GalleryPage: React.FC = () => {
   const [images, setImages] = useState<S3Image[]>([]);
@@ -44,7 +41,11 @@ const GalleryPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [continuationToken, setContinuationToken] = useState<string | undefined>();
-  const [showScrollTop, setShowScrollTop] = useState(false);
+  
+  // Add state for the lightbox modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
 
   // Create a ref for the intersection observer target
   const observerTarget = useRef<HTMLDivElement>(null);
@@ -52,49 +53,26 @@ const GalleryPage: React.FC = () => {
   // Add new state for tracking loaded images
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
 
-  // Handle scroll to top
-  const handleScrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  // Handle scroll visibility
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.pageYOffset > 300);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Handle image load
   const handleImageLoad = (imageId: string) => {
     setLoadedImages(prev => new Set([...Array.from(prev), imageId]));
   };
 
+  // Handle image click to open the lightbox modal
+  const handleImageClick = (imageUrl: string) => {
+    setCurrentImage(imageUrl);
+    setImageLoading(true);
+    setModalOpen(true);
+  };
+
+  // Handle closing the lightbox modal
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   const fetchImages = async (token?: string) => {
     try {
       setLoading(true);
-      
-      // Debug logging
-      console.log('AWS Config:', {
-        region: import.meta.env.VITE_AWS_REGION,
-        bucket: import.meta.env.VITE_S3_BUCKET_NAME,
-        keyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-        // Log the first and last 4 characters of the secret key to verify it's loaded (never log the full key)
-        secretKeyCheck: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY ? 
-          `${import.meta.env.VITE_AWS_SECRET_ACCESS_KEY.substring(0, 4)}...${import.meta.env.VITE_AWS_SECRET_ACCESS_KEY.slice(-4)}` : 
-          'not set'
-      });
-      
-      // Verify S3 client configuration
-      console.log('S3 Client Config:', {
-        region: s3Client.config.region,
-        credentials: await s3Client.config.credentials(),
-      });
       
       const command = new ListObjectsV2Command({
         Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
@@ -103,17 +81,19 @@ const GalleryPage: React.FC = () => {
         Prefix: GALLERY_PREFIX,
       });
 
-      console.log('Sending S3 command...');
       const response = await s3Client.send(command);
-      console.log('S3 Response:', response);
       
       if (response.Contents) {
         const galleryImages = response.Contents
           .filter(obj => obj.Key && (obj.Key.endsWith('.webp') || obj.Key.endsWith('.heic')))
           .map(obj => {
             const fileType = obj.Key?.endsWith('.webp') ? 'webp' as const : 'heic' as const;
+            const baseName = obj.Key?.replace(GALLERY_PREFIX, '').split('.')[0] || '';
+            // Create a unique ID by combining the base name and file type
+            const uniqueId = `${baseName}_${fileType}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            
             return {
-              id: obj.Key || '',
+              id: uniqueId, // Use the unique ID instead of just the key
               key: obj.Key || '',
               url: `https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${obj.Key}`,
               fileType,
@@ -128,19 +108,35 @@ const GalleryPage: React.FC = () => {
           return numA - numB;
         });
 
-        setImages(prev => token ? [...prev, ...sortedImages] : sortedImages);
+        // Ensure we don't have duplicate images by using a Map to track unique keys
+        setImages(prev => {
+          // Create a Map of existing images using the key as the identifier
+          const imageMap = new Map();
+          
+          // Add previous images to the map (if we're paginating)
+          if (token) {
+            prev.forEach(img => {
+              // Use the base filename (without extension) as the key to detect duplicates
+              const baseKey = img.key.split('.')[0];
+              imageMap.set(baseKey, img);
+            });
+          }
+          
+          // Add new images to the map, potentially replacing duplicates with newer versions
+          sortedImages.forEach(img => {
+            const baseKey = img.key.split('.')[0];
+            imageMap.set(baseKey, img);
+          });
+          
+          // Convert the Map back to an array and return
+          return Array.from(imageMap.values());
+        });
+        
         setHasMore(!!response.IsTruncated);
         setContinuationToken(response.NextContinuationToken);
         setError(null);
       }
     } catch (error: any) {
-      console.error('Error details:', {
-        message: error.message,
-        name: error.name,
-        code: error.code,
-        requestId: error.$metadata?.requestId,
-        cfId: error.$metadata?.cfId,
-      });
       setError('Failed to load gallery images. Please try again later.');
     } finally {
       setLoading(false);
@@ -245,8 +241,12 @@ const GalleryPage: React.FC = () => {
           </Typography>
         </Box>
 
-        {error ? (
-          <Box sx={{ textAlign: 'center', py: 4 }}>
+        {loading && images.length === 0 ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+            <CircularProgress sx={{ color: '#D0A42B' }} />
+          </Box>
+        ) : error ? (
+          <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography color="error">{error}</Typography>
           </Box>
         ) : (
@@ -274,8 +274,10 @@ const GalleryPage: React.FC = () => {
                       opacity: loadedImages.has(image.id) ? 1 : 0,
                       '&:hover': {
                         transform: 'scale(1.02)',
+                        cursor: 'pointer'
                       },
                     }}
+                    onClick={() => handleImageClick(image.url)}
                   >
                     <Box
                       component="img"
@@ -312,26 +314,80 @@ const GalleryPage: React.FC = () => {
         )}
       </Container>
 
-      {/* Scroll to Top Button */}
-      <Zoom in={showScrollTop}>
-        <Fab
-          color="primary"
-          size="small"
-          onClick={handleScrollTop}
+      {/* Image Lightbox Modal */}
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="gallery-image-modal"
+        aria-describedby="enlarged view of gallery image"
+      >
+        <Box
           sx={{
-            position: 'fixed',
-            bottom: 75,
-            right:80,
-            backgroundColor: '#D0A42B',
-            '&:hover': {
-              backgroundColor: '#B88A1C',
-            },
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 1,
+            borderRadius: 2,
+            outline: 'none',
           }}
-          aria-label="scroll back to top"
         >
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </Zoom>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: 'white',
+              bgcolor: 'rgba(0, 0, 0, 0.5)',
+              '&:hover': {
+                bgcolor: 'rgba(0, 0, 0, 0.7)',
+              },
+              zIndex: 1,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          {imageLoading && (
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+                minHeight: '300px',
+                minWidth: '300px'
+              }}
+            >
+              <CircularProgress sx={{ color: '#D0A42B' }} />
+            </Box>
+          )}
+          <img
+            src={currentImage}
+            alt="Gallery image"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '85vh',
+              display: imageLoading ? 'none' : 'block',
+              margin: '0 auto',
+            }}
+            onLoad={() => setImageLoading(false)}
+            onError={(e) => {
+              // If image fails to load, try the alternative format
+              const target = e.target as HTMLImageElement;
+              if (target.src.endsWith('.heic')) {
+                target.src = target.src.replace('.heic', '.webp');
+              } else if (target.src.endsWith('.webp')) {
+                target.src = target.src.replace('.webp', '.heic');
+              }
+            }}
+          />
+        </Box>
+      </Modal>
     </Box>
   );
 };

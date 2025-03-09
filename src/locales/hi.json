@@ -108,5 +108,37 @@
   "galleryPage.title": "हमारी गैलरी",
   "galleryPage.description": "हमारे मूल्यवान ग्राहकों के साथ वास्तविक कार्यक्रमों में कैप्चर किए गए यादगार पलों का हमारा संग्रह देखें। प्रत्येक तस्वीर विलासिता, सौंदर्य और असाधारण सेवा की कहानी कहती है।",
   "galleryPage.titleStart": "गैल",
-  "galleryPage.titleEnd": "री"
+  "galleryPage.titleEnd": "री",
+
+  "vehiclePage.title": "हमारा एलीट बेड़ा",
+  "vehiclePage.titleStart": "हमारा एलीट",
+  "vehiclePage.titleEnd": "बेड़ा",
+  "vehiclePage.requestService": "चॉफर सेवा का अनुरोध करें",
+  "vehiclePage.purposeLabel": "यात्रा का उद्देश्य",
+  "vehiclePage.dateLabel": "पसंदीदा तिथि",
+  "vehiclePage.descriptionLabel": "अतिरिक्त विवरण",
+  "vehiclePage.ratePerDay": "दर: मूल्य के लिए संपर्क करें",
+  "vehiclePage.captchaError": "कृपया CAPTCHA सत्यापन पूरा करें",
+  "vehiclePage.configError": "ReCAPTCHA कॉन्फ़िगरेशन अनुपलब्ध है। कृपया बाद में पुनः प्रयास करें।",
+  "vehiclePage.submitError": "पूछताछ जमा करने में त्रुटि। कृपया बाद में पुनः प्रयास करें।",
+  "vehiclePage.submitSuccess": "आपकी पूछताछ सफलतापूर्वक जमा कर दी गई है।",
+  "vehiclePage.formValidationError": "कृपया सभी आवश्यक फ़ील्ड भरें",
+  "vehiclePage.pastDateError": "कृपया भविष्य की तारीख चुनें",
+  "vehiclePage.requiredField": "यह फ़ील्ड आवश्यक है",
+  "vehiclePage.dateError": "कृपया एक वैध भविष्य की तारीख चुनें",
+  
+  "vehicle.cullinan.name": "रोल्स-रॉयस कलिनन",
+  "vehicle.cullinan.description": "लक्जरी एसयूवी का शिखर, जो अभिजात यात्रा के लिए अद्वितीय आराम और उपस्थिति प्रदान करता है।",
+  
+  "vehicle.ghost.name": "रोल्स-रॉयस घोस्ट",
+  "vehicle.ghost.description": "ऑटोमोटिव सुरुचि का प्रतीक, जो सहज विलासिता और शांत ड्राइविंग अनुभव प्रदान करता है।",
+  
+  "vehicle.phantom.name": "रोल्स-रॉयस फैंटम",
+  "vehicle.phantom.description": "ऑटोमोटिव विलासिता का परम प्रतीक, जो कारीगरी और परिष्कार के शिखर का प्रतिनिधित्व करता है।",
+  
+  "vehicle.maybach.name": "मेबैक 62एस",
+  "vehicle.maybach.description": "जर्मन इंजीनियरिंग का एक उत्कृष्ट नमूना, जो असाधारण पिछली सीट की विलासिता और अद्वितीय चॉफर-चालित अनुभव प्रदान करता है।",
+  
+  "vehicle.silverarrow.name": "रोल्स-रॉयस सिल्वर एरो",
+  "vehicle.silverarrow.description": "एक दुर्लभ और विशिष्ट कृति जो कालातीत डिजाइन को अत्याधुनिक तकनीक के साथ जोड़ती है, अद्वितीय विलासिता का अनुभव प्रदान करती है।"
 }
