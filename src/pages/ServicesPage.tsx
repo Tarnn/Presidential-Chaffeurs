@@ -51,7 +51,10 @@ const ServicesPage: React.FC = () => {
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             }}
           >
-            OUR <span style={{ color: "#D0A42B" }}>SERVICES</span>
+            <FormattedMessage id="servicesPage.hero.our" defaultMessage="OUR" />{" "}
+            <span style={{ color: "#D0A42B" }}>
+              <FormattedMessage id="servicesPage.hero.services" defaultMessage="SERVICES" />
+            </span>
           </Typography>
         </Box>
       </Box>
@@ -70,7 +73,10 @@ const ServicesPage: React.FC = () => {
               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' },
             }}
           >
-            Presidential Chauffeurs provides premium chauffeur services in London and across the UK. From Executive Airport Transfers, Weddings & Red Carpet Events, to bespoke event transportation, our services are tailored to meet the unique needs of our elite clientele, ensuring unmatched professionalism and attention to detail.
+            <FormattedMessage
+              id="servicesPage.description"
+              defaultMessage="Presidential Chauffeurs provides premium chauffeur services in Toronto and across Canada. From Executive Airport Transfers, Weddings & Red Carpet Events, to bespoke event transportation, our services are tailored to meet the unique needs of our elite clientele, ensuring unmatched professionalism and attention to detail."
+            />
           </Typography>
         </Container>
       </Box>
@@ -86,7 +92,7 @@ const ServicesPage: React.FC = () => {
                 color: "white",
               }}
             >
-              EXPLORE OUR BESPOKE
+              <FormattedMessage id="servicesPage.explore.title1" defaultMessage="EXPLORE OUR BESPOKE" />
             </Typography>
             <Typography
               variant="h3"
@@ -96,7 +102,7 @@ const ServicesPage: React.FC = () => {
                 color: "#D0A42B",
               }}
             >
-              CHAUFFEUR SERVICES
+              <FormattedMessage id="servicesPage.explore.title2" defaultMessage="CHAUFFEUR SERVICES" />
             </Typography>
           </Box>
         </Container>
@@ -131,23 +137,23 @@ const ServicesPage: React.FC = () => {
               <Grid item xs={12} md={6}>
                 <Box sx={{ p: 4 }}>
                   <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
-                    Executive Chauffeur Service
+                    <FormattedMessage id="servicesPage.executive.title" defaultMessage="Executive Chauffeur Service" />
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'white', mb: 2 }}>
-                    Our Executive Chauffeur Service offers a completely flexible and bespoke experience, designed to exceed the expectations of our most discerning clients.
+                    <FormattedMessage id="servicesPage.executive.description" defaultMessage="Our Executive Chauffeur Service offers a completely flexible and bespoke experience, designed to exceed the expectations of our most discerning clients." />
                   </Typography>
                   <Box component="ul" sx={{ color: 'white', pl: 2 }}>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Corporate transportation for executives and VIPs
+                      <FormattedMessage id="servicesPage.executive.point1" defaultMessage="Corporate transportation for executives and VIPs" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Dedicated chauffeur for multi-stop business meetings
+                      <FormattedMessage id="servicesPage.executive.point2" defaultMessage="Dedicated chauffeur for multi-stop business meetings" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Roadshow and conference transportation
+                      <FormattedMessage id="servicesPage.executive.point3" defaultMessage="Roadshow and conference transportation" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Luxury vehicles equipped with mobile office amenities
+                      <FormattedMessage id="servicesPage.executive.point4" defaultMessage="Luxury vehicles equipped with mobile office amenities" />
                     </Typography>
                   </Box>
                 </Box>
@@ -168,23 +174,26 @@ const ServicesPage: React.FC = () => {
               <Grid item xs={12} md={6}>
                 <Box sx={{ p: 4 }}>
                   <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
-                    Executive Airport Transfers
+                    <FormattedMessage id="servicesPage.airport.title" defaultMessage="Executive Airport Transfers" />
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'white', mb: 2 }}>
-                    Experience seamless airport transfers with our premium chauffeur service, ensuring punctual and comfortable journeys to and from all major UK airports.
+                    <FormattedMessage
+                      id="servicesPage.airport.description"
+                      defaultMessage="Experience seamless airport transfers with our premium chauffeur service, ensuring timely and comfortable journeys to and from all major Canadian airports."
+                    />
                   </Typography>
                   <Box component="ul" sx={{ color: 'white', pl: 2 }}>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Meet & Greet service at all terminals
+                      <FormattedMessage id="servicesPage.airport.point1" defaultMessage="Meet & Greet service at all terminals" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Flight monitoring and adjustment for delays
+                      <FormattedMessage id="servicesPage.airport.point2" defaultMessage="Flight monitoring and adjustment for delays" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Assistance with luggage and customs
+                      <FormattedMessage id="servicesPage.airport.point3" defaultMessage="Assistance with luggage and customs" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Luxury vehicle fleet for individual or group transfers
+                      <FormattedMessage id="servicesPage.airport.point4" defaultMessage="Luxury vehicle fleet for individual or group transfers" />
                     </Typography>
                   </Box>
                 </Box>
@@ -231,26 +240,26 @@ const ServicesPage: React.FC = () => {
               <Grid item xs={12} md={6}>
                 <Box sx={{ p: 4 }}>
                   <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
-                    Events & Special Occasions
+                    <FormattedMessage id="servicesPage.events.title" defaultMessage="Events & Special Occasions" />
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'white', mb: 2 }}>
-                    Make your special occasions truly memorable with our luxury chauffeur services, perfect for any event requiring sophisticated transportation.
+                    <FormattedMessage id="servicesPage.events.description" defaultMessage="Make your special occasions truly memorable with our luxury chauffeur services, perfect for any event requiring sophisticated transportation." />
                   </Typography>
                   <Box component="ul" sx={{ color: 'white', pl: 2 }}>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Red carpet events and premieres
+                      <FormattedMessage id="servicesPage.events.point1" defaultMessage="Red carpet events and premieres" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Wedding transportation services
+                      <FormattedMessage id="servicesPage.events.point2" defaultMessage="Wedding transportation services" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Corporate events and galas
+                      <FormattedMessage id="servicesPage.events.point3" defaultMessage="Corporate events and galas" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Sporting events and concerts
+                      <FormattedMessage id="servicesPage.events.point4" defaultMessage="Sporting events and concerts" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Photo/video shoot transportation
+                      <FormattedMessage id="servicesPage.events.point5" defaultMessage="Photo/video shoot transportation" />
                     </Typography>
                   </Box>
                 </Box>
@@ -258,7 +267,7 @@ const ServicesPage: React.FC = () => {
             </Grid>
           </Paper>
 
-          {/* Security Service */}
+          {/* Wedding Service */}
           <Paper 
             elevation={3}
             sx={{ 
@@ -271,26 +280,26 @@ const ServicesPage: React.FC = () => {
               <Grid item xs={12} md={6}>
                 <Box sx={{ p: 4 }}>
                   <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
-                    Wedding Chauffeur Services
+                    <FormattedMessage id="servicesPage.wedding.title" defaultMessage="Wedding Chauffeur Services" />
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'white', mb: 2 }}>
-                    Make your special day truly unforgettable with our bespoke wedding chauffeur services. We understand that every detail matters on your wedding day, which is why we provide an exceptional level of service that combines luxury, elegance, and meticulous attention to detail.
+                    <FormattedMessage id="servicesPage.wedding.description" defaultMessage="Make your special day truly unforgettable with our bespoke wedding chauffeur services. We understand that every detail matters on your wedding day, which is why we provide an exceptional level of service that combines luxury, elegance, and meticulous attention to detail." />
                   </Typography>
                   <Box component="ul" sx={{ color: 'white', pl: 2 }}>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Luxury bridal car service with elegant decorations
+                      <FormattedMessage id="servicesPage.wedding.point1" defaultMessage="Luxury bridal car service with elegant decorations" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Coordinated transportation for wedding party and guests
+                      <FormattedMessage id="servicesPage.wedding.point2" defaultMessage="Coordinated transportation for wedding party and guests" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Professional chauffeurs in formal attire
+                      <FormattedMessage id="servicesPage.wedding.point3" defaultMessage="Professional chauffeurs in formal attire" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Wedding photoshoot location transfers
+                      <FormattedMessage id="servicesPage.wedding.point4" defaultMessage="Wedding photoshoot location transfers" />
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Reception venue and post-wedding transportation
+                      <FormattedMessage id="servicesPage.wedding.point5" defaultMessage="Reception venue and post-wedding transportation" />
                     </Typography>
                   </Box>
                 </Box>

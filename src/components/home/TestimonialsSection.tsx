@@ -34,7 +34,7 @@ const testimonials = [
   },
   {
     id: 2,
-    text: "As a frequent business traveler, I've experienced luxury car services worldwide. Presidential Chauffeurs stands out with their Mercedes Landjet's exceptional comfort and their chauffeurs' unparalleled service. They've become my exclusive choice for all London transportation.",
+    text: "As a frequent business traveler, I've experienced luxury car services worldwide. Presidential Chauffeurs stands out with their Mercedes Landjet's exceptional comfort and their chauffeurs' unparalleled service. They've become my exclusive choice for all Greater Toronto Area transportation.",
     author: "Michael Chen-Williams",
     date: "30 Jan 2025",
     rating: 5,
@@ -55,7 +55,7 @@ const testimonials = [
   },
   {
     id: 5,
-    text: "The level of sophistication and attention to detail is unmatched. From the moment I was greeted at Heathrow to my various appointments in London, the service was consistently exceptional. Their Bentley fleet is immaculate, and the chauffeurs are incredibly knowledgeable.",
+    text: "The level of sophistication and attention to detail is unmatched. From the moment I was greeted at Toronto Pearson International Airport to my various appointments in Toronto, the service was consistently exceptional. Their Bentley fleet is immaculate, and the chauffeurs are incredibly knowledgeable.",
     author: "Victoria Kim-Martinez",
     date: "28 Oct 2024",
     rating: 5,

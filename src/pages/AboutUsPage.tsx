@@ -55,7 +55,10 @@ const AboutUsPage: React.FC = () => {
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             }}
           >
-            ABOUT <span style={{ color: "#D0A42B" }}>US</span>
+            <FormattedMessage id="aboutPage.hero.about" defaultMessage="ABOUT" />{" "}
+            <span style={{ color: "#D0A42B" }}>
+              <FormattedMessage id="aboutPage.hero.us" defaultMessage="US" />
+            </span>
           </Typography>
         </Box>
       </Box>
@@ -74,7 +77,10 @@ const AboutUsPage: React.FC = () => {
                   color: "text.primary"
                 }}
               >
-                PRESIDENTIAL <span style={{ color: "#D0A42B" }}>CHAUFFEURS</span>
+                <FormattedMessage id="aboutPage.intro.presidential" defaultMessage="PRESIDENTIAL" />{" "}
+                <span style={{ color: "#D0A42B" }}>
+                  <FormattedMessage id="aboutPage.intro.chauffeurs" defaultMessage="CHAUFFEURS" />
+                </span>
               </Typography>
               <Typography
                 variant="body1"
@@ -136,7 +142,10 @@ const AboutUsPage: React.FC = () => {
               color: "white",
             }}
           >
-            OUR <span style={{ color: "#D0A42B" }}>COMMITMENT</span>
+            <FormattedMessage id="aboutPage.commitment.our" defaultMessage="OUR" />{" "}
+            <span style={{ color: "#D0A42B" }}>
+              <FormattedMessage id="aboutPage.commitment.commitment" defaultMessage="COMMITMENT" />
+            </span>
           </Typography>
           <Typography
             variant="body1"

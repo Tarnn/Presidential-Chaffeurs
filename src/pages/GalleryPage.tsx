@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Container, Typography, Box, Paper, CircularProgress, Fade } from '@mui/material';
+import { Container, Typography, Box, Paper, CircularProgress, Fade, Fab, Zoom } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import media from '../config/media.json';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
@@ -43,12 +44,31 @@ const GalleryPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [continuationToken, setContinuationToken] = useState<string | undefined>();
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Create a ref for the intersection observer target
   const observerTarget = useRef<HTMLDivElement>(null);
 
   // Add new state for tracking loaded images
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+
+  // Handle scroll to top
+  const handleScrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  // Handle scroll visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.pageYOffset > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Handle image load
   const handleImageLoad = (imageId: string) => {
@@ -201,8 +221,7 @@ const GalleryPage: React.FC = () => {
         {/* Description Section */}
         <Box sx={{ textAlign: 'center', mb: 8, maxWidth: '800px', mx: 'auto' }}>
           <Typography variant="h5" color="text.primary" sx={{ mb: 4 }}>
-            Explore our collection of memorable moments captured at real events with our valued customers. 
-            Each photo tells a story of luxury, elegance, and exceptional service.
+            <FormattedMessage id="galleryPage.description" defaultMessage="Explore our collection of memorable moments captured at real events with our valued customers. Each photo tells a story of luxury, elegance, and exceptional service." />
           </Typography>
         </Box>
 
@@ -272,6 +291,27 @@ const GalleryPage: React.FC = () => {
           </>
         )}
       </Container>
+
+      {/* Scroll to Top Button */}
+      <Zoom in={showScrollTop}>
+        <Fab
+          color="primary"
+          size="small"
+          onClick={handleScrollTop}
+          sx={{
+            position: 'fixed',
+            bottom: 75,
+            right:80,
+            backgroundColor: '#D0A42B',
+            '&:hover': {
+              backgroundColor: '#B88A1C',
+            },
+          }}
+          aria-label="scroll back to top"
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </Zoom>
     </Box>
   );
 };
