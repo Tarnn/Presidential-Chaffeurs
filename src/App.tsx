@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import VehicleListPage from "./pages/VehicleListPage";
 import GalleryPage from "./pages/GalleryPage";
+import ServicesPage from "./pages/ServicesPage";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
@@ -103,7 +104,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<AboutUsPage />} />
             <Route path="/vehicles" element={<VehicleListPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/services/:type" element={<div>Service Page</div>} />
+            <Route path="/services" element={<ServicesPage />} />
           </Routes>
           <Footer handleWhatsAppClick={handleWhatsAppClick} />
           <AudioControls />

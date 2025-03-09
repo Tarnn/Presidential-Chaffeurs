@@ -25,15 +25,10 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElServices, setAnchorElServices] = useState<null | HTMLElement>(null);
   const [anchorElLang, setAnchorElLang] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-  };
-
-  const handleOpenServicesMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElServices(event.currentTarget);
   };
 
   const handleOpenLangMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -42,10 +37,6 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseServicesMenu = () => {
-    setAnchorElServices(null);
   };
 
   const handleCloseLangMenu = () => {
@@ -107,10 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 <FormattedMessage id="nav.aboutUs" />
               </motion.span>
             </Button>
-            <Button
-              onMouseEnter={handleOpenServicesMenu}
-              onClick={handleOpenServicesMenu}
-            >
+            <Button component={Link} to="/services">
               <motion.span
                 whileHover={{ color: "#D0A42B" }}
                 transition={{ duration: 0.3 }}
@@ -182,38 +170,6 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
             </IconButton>
           </Box>
         </Box>
-        {/* Desktop Services Dropdown */}
-        <Menu
-          anchorEl={anchorElServices}
-          open={Boolean(anchorElServices)}
-          onClose={handleCloseServicesMenu}
-          onClick={handleCloseServicesMenu}
-          PaperProps={{
-            sx: { backgroundColor: "#2a2a2a", color: "#D0A42B" },
-          }}
-        >
-          <MenuItem
-            onClick={handleCloseServicesMenu}
-            component={Link}
-            to="/services/executive"
-          >
-            <FormattedMessage id="nav.services" /> - Executive
-          </MenuItem>
-          <MenuItem
-            onClick={handleCloseServicesMenu}
-            component={Link}
-            to="/services/wedding"
-          >
-            <FormattedMessage id="nav.services" /> - Wedding
-          </MenuItem>
-          <MenuItem
-            onClick={handleCloseServicesMenu}
-            component={Link}
-            to="/services/event"
-          >
-            <FormattedMessage id="nav.services" /> - Event
-          </MenuItem>
-        </Menu>
         {/* Mobile Hamburger Menu Dropdown */}
         <Menu
           anchorEl={anchorElNav}
@@ -227,14 +183,8 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
           <MenuItem onClick={handleCloseNavMenu} component={Link} to="/about">
             <FormattedMessage id="nav.aboutUs" />
           </MenuItem>
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/services/executive">
-            <FormattedMessage id="nav.services" /> - Executive
-          </MenuItem>
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/services/wedding">
-            <FormattedMessage id="nav.services" /> - Wedding
-          </MenuItem>
-          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/services/event">
-            <FormattedMessage id="nav.services" /> - Event
+          <MenuItem onClick={handleCloseNavMenu} component={Link} to="/services">
+            <FormattedMessage id="nav.services" />
           </MenuItem>
           <MenuItem onClick={handleCloseNavMenu} component={Link} to="/vehicles">
             <FormattedMessage id="nav.fleet" />
