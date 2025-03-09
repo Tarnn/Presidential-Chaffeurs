@@ -271,23 +271,26 @@ const ServicesPage: React.FC = () => {
               <Grid item xs={12} md={6}>
                 <Box sx={{ p: 4 }}>
                   <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
-                    Security & Close Protection
+                    Wedding Chauffeur Services
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'white', mb: 2 }}>
-                    Our highly trained security team provides discrete and professional protection services for clients requiring enhanced security measures.
+                    Make your special day truly unforgettable with our bespoke wedding chauffeur services. We understand that every detail matters on your wedding day, which is why we provide an exceptional level of service that combines luxury, elegance, and meticulous attention to detail.
                   </Typography>
                   <Box component="ul" sx={{ color: 'white', pl: 2 }}>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      SIA qualified security personnel
+                      Luxury bridal car service with elegant decorations
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Close protection services
+                      Coordinated transportation for wedding party and guests
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Risk assessment and route planning
+                      Professional chauffeurs in formal attire
                     </Typography>
                     <Typography component="li" sx={{ mb: 1 }}>
-                      Secure vehicle fleet with enhanced safety features
+                      Wedding photoshoot location transfers
+                    </Typography>
+                    <Typography component="li" sx={{ mb: 1 }}>
+                      Reception venue and post-wedding transportation
                     </Typography>
                   </Box>
                 </Box>
@@ -295,8 +298,8 @@ const ServicesPage: React.FC = () => {
               <Grid item xs={12} md={6}>
                 <Box
                   component="img"
-                  src={media.images.placeholders.servicesSection["securityChauffeurs"]}
-                  alt="Security Service"
+                  src={media.images.placeholders.servicesSection["weddings"]}
+                  alt="Wedding Chauffeur Services"
                   sx={{
                     width: '100%',
                     height: '100%',
