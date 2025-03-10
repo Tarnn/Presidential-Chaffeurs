@@ -220,8 +220,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     }
 
     try {
-      // Get reCAPTCHA token with fallback for testing
-      let token = 'TESTING_TOKEN'; // Default fallback for testing
+      // Get reCAPTCHA token
+      let token;
       
       if (executeRecaptcha) {
         try {
@@ -229,8 +229,23 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           token = await executeRecaptcha('vehicleInquiry');
         } catch (recaptchaError) {
           console.error('reCAPTCHA error:', recaptchaError);
-          // Continue with fallback token
+          // Show error message for reCAPTCHA failure
+          alert(intl.formatMessage({ id: "vehiclePage.captchaError" }));
+          setIsSubmitting(false);
+          return;
         }
+      } else {
+        // If executeRecaptcha is not available, show configuration error
+        alert(intl.formatMessage({ id: "vehiclePage.configError" }));
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // Only proceed if we have a valid token
+      if (!token) {
+        alert(intl.formatMessage({ id: "vehiclePage.captchaError" }));
+        setIsSubmitting(false);
+        return;
       }
       
       // Send form data with token to server using our API utility
@@ -252,6 +267,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       console.error('Form submission error:', error);
       setShowError(true);
       alert(intl.formatMessage({ id: "vehiclePage.submitError" }));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -490,7 +507,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               {isSubmitting ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                <FormattedMessage id="vehiclePage.submit" defaultMessage="Request Chauffeur Service" />
+                <FormattedMessage id="vehiclePage.requestService" defaultMessage="Request Chauffeur Service" />
               )}
             </Button>
           </Box>

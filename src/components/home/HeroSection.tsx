@@ -106,7 +106,10 @@ const HeroSection: React.FC = () => {
             maxWidth: { xs: "100%", sm: "none" },
             mx: "auto",
             px: { xs: 2, sm: 0 },
-            whiteSpace: "nowrap"
+            whiteSpace: { xs: "pre-line", sm: "pre-line" },
+            textAlign: { xs: "center", sm: "center" },
+            wordBreak: { xs: "break-word", sm: "normal" },
+            display: "block"
           }}
         >
           <FormattedMessage id="hero.subtitle" />
