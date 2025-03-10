@@ -65,6 +65,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageLoading, setImageLoading] = useState(false);
   const [heicSupported, setHeicSupported] = useState<boolean | null>(null);
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
 
   // For touch gestures
   const touchStartX = useRef(0);
@@ -89,6 +90,25 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     
     checkHeicSupport();
   }, []);
+
+  // Check if email has been submitted for this vehicle
+  useEffect(() => {
+    const checkSubmissionStatus = () => {
+      try {
+        const submittedVehicles = localStorage.getItem('submittedVehicles');
+        if (submittedVehicles) {
+          const vehicleIds = JSON.parse(submittedVehicles);
+          if (Array.isArray(vehicleIds) && vehicleIds.includes(vehicle.id)) {
+            setEmailSubmitted(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking submission status:', error);
+      }
+    };
+    
+    checkSubmissionStatus();
+  }, [vehicle.id]);
 
   // Function to get appropriate image URL based on file extension
   const getImageUrl = (url: string) => {
@@ -204,6 +224,11 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // If already submitted, don't allow resubmission
+    if (emailSubmitted) {
+      return;
+    }
+    
     // Validate form
     const errors = {
       purpose: !formData.purpose,
@@ -218,6 +243,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       setShowError(true);
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
       // Get reCAPTCHA token
@@ -272,6 +299,24 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         
         console.log('Inquiry submitted successfully:', response);
         alert(intl.formatMessage({ id: "vehiclePage.submitSuccess" }));
+        
+        // Mark this vehicle as submitted in localStorage
+        try {
+          const submittedVehicles = localStorage.getItem('submittedVehicles');
+          let vehicleIds = submittedVehicles ? JSON.parse(submittedVehicles) : [];
+          if (!Array.isArray(vehicleIds)) vehicleIds = [];
+          
+          if (!vehicleIds.includes(vehicle.id)) {
+            vehicleIds.push(vehicle.id);
+            localStorage.setItem('submittedVehicles', JSON.stringify(vehicleIds));
+          }
+          
+          // Update state to reflect submission
+          setEmailSubmitted(true);
+        } catch (storageError) {
+          console.error('Error saving submission status:', storageError);
+        }
+        
         setFormData({ purpose: "", date: "", description: "", email: "" });
         setFormErrors({ purpose: false, date: false, description: false, email: false });
         setShowError(false);
@@ -507,30 +552,43 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={isSubmitting}
+              disabled={isSubmitting || emailSubmitted}
               sx={{
                 mt: 2,
                 py: 1.2,
-                background: "linear-gradient(45deg, #D0A42B, #B08A23)",
+                background: emailSubmitted 
+                  ? "linear-gradient(45deg, #4CAF50, #388E3C)" 
+                  : "linear-gradient(45deg, #D0A42B, #B08A23)",
                 color: "#000000",
                 fontWeight: "bold",
                 letterSpacing: "0.5px",
                 border: "none",
-                boxShadow: "0 4px 8px rgba(176, 138, 35, 0.3)",
+                boxShadow: emailSubmitted 
+                  ? "0 4px 8px rgba(76, 175, 80, 0.3)" 
+                  : "0 4px 8px rgba(176, 138, 35, 0.3)",
                 transition: "all 0.3s ease",
                 "&:hover": {
-                  background: "linear-gradient(45deg, #C09A25, #A07A1E)",
-                  boxShadow: "0 6px 12px rgba(176, 138, 35, 0.4)",
+                  background: emailSubmitted 
+                    ? "linear-gradient(45deg, #43A047, #2E7D32)" 
+                    : "linear-gradient(45deg, #C09A25, #A07A1E)",
+                  boxShadow: emailSubmitted 
+                    ? "0 6px 12px rgba(76, 175, 80, 0.4)" 
+                    : "0 6px 12px rgba(176, 138, 35, 0.4)",
                   transform: "translateY(-2px)",
                 },
                 "&:disabled": {
-                  background: "#5a5a5a",
-                  color: "#aaaaaa",
+                  background: emailSubmitted 
+                    ? "linear-gradient(45deg, #4CAF50, #388E3C)" 
+                    : "#5a5a5a",
+                  color: emailSubmitted ? "#000000" : "#aaaaaa",
+                  opacity: emailSubmitted ? 1 : 0.7,
                 },
               }}
             >
               {isSubmitting ? (
                 <CircularProgress size={24} color="inherit" />
+              ) : emailSubmitted ? (
+                <FormattedMessage id="vehiclePage.emailSubmitted" defaultMessage="Email Submitted!" />
               ) : (
                 <FormattedMessage id="vehiclePage.requestService" defaultMessage="Request Chauffeur Service" />
               )}

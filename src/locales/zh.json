@@ -123,8 +123,8 @@
   "vehiclePage.captchaError": "请完成验证码验证",
   "vehiclePage.configError": "ReCAPTCHA配置缺失。请稍后再试。",
   "vehiclePage.submitError": "提交查询时出错。请稍后再试。",
-  "vehiclePage.submitSuccess": "您的查询已成功提交。",
-  "vehiclePage.formValidationError": "请填写所有必填字段",
+  "vehiclePage.submitSuccess": "您的查询已成功提交。我们将很快与您联系。",
+  "vehiclePage.formValidationError": "请正确填写所有字段",
   "vehiclePage.pastDateError": "请选择未来日期",
   "vehiclePage.requiredField": "此字段为必填项",
   "vehiclePage.dateError": "请选择有效的未来日期",
@@ -133,6 +133,7 @@
   "vehiclePage.emailError": "请输入有效的电子邮箱地址",
   "vehiclePage.descriptionPlaceholder": "请告诉我们更多关于您的需求",
   "vehiclePage.submit": "申请专车服务",
+  "vehiclePage.emailSubmitted": "邮件已提交！",
   
   "vehicle.cullinan.name": "劳斯莱斯库里南",
   "vehicle.cullinan.description": "豪华SUV的巅峰之作，为精英出行提供无与伦比的舒适感和尊贵气派。",

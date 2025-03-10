@@ -121,9 +121,9 @@
   "vehiclePage.ratePerDay": "दर: मूल्य के लिए संपर्क करें",
   "vehiclePage.captchaError": "कृपया CAPTCHA सत्यापन पूरा करें",
   "vehiclePage.configError": "ReCAPTCHA कॉन्फ़िगरेशन अनुपलब्ध है। कृपया बाद में पुनः प्रयास करें।",
-  "vehiclePage.submitError": "पूछताछ जमा करने में त्रुटि। कृपया बाद में पुनः प्रयास करें।",
-  "vehiclePage.submitSuccess": "आपकी पूछताछ सफलतापूर्वक जमा कर दी गई है।",
-  "vehiclePage.formValidationError": "कृपया सभी आवश्यक फ़ील्ड भरें",
+  "vehiclePage.submitError": "आपकी पूछताछ जमा करने में त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।",
+  "vehiclePage.submitSuccess": "आपकी पूछताछ सफलतापूर्वक जमा कर दी गई है। हम जल्द ही आपसे संपर्क करेंगे।",
+  "vehiclePage.formValidationError": "कृपया सभी फ़ील्ड सही ढंग से भरें",
   "vehiclePage.pastDateError": "कृपया भविष्य की तारीख चुनें",
   "vehiclePage.requiredField": "यह फ़ील्ड आवश्यक है",
   "vehiclePage.dateError": "कृपया एक वैध भविष्य की तारीख चुनें",
@@ -132,8 +132,9 @@
   "vehiclePage.emailError": "कृपया एक वैध ईमेल पता दर्ज करें",
   "vehiclePage.descriptionPlaceholder": "हमें अपनी आवश्यकताओं के बारे में अधिक बताएं",
   "vehiclePage.submit": "शोफर सेवा का अनुरोध करें",
+  "vehiclePage.emailSubmitted": "ईमेल भेज दिया गया!",
   
-  "vehicle.cullinan.name": "रोल्स-रॉयस कलिनन",
+  "vehicle.cullinan.name": "रोल्स-रॉयस कुलिनन",
   "vehicle.cullinan.description": "लक्जरी एसयूवी का शिखर, जो अभिजात यात्रा के लिए अद्वितीय आराम और उपस्थिति प्रदान करता है।",
   
   "vehicle.ghost.name": "रोल्स-रॉयस घोस्ट",

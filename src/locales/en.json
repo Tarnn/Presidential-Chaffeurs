@@ -114,6 +114,7 @@
   "vehiclePage.pastDateError": "Please select a future date",
   "vehiclePage.requiredField": "This field is required",
   "vehiclePage.dateError": "Please select a valid future date",
+  "vehiclePage.emailSubmitted": "Email Submitted!",
   "vehicle.cullinan.name": "Rolls-Royce Cullinan",
   "vehicle.cullinan.description": "The pinnacle of luxury SUVs, offering unparalleled comfort and presence for elite travel.",
   "vehicle.ghost.name": "Rolls-Royce Ghost",
