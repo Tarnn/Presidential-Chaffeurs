@@ -16,12 +16,13 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import Slider from "react-slick";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Vehicle } from "../types";
 import { motion } from "framer-motion";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FormattedMessage, useIntl } from "react-intl";
+import { sendInquiry } from "../utils/api";
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -232,8 +233,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         }
       }
       
-      // Send form data with token to server
-      await axios.post("https://presidential-chauffeurs-node-nqnv.vercel.app/api/inquiry", {
+      // Send form data with token to server using our API utility
+      await sendInquiry({
         vehicleId: vehicle.id,
         vehicleName: vehicle.name,
         purpose: formData.purpose,
@@ -399,6 +400,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               }
               error={formErrors.email}
               helperText={formErrors.email ? intl.formatMessage({ id: "vehiclePage.emailError", defaultMessage: "Please enter a valid email address" }) : ""}
+              placeholder={intl.formatMessage({ id: "vehiclePage.emailPlaceholder", defaultMessage: "Enter your email address" })}
               sx={{
                 mb: 2,
                 input: { color: "white" },
@@ -421,7 +423,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
                 setFormData({ ...formData, description: e.target.value })
               }
               error={formErrors.description}
-              helperText={formErrors.description ? intl.formatMessage({ id: "vehiclePage.requiredField" }) || "This field is required" : ""}
+              helperText={formErrors.description ? intl.formatMessage({ id: "vehiclePage.requiredField" }) : ""}
+              placeholder={intl.formatMessage({ id: "vehiclePage.descriptionPlaceholder", defaultMessage: "Tell us more about your requirements" })}
               sx={{
                 mb: 2,
                 textarea: { color: "white" },
@@ -487,7 +490,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               {isSubmitting ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                <FormattedMessage id="vehiclePage.requestService" defaultMessage="Request Chauffeur Service" />
+                <FormattedMessage id="vehiclePage.submit" defaultMessage="Request Chauffeur Service" />
               )}
             </Button>
           </Box>

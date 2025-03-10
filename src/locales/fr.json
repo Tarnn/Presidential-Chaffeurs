@@ -126,6 +126,11 @@
   "vehiclePage.pastDateError": "Veuillez sélectionner une date future",
   "vehiclePage.requiredField": "Ce champ est obligatoire",
   "vehiclePage.dateError": "Veuillez sélectionner une date future valide",
+  "vehiclePage.emailLabel": "Votre Email",
+  "vehiclePage.emailPlaceholder": "Entrez votre adresse email",
+  "vehiclePage.emailError": "Veuillez entrer une adresse email valide",
+  "vehiclePage.descriptionPlaceholder": "Parlez-nous de vos besoins",
+  "vehiclePage.submit": "Demander un Service de Chauffeur",
   
   "vehicle.cullinan.name": "Rolls-Royce Cullinan",
   "vehicle.cullinan.description": "Le summum des SUV de luxe, offrant un confort et une présence inégalés pour les voyages d'élite.",

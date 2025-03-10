@@ -15,6 +15,7 @@ import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
 import ScrollToTop from "./components/common/ScrollToTop";
+import CorsTest from "./components/common/CorsTest";
 // Import locale data
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
@@ -106,6 +107,7 @@ const App: React.FC = () => {
               <Route path="/vehicles" element={<VehicleListPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/services" element={<ServicesPage />} />
+              <Route path="/cors-test" element={<CorsTest />} />
             </Routes>
             <Footer handleWhatsAppClick={handleWhatsAppClick} />
             <AudioControls />

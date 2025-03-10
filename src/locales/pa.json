@@ -133,5 +133,10 @@
   "vehicle.maybach.description": "ਜਰਮਨ ਇੰਜੀਨੀਅਰਿੰਗ ਦਾ ਇੱਕ ਸ਼ਾਹਕਾਰ, ਜੋ ਅਸਾਧਾਰਨ ਪਿਛਲੀ-ਸੀਟ ਲਗਜ਼ਰੀ ਅਤੇ ਬੇਮਿਸਾਲ ਚੌਫਰ-ਚਾਲਿਤ ਅਨੁਭਵ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ।",
   
   "vehicle.silverarrow.name": "ਰੋਲਸ-ਰੋਇਸ ਸਿਲਵਰ ਐਰੋ",
-  "vehicle.silverarrow.description": "ਇੱਕ ਦੁਰਲੱਭ ਅਤੇ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਹਕਾਰ ਜੋ ਸਮੇਂ ਤੋਂ ਪਰੇ ਡਿਜ਼ਾਈਨ ਨੂੰ ਅਤਿ-ਆਧੁਨਿਕ ਤਕਨਾਲੋਜੀ ਨਾਲ ਜੋੜਦਾ ਹੈ, ਬੇਮਿਸਾਲ ਲਗਜ਼ਰੀ ਅਨੁਭਵ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ।"
+  "vehicle.silverarrow.description": "ਇੱਕ ਦੁਰਲੱਭ ਅਤੇ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਹਕਾਰ ਜੋ ਸਮੇਂ ਤੋਂ ਪਰੇ ਡਿਜ਼ਾਈਨ ਨੂੰ ਅਤਿ-ਆਧੁਨਿਕ ਤਕਨਾਲੋਜੀ ਨਾਲ ਜੋੜਦਾ ਹੈ, ਬੇਮਿਸਾਲ ਲਗਜ਼ਰੀ ਅਨੁਭਵ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ।",
+  "vehiclePage.emailLabel": "ਤੁਹਾਡਾ ਈਮੇਲ",
+  "vehiclePage.emailPlaceholder": "ਆਪਣਾ ਈਮੇਲ ਪਤਾ ਦਰਜ ਕਰੋ",
+  "vehiclePage.emailError": "ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਵੈਧ ਈਮੇਲ ਪਤਾ ਦਰਜ ਕਰੋ",
+  "vehiclePage.descriptionPlaceholder": "ਸਾਨੂੰ ਆਪਣੀਆਂ ਲੋੜਾਂ ਬਾਰੇ ਹੋਰ ਦੱਸੋ",
+  "vehiclePage.submit": "ਸ਼ੋਫਰ ਸੇਵਾ ਦੀ ਬੇਨਤੀ ਕਰੋ"
 }
