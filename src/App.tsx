@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
   CssBaseline,
@@ -16,16 +16,6 @@ import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
 import ScrollToTop from "./components/common/ScrollToTop";
 import CorsTest from "./components/common/CorsTest";
-
-// Safely import Analytics
-let Analytics: React.ComponentType<any> | null = null;
-try {
-  // @ts-ignore
-  const analyticsModule = require('@vercel/analytics/react');
-  Analytics = analyticsModule.Analytics;
-} catch (error) {
-  console.warn('Vercel Analytics could not be loaded:', error);
-}
 
 // Import locale data
 import en from "./locales/en.json";
@@ -93,6 +83,21 @@ const messages: Record<Locale, Messages> = {
 
 const App: React.FC = () => {
   const [locale, setLocale] = useState<Locale>("en");
+  const [AnalyticsComponent, setAnalyticsComponent] = useState<React.ComponentType<any> | null>(null);
+
+  // Load Analytics component dynamically
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      try {
+        const module = await import('@vercel/analytics/react');
+        setAnalyticsComponent(() => module.Analytics);
+      } catch (error) {
+        console.warn('Vercel Analytics could not be loaded:', error);
+      }
+    };
+    
+    loadAnalytics();
+  }, []);
 
   const handleWhatsAppClick = () => {
     const whatsappNumber = process.env.REACT_APP_WHATSAPP_NUMBER;
@@ -123,7 +128,7 @@ const App: React.FC = () => {
             <Footer handleWhatsAppClick={handleWhatsAppClick} />
             <AudioControls />
             <ScrollToTop />
-            {Analytics && <Analytics />}
+            {AnalyticsComponent && <AnalyticsComponent />}
           </Router>
         </ThemeProvider>
       </IntlProvider>
