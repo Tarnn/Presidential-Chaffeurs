@@ -223,12 +223,18 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       // Get reCAPTCHA token
       let token;
       
-      if (executeRecaptcha) {
+      // For testing in development, use a test token
+      if (import.meta.env.DEV && import.meta.env.VITE_USE_TEST_TOKEN === 'true') {
+        console.log('Using test token in development mode');
+        token = 'TESTING_TOKEN';
+      } else if (executeRecaptcha) {
         try {
+          console.log('Executing reCAPTCHA with action: vehicleInquiry');
           // Execute reCAPTCHA with action
           token = await executeRecaptcha('vehicleInquiry');
+          console.log('reCAPTCHA token obtained successfully');
         } catch (recaptchaError) {
-          console.error('reCAPTCHA error:', recaptchaError);
+          console.error('reCAPTCHA execution error:', recaptchaError);
           // Show error message for reCAPTCHA failure
           alert(intl.formatMessage({ id: "vehiclePage.captchaError" }));
           setIsSubmitting(false);
@@ -236,6 +242,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         }
       } else {
         // If executeRecaptcha is not available, show configuration error
+        console.error('reCAPTCHA is not properly configured: executeRecaptcha is undefined');
         alert(intl.formatMessage({ id: "vehiclePage.configError" }));
         setIsSubmitting(false);
         return;
@@ -243,28 +250,46 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       
       // Only proceed if we have a valid token
       if (!token) {
+        console.error('Failed to obtain reCAPTCHA token');
         alert(intl.formatMessage({ id: "vehiclePage.captchaError" }));
         setIsSubmitting(false);
         return;
       }
       
-      // Send form data with token to server using our API utility
-      await sendInquiry({
-        vehicleId: vehicle.id,
-        vehicleName: vehicle.name,
-        purpose: formData.purpose,
-        date: formData.date,
-        description: formData.description,
-        email: formData.email,
-        captchaToken: token,
-      });
+      console.log(`Sending inquiry with token (length: ${token.length})`);
       
-      alert(intl.formatMessage({ id: "vehiclePage.submitSuccess" }));
-      setFormData({ purpose: "", date: "", description: "", email: "" });
-      setFormErrors({ purpose: false, date: false, description: false, email: false });
-      setShowError(false);
+      try {
+        // Send form data with token to server using our API utility
+        const response = await sendInquiry({
+          vehicleId: vehicle.id,
+          vehicleName: vehicle.name,
+          purpose: formData.purpose,
+          date: formData.date,
+          description: formData.description,
+          email: formData.email,
+          captchaToken: token,
+        });
+        
+        console.log('Inquiry submitted successfully:', response);
+        alert(intl.formatMessage({ id: "vehiclePage.submitSuccess" }));
+        setFormData({ purpose: "", date: "", description: "", email: "" });
+        setFormErrors({ purpose: false, date: false, description: false, email: false });
+        setShowError(false);
+      } catch (apiError: any) {
+        console.error('Form submission error:', apiError);
+        
+        // Extract detailed error message if available
+        let errorMessage = intl.formatMessage({ id: "vehiclePage.submitError" });
+        if (apiError.response && apiError.response.data && apiError.response.data.error) {
+          console.error('API error details:', apiError.response.data);
+          errorMessage += ` (${apiError.response.data.error})`;
+        }
+        
+        setShowError(true);
+        alert(errorMessage);
+      }
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('Unexpected error during form submission:', error);
       setShowError(true);
       alert(intl.formatMessage({ id: "vehiclePage.submitError" }));
     } finally {
