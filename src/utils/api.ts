@@ -3,6 +3,15 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 // Define the base URL for API requests
 const API_BASE_URL = 'https://presidential-chauffeurs-node-nqnv.vercel.app';
 
+// Cache configuration
+interface CacheItem<T> {
+  data: T;
+  timestamp: number;
+}
+
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+const requestCache = new Map<string, CacheItem<any>>();
+
 // Create an axios instance with default configuration
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -14,45 +23,102 @@ const apiClient = axios.create({
   withCredentials: false, // Important for CORS requests
 });
 
+// Generate a cache key from request details
+const generateCacheKey = (method: string, url: string, data?: any): string => {
+  return `${method}:${url}:${data ? JSON.stringify(data) : ''}`;
+};
+
+// Check if a cached response is still valid
+const isCacheValid = <T>(cacheItem: CacheItem<T>): boolean => {
+  return Date.now() - cacheItem.timestamp < CACHE_TTL;
+};
+
 /**
- * Generic API request function with error handling
+ * Generic API request function with error handling, caching, and retry
  * @param method - HTTP method (get, post, put, delete)
  * @param url - API endpoint
  * @param data - Request data (for POST, PUT)
  * @param config - Additional axios config
+ * @param useCache - Whether to use cache for GET requests (default: true)
+ * @param retries - Number of retries on failure (default: 1)
  * @returns Promise with response data
  */
 export const apiRequest = async <T = any>(
   method: 'get' | 'post' | 'put' | 'delete',
   url: string,
   data?: any,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
+  useCache: boolean = true,
+  retries: number = 1
 ): Promise<T> => {
-  try {
-    let response: AxiosResponse<T>;
-
-    switch (method) {
-      case 'get':
-        response = await apiClient.get<T>(url, config);
-        break;
-      case 'post':
-        response = await apiClient.post<T>(url, data, config);
-        break;
-      case 'put':
-        response = await apiClient.put<T>(url, data, config);
-        break;
-      case 'delete':
-        response = await apiClient.delete<T>(url, config);
-        break;
-      default:
-        throw new Error(`Unsupported method: ${method}`);
+  // Only cache GET requests
+  const canUseCache = method === 'get' && useCache;
+  
+  if (canUseCache) {
+    const cacheKey = generateCacheKey(method, url, data);
+    const cachedResponse = requestCache.get(cacheKey);
+    
+    if (cachedResponse && isCacheValid(cachedResponse)) {
+      return cachedResponse.data;
     }
-
-    return response.data;
-  } catch (error) {
-    handleApiError(error as AxiosError);
-    throw error;
   }
+  
+  let lastError: Error | null = null;
+  let attempts = 0;
+  
+  while (attempts <= retries) {
+    try {
+      let response: AxiosResponse<T>;
+
+      switch (method) {
+        case 'get':
+          response = await apiClient.get<T>(url, config);
+          break;
+        case 'post':
+          response = await apiClient.post<T>(url, data, config);
+          break;
+        case 'put':
+          response = await apiClient.put<T>(url, data, config);
+          break;
+        case 'delete':
+          response = await apiClient.delete<T>(url, config);
+          break;
+        default:
+          throw new Error(`Unsupported method: ${method}`);
+      }
+      
+      // Cache successful GET responses
+      if (canUseCache) {
+        const cacheKey = generateCacheKey(method, url, data);
+        requestCache.set(cacheKey, {
+          data: response.data,
+          timestamp: Date.now()
+        });
+      }
+
+      return response.data;
+    } catch (error) {
+      lastError = error as Error;
+      attempts++;
+      
+      // Only retry on network errors or 5xx server errors
+      const axiosError = error as AxiosError;
+      const shouldRetry = !axiosError.response || 
+                          (axiosError.response && axiosError.response.status >= 500);
+      
+      if (!shouldRetry || attempts > retries) {
+        break;
+      }
+      
+      // Exponential backoff
+      const delay = Math.min(1000 * Math.pow(2, attempts - 1), 5000);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  
+  // If we got here, all retries failed
+  handleApiError(lastError as AxiosError);
+  throw lastError;
 };
 
 /**
@@ -92,7 +158,18 @@ export const sendInquiry = async (inquiryData: {
   email: string;
   captchaToken: string;
 }): Promise<any> => {
-  return apiRequest('post', '/api/inquiry', inquiryData);
+  // Don't use cache for POST requests, but enable retry
+  return apiRequest('post', '/api/inquiry', inquiryData, undefined, false, 2);
 };
+
+// Clean up expired cache items periodically
+setInterval(() => {
+  const now = Date.now();
+  Array.from(requestCache.entries()).forEach(([key, value]) => {
+    if (now - value.timestamp > CACHE_TTL) {
+      requestCache.delete(key);
+    }
+  });
+}, CACHE_TTL);
 
 export default apiClient; 
