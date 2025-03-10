@@ -16,7 +16,17 @@ import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
 import ScrollToTop from "./components/common/ScrollToTop";
 import CorsTest from "./components/common/CorsTest";
-import { Analytics } from "@vercel/analytics/react"
+
+// Safely import Analytics
+let Analytics: React.ComponentType<any> | null = null;
+try {
+  // @ts-ignore
+  const analyticsModule = require('@vercel/analytics/react');
+  Analytics = analyticsModule.Analytics;
+} catch (error) {
+  console.warn('Vercel Analytics could not be loaded:', error);
+}
+
 // Import locale data
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
@@ -113,7 +123,7 @@ const App: React.FC = () => {
             <Footer handleWhatsAppClick={handleWhatsAppClick} />
             <AudioControls />
             <ScrollToTop />
-            <Analytics />
+            {Analytics && <Analytics />}
           </Router>
         </ThemeProvider>
       </IntlProvider>

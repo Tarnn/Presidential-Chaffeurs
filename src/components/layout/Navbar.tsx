@@ -23,6 +23,15 @@ interface NavbarProps {
   onLanguageChange: (lang: Locale) => void;
 }
 
+// Custom component to capitalize navigation links
+const CapitalizedNavLink: React.FC<{ id: string }> = ({ id }) => {
+  return (
+    <span style={{ textTransform: 'uppercase' }}>
+      <FormattedMessage id={id} />
+    </span>
+  );
+};
+
 const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElLang, setAnchorElLang] = useState<null | HTMLElement>(null);
@@ -103,7 +112,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 transition={{ duration: 0.3 }}
                 style={{ color: "#FFFFFF" }}
               >
-                <FormattedMessage id="nav.aboutUs" />
+                <CapitalizedNavLink id="nav.aboutUs" />
               </motion.span>
             </Button>
             <Button component={Link} to="/services" onClick={scrollToTop}>
@@ -112,7 +121,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 transition={{ duration: 0.3 }}
                 style={{ color: "#FFFFFF" }}
               >
-                <FormattedMessage id="nav.services" />
+                <CapitalizedNavLink id="nav.services" />
               </motion.span>
             </Button>
             <Button component={Link} to="/vehicles" onClick={scrollToTop}>
@@ -121,7 +130,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 transition={{ duration: 0.3 }}
                 style={{ color: "#FFFFFF" }}
               >
-                <FormattedMessage id="nav.fleet" />
+                <CapitalizedNavLink id="nav.fleet" />
               </motion.span>
             </Button>
             <Button component={Link} to="/gallery" onClick={scrollToTop}>
@@ -130,7 +139,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
                 transition={{ duration: 0.3 }}
                 style={{ color: "#FFFFFF" }}
               >
-                <FormattedMessage id="nav.gallery" />
+                <CapitalizedNavLink id="nav.gallery" />
               </motion.span>
             </Button>
           </Box>
@@ -195,7 +204,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
               scrollToTop();
             }}
           >
-            <FormattedMessage id="nav.aboutUs" />
+            <CapitalizedNavLink id="nav.aboutUs" />
           </MenuItem>
           <MenuItem 
             component={Link} 
@@ -205,7 +214,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
               scrollToTop();
             }}
           >
-            <FormattedMessage id="nav.services" />
+            <CapitalizedNavLink id="nav.services" />
           </MenuItem>
           <MenuItem 
             component={Link} 
@@ -215,7 +224,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
               scrollToTop();
             }}
           >
-            <FormattedMessage id="nav.fleet" />
+            <CapitalizedNavLink id="nav.fleet" />
           </MenuItem>
           <MenuItem 
             component={Link} 
@@ -225,7 +234,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
               scrollToTop();
             }}
           >
-            <FormattedMessage id="nav.gallery" />
+            <CapitalizedNavLink id="nav.gallery" />
           </MenuItem>
         </Menu>
       </Toolbar>
