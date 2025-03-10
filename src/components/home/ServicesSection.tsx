@@ -132,120 +132,179 @@ const ServicesSection: React.FC = () => {
     ],
   };
 
+  // Animation variants for staggered animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 80,
+        damping: 15
+      }
+    }
+  };
+
   return (
-    <Box sx={{ backgroundColor: "#1a1a1a", py: 8 }}>
-      <Container>
-        <Typography
-          variant="h4"
-          sx={{ 
-            mb: 3, 
-            textAlign: "center",
-            maxWidth: "800px",
-            mx: "auto",
-            fontWeight: 700 
-          }}
+    <Box component="section" sx={{ py: 8, backgroundColor: "#1a1a1a" }}>
+      <Container maxWidth="lg">
+        <Box sx={{ textAlign: "center", mb: 6 }}>
+          <Typography
+            variant="h3"
+            component="h2"
+            sx={{
+              fontWeight: "bold",
+              color: "white",
+              mb: 2,
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+            }}
+          >
+            <FormattedMessage id="services.title" defaultMessage="Our Services" />
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#D0A42B",
+              mb: 4,
+              maxWidth: "800px",
+              mx: "auto",
+              fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
+            }}
+          >
+            <FormattedMessage
+              id="services.subtitle"
+              defaultMessage="Tailored to your needs"
+            />
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: "white",
+              maxWidth: "900px",
+              mx: "auto",
+              mb: 6,
+              lineHeight: 1.8,
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
+            }}
+          >
+            <FormattedMessage id="services.description" />
+          </Typography>
+        </Box>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
         >
-          <FormattedMessage id="services.title" />
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: "#FFFFFF",
-            mb: 6,
-            textAlign: "center",
-            maxWidth: "800px",
-            mx: "auto",
-            lineHeight: 1.8,
-          }}
-        >
-          <FormattedMessage id="services.description" />
-        </Typography>
-        <Box sx={{ mx: -2 }}>
           <Slider {...settings}>
             {services.map((service, index) => (
-              <Box key={index} sx={{ px: 2, height: 550 }}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  viewport={{ once: true }}
-                  style={{ height: "100%" }}
-                >
+              <Box key={index} sx={{ p: 1 }}>
+                <motion.div variants={itemVariants}>
                   <Card
                     sx={{
-                      backgroundColor: "#2a2a2a",
-                      color: "#FFFFFF",
-                      border: "1px solid #D0A42B",
-                      borderRadius: 2,
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
+                      backgroundColor: "#262626",
+                      borderRadius: 2,
+                      overflow: "hidden",
+                      transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                      "&:hover": {
+                        transform: "translateY(-8px)",
+                        boxShadow: "0 12px 20px rgba(0, 0, 0, 0.3)",
+                      },
                     }}
                   >
                     <CardMedia
                       component="img"
-                      height={250}
+                      height="200"
                       image={service.image}
                       alt={service.titleId}
                       sx={{ objectFit: "cover" }}
                     />
                     <CardContent
                       sx={{
-                        p: 3,
                         flexGrow: 1,
+                        p: 3,
                         display: "flex",
                         flexDirection: "column",
-                        height: 300,
                       }}
                     >
-                      <Box sx={{ mb: "auto" }}>
-                        <Typography variant="h6" sx={{ mb: 2 }}>
-                          <FormattedMessage id={service.titleId} />
-                        </Typography>
-                        <Typography 
-                          variant="body2" 
-                          sx={{ 
-                            mb: 3,
-                            display: '-webkit-box',
-                            WebkitBoxOrient: 'vertical',
-                            WebkitLineClamp: 6,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          mb: 2,
+                        }}
+                      >
+                        {service.icon}
+                        <Typography
+                          variant="h5"
+                          component="h3"
+                          sx={{
+                            fontWeight: "bold",
+                            color: "white",
+                            ml: 1,
                           }}
                         >
-                          <FormattedMessage id={service.descriptionId} />
+                          <FormattedMessage
+                            id={service.titleId}
+                            defaultMessage={service.titleId}
+                          />
                         </Typography>
                       </Box>
-                      <RouterLink
-                        to={service.link}
-                        style={{ textDecoration: "none" }}
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "#cccccc",
+                          mb: 2,
+                          flexGrow: 1,
+                        }}
                       >
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: "#D0A42B",
-                            fontWeight: 500,
-                            width: "fit-content",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                              color: "#FFFFFF",
-                              textDecoration: "underline",
-                            },
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 0.5,
-                          }}
-                        >
-                          <FormattedMessage id="common.learnMore" />
-                        </Typography>
-                      </RouterLink>
+                        <FormattedMessage
+                          id={service.descriptionId}
+                          defaultMessage={service.descriptionId}
+                        />
+                      </Typography>
+                      <Box
+                        component={RouterLink}
+                        to={service.link}
+                        sx={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          color: "#D0A42B",
+                          textDecoration: "none",
+                          fontWeight: "bold",
+                          "&:hover": {
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        <FormattedMessage
+                          id="common.learnMore"
+                          defaultMessage="Learn More"
+                        />
+                      </Box>
                     </CardContent>
                   </Card>
                 </motion.div>
               </Box>
             ))}
           </Slider>
-        </Box>
+        </motion.div>
       </Container>
     </Box>
   );

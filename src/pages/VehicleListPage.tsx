@@ -9,10 +9,36 @@ import { FormattedMessage } from "react-intl";
 import SEO from "../components/SEO";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import LazyImage from "../components/common/LazyImage";
+import { motion } from "framer-motion";
 
 const VehicleListPage: React.FC = () => {
   // Use static data instead of state and API call
   const vehicles: Vehicle[] = vehicleData;
+
+  // Animation variants for staggered animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
 
   // Structured data for fleet/vehicles
   const structuredData = {
@@ -112,13 +138,22 @@ const VehicleListPage: React.FC = () => {
           {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbs} />
           
-          <Grid container spacing={2}>
-            {vehicles.map((vehicle) => (
-              <Grid item xs={12} sm={6} md={4} key={vehicle.id} sx={{ display: 'flex' }}>
-                <VehicleCard vehicle={vehicle} />
-              </Grid>
-            ))}
-          </Grid>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            <Grid container spacing={2}>
+              {vehicles.map((vehicle) => (
+                <Grid item xs={12} sm={6} md={4} key={vehicle.id} sx={{ display: 'flex' }}>
+                  <motion.div variants={itemVariants} style={{ width: '100%' }}>
+                    <VehicleCard vehicle={vehicle} />
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </motion.div>
         </Container>
       </Box>
     </>
