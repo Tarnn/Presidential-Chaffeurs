@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext, createContext } from "react";
 import {
   Card,
   CardContent,
@@ -10,6 +10,7 @@ import {
   Modal,
   IconButton,
   CircularProgress,
+  Snackbar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -23,6 +24,28 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FormattedMessage, useIntl } from "react-intl";
 import { sendInquiry } from "../utils/api";
+
+// Create a context to track global submission state
+interface SubmissionContextType {
+  anySubmitted: boolean;
+  setAnySubmitted: (value: boolean) => void;
+}
+
+export const SubmissionContext = createContext<SubmissionContextType>({
+  anySubmitted: false,
+  setAnySubmitted: () => {},
+});
+
+// Provider component for the submission context
+export const SubmissionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [anySubmitted, setAnySubmitted] = useState(false);
+  
+  return (
+    <SubmissionContext.Provider value={{ anySubmitted, setAnySubmitted }}>
+      {children}
+    </SubmissionContext.Provider>
+  );
+};
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -46,6 +69,8 @@ const VehicleCardWithReCaptcha: React.FC<VehicleCardProps> = (props) => {
 const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const intl = useIntl();
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const { anySubmitted, setAnySubmitted } = useContext(SubmissionContext);
+  
   const [formData, setFormData] = useState<{ purpose: string; date: string; description: string; email: string }>({
     purpose: "",
     date: "",
@@ -66,6 +91,9 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const [imageLoading, setImageLoading] = useState(false);
   const [heicSupported, setHeicSupported] = useState<boolean | null>(null);
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error" | "info" | "warning">("info");
 
   // For touch gestures
   const touchStartX = useRef(0);
@@ -100,6 +128,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           const vehicleIds = JSON.parse(submittedVehicles);
           if (Array.isArray(vehicleIds) && vehicleIds.includes(vehicle.id)) {
             setEmailSubmitted(true);
+            setAnySubmitted(true);
           }
         }
       } catch (error) {
@@ -108,7 +137,35 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     };
     
     checkSubmissionStatus();
-  }, [vehicle.id]);
+  }, [vehicle.id, setAnySubmitted]);
+
+  // Function to handle input changes and clear validation errors
+  const handleInputChange = (field: keyof typeof formData, value: string) => {
+    setFormData({ ...formData, [field]: value });
+    
+    // Clear the error for this field as the user is fixing it
+    if (formErrors[field]) {
+      setFormErrors({ ...formErrors, [field]: false });
+      
+      // If all errors are cleared, hide the error alert
+      const updatedErrors = { ...formErrors, [field]: false };
+      if (!Object.values(updatedErrors).some(Boolean)) {
+        setShowError(false);
+      }
+    }
+  };
+
+  // Function to show a snackbar notification
+  const showNotification = (message: string, severity: "success" | "error" | "info" | "warning") => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  // Function to handle snackbar close
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   // Function to get appropriate image URL based on file extension
   const getImageUrl = (url: string) => {
@@ -215,7 +272,6 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     }
   };
 
-  // Email validation function
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -225,7 +281,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     e.preventDefault();
     
     // If already submitted, don't allow resubmission
-    if (emailSubmitted) {
+    if (emailSubmitted || anySubmitted) {
       return;
     }
     
@@ -262,15 +318,14 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           console.log('reCAPTCHA token obtained successfully');
         } catch (recaptchaError) {
           console.error('reCAPTCHA execution error:', recaptchaError);
-          // Show error message for reCAPTCHA failure
-          alert(intl.formatMessage({ id: "vehiclePage.captchaError" }));
+          // Show non-intrusive notification instead of alert
+          showNotification(intl.formatMessage({ id: "vehiclePage.captchaError" }), "error");
           setIsSubmitting(false);
           return;
         }
       } else {
-        // If executeRecaptcha is not available, show configuration error
+        // If executeRecaptcha is not available, log error but don't show alert
         console.error('reCAPTCHA is not properly configured: executeRecaptcha is undefined');
-        alert(intl.formatMessage({ id: "vehiclePage.configError" }));
         setIsSubmitting(false);
         return;
       }
@@ -278,7 +333,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       // Only proceed if we have a valid token
       if (!token) {
         console.error('Failed to obtain reCAPTCHA token');
-        alert(intl.formatMessage({ id: "vehiclePage.captchaError" }));
+        showNotification(intl.formatMessage({ id: "vehiclePage.captchaError" }), "error");
         setIsSubmitting(false);
         return;
       }
@@ -298,7 +353,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         });
         
         console.log('Inquiry submitted successfully:', response);
-        alert(intl.formatMessage({ id: "vehiclePage.submitSuccess" }));
+        showNotification(intl.formatMessage({ id: "vehiclePage.submitSuccess" }), "success");
         
         // Mark this vehicle as submitted in localStorage
         try {
@@ -313,6 +368,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           
           // Update state to reflect submission
           setEmailSubmitted(true);
+          // Update global submission state
+          setAnySubmitted(true);
         } catch (storageError) {
           console.error('Error saving submission status:', storageError);
         }
@@ -331,12 +388,12 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         }
         
         setShowError(true);
-        alert(errorMessage);
+        showNotification(errorMessage, "error");
       }
     } catch (error) {
       console.error('Unexpected error during form submission:', error);
       setShowError(true);
-      alert(intl.formatMessage({ id: "vehiclePage.submitError" }));
+      showNotification(intl.formatMessage({ id: "vehiclePage.submitError" }), "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -347,7 +404,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      style={{ width: '100%' }}
+      style={{ width: '100%', height: '100%', display: 'flex' }}
     >
       <Card sx={{ 
         backgroundColor: "#2a2a2a",
@@ -364,7 +421,10 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           boxShadow: 6,
           transform: 'translateY(-4px)',
           transition: 'all 0.3s ease'
-        }
+        },
+        opacity: anySubmitted && !emailSubmitted ? 0.7 : 1,
+        filter: anySubmitted && !emailSubmitted ? 'grayscale(50%)' : 'none',
+        transition: 'all 0.3s ease'
       }}>
         <Slider {...sliderSettings}>
           {vehicle.photos.map((photo, index) => (
@@ -396,59 +456,64 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           flexGrow: 1, 
           display: 'flex', 
           flexDirection: 'column',
-          p: 2.5
+          p: 2.5,
+          justifyContent: 'space-between'
         }}>
-          <Typography variant="h6" sx={{ 
-            mb: 1, 
-            color: '#D0A42B',
-            fontWeight: 'bold',
-            letterSpacing: '0.5px'
-          }}>
-            {vehicle.id === 1 ? (
-              <FormattedMessage id="vehicle.cullinan.name" defaultMessage={vehicle.name} />
-            ) : vehicle.id === 2 ? (
-              <FormattedMessage id="vehicle.ghost.name" defaultMessage={vehicle.name} />
-            ) : vehicle.id === 3 ? (
-              <FormattedMessage id="vehicle.phantom.name" defaultMessage={vehicle.name} />
-            ) : vehicle.id === 4 ? (
-              <FormattedMessage id="vehicle.maybach.name" defaultMessage={vehicle.name} />
-            ) : vehicle.id === 5 ? (
-              <FormattedMessage id="vehicle.silverarrow.name" defaultMessage={vehicle.name} />
-            ) : (
-              vehicle.name
-            )}
-          </Typography>
-          <Typography variant="body2" sx={{ 
-            mb: 1, 
-            flexGrow: 1,
-            color: 'rgba(255, 255, 255, 0.9)',
-            lineHeight: 1.6
-          }}>
-            {vehicle.id === 1 ? (
-              <FormattedMessage id="vehicle.cullinan.description" defaultMessage={vehicle.description} />
-            ) : vehicle.id === 2 ? (
-              <FormattedMessage id="vehicle.ghost.description" defaultMessage={vehicle.description} />
-            ) : vehicle.id === 3 ? (
-              <FormattedMessage id="vehicle.phantom.description" defaultMessage={vehicle.description} />
-            ) : vehicle.id === 4 ? (
-              <FormattedMessage id="vehicle.maybach.description" defaultMessage={vehicle.description} />
-            ) : vehicle.id === 5 ? (
-              <FormattedMessage id="vehicle.silverarrow.description" defaultMessage={vehicle.description} />
-            ) : (
-              vehicle.description
-            )}
-          </Typography>
-          <Typography variant="body1" sx={{ 
-            fontWeight: 'bold', 
-            color: '#D0A42B', 
-            mb: 2,
-            fontSize: '1.1rem'
-          }}>
-            <FormattedMessage 
-              id="vehiclePage.ratePerDay" 
-              defaultMessage="Rate: Contact for pricing" 
-            />
-          </Typography>
+          <Box>
+            <Typography variant="h6" sx={{ 
+              mb: 1, 
+              color: '#D0A42B',
+              fontWeight: 'bold',
+              letterSpacing: '0.5px',
+              minHeight: '32px' // Ensure consistent height for titles
+            }}>
+              {vehicle.id === 1 ? (
+                <FormattedMessage id="vehicle.cullinan.name" defaultMessage={vehicle.name} />
+              ) : vehicle.id === 2 ? (
+                <FormattedMessage id="vehicle.ghost.name" defaultMessage={vehicle.name} />
+              ) : vehicle.id === 3 ? (
+                <FormattedMessage id="vehicle.phantom.name" defaultMessage={vehicle.name} />
+              ) : vehicle.id === 4 ? (
+                <FormattedMessage id="vehicle.maybach.name" defaultMessage={vehicle.name} />
+              ) : vehicle.id === 5 ? (
+                <FormattedMessage id="vehicle.silverarrow.name" defaultMessage={vehicle.name} />
+              ) : (
+                vehicle.name
+              )}
+            </Typography>
+            <Typography variant="body2" sx={{ 
+              mb: 1, 
+              flexGrow: 1,
+              color: 'rgba(255, 255, 255, 0.9)',
+              lineHeight: 1.6,
+              minHeight: '80px' // Ensure consistent height for descriptions
+            }}>
+              {vehicle.id === 1 ? (
+                <FormattedMessage id="vehicle.cullinan.description" defaultMessage={vehicle.description} />
+              ) : vehicle.id === 2 ? (
+                <FormattedMessage id="vehicle.ghost.description" defaultMessage={vehicle.description} />
+              ) : vehicle.id === 3 ? (
+                <FormattedMessage id="vehicle.phantom.description" defaultMessage={vehicle.description} />
+              ) : vehicle.id === 4 ? (
+                <FormattedMessage id="vehicle.maybach.description" defaultMessage={vehicle.description} />
+              ) : vehicle.id === 5 ? (
+                <FormattedMessage id="vehicle.silverarrow.description" defaultMessage={vehicle.description} />
+              ) : (
+                vehicle.description
+              )}
+            </Typography>
+            <Typography variant="body1" sx={{ 
+              fontWeight: 'bold', 
+              color: '#D0A42B', 
+              mb: 2,
+              fontSize: '1.1rem'
+            }}>
+              <FormattedMessage 
+                id="vehiclePage.ratePerDay" 
+                defaultMessage="Rate: Contact for pricing" 
+              />
+            </Typography>
+          </Box>
           
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
             {showError && (
@@ -460,9 +525,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               label={intl.formatMessage({ id: "vehiclePage.purposeLabel" })}
               fullWidth
               value={formData.purpose}
-              onChange={(e) =>
-                setFormData({ ...formData, purpose: e.target.value })
-              }
+              onChange={(e) => handleInputChange("purpose", e.target.value)}
+              disabled={anySubmitted}
               error={formErrors.purpose}
               helperText={formErrors.purpose ? intl.formatMessage({ id: "vehiclePage.requiredField" }) || "This field is required" : ""}
               sx={{
@@ -482,9 +546,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               type="email"
               fullWidth
               value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              disabled={anySubmitted}
               error={formErrors.email}
               helperText={formErrors.email ? intl.formatMessage({ id: "vehiclePage.emailError", defaultMessage: "Please enter a valid email address" }) : ""}
               placeholder={intl.formatMessage({ id: "vehiclePage.emailPlaceholder", defaultMessage: "Enter your email address" })}
@@ -506,9 +569,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               multiline
               rows={4}
               value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={(e) => handleInputChange("description", e.target.value)}
+              disabled={anySubmitted}
               error={formErrors.description}
               helperText={formErrors.description ? intl.formatMessage({ id: "vehiclePage.requiredField" }) : ""}
               placeholder={intl.formatMessage({ id: "vehiclePage.descriptionPlaceholder", defaultMessage: "Tell us more about your requirements" })}
@@ -529,9 +591,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               type="date"
               fullWidth
               value={formData.date}
-              onChange={(e) =>
-                setFormData({ ...formData, date: e.target.value })
-              }
+              onChange={(e) => handleInputChange("date", e.target.value)}
+              disabled={anySubmitted}
               InputLabelProps={{ shrink: true }}
               inputProps={{ min: today }}
               error={formErrors.date}
@@ -552,7 +613,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={isSubmitting || emailSubmitted}
+              disabled={isSubmitting || emailSubmitted || (anySubmitted && !emailSubmitted)}
               sx={{
                 mt: 2,
                 py: 1.2,
@@ -579,7 +640,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
                 "&:disabled": {
                   background: emailSubmitted 
                     ? "linear-gradient(45deg, #4CAF50, #388E3C)" 
-                    : "#5a5a5a",
+                    : anySubmitted ? "#5a5a5a" : "#5a5a5a",
                   color: emailSubmitted ? "#000000" : "#aaaaaa",
                   opacity: emailSubmitted ? 1 : 0.7,
                 },
@@ -741,6 +802,25 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
           )}
         </Box>
       </Modal>
+
+      {/* Snackbar for notifications */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleSnackbarClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      />
     </motion.div>
   );
 };

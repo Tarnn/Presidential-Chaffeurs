@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Typography, Box, Container } from "@mui/material";
-import VehicleCard from "../components/VehicleCard";
+import VehicleCard, { SubmissionProvider } from "../components/VehicleCard";
 import { Vehicle } from "../types";
 import media from "../config/media.json";
 // Import static vehicle data
@@ -138,22 +138,34 @@ const VehicleListPage: React.FC = () => {
           {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbs} />
           
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            <Grid container spacing={2}>
-              {vehicles.map((vehicle) => (
-                <Grid item xs={12} sm={6} md={4} key={vehicle.id} sx={{ display: 'flex' }}>
-                  <motion.div variants={itemVariants} style={{ width: '100%' }}>
-                    <VehicleCard vehicle={vehicle} />
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          </motion.div>
+          <SubmissionProvider>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              <Grid container spacing={3} alignItems="stretch">
+                {vehicles.map((vehicle) => (
+                  <Grid 
+                    item 
+                    xs={12} 
+                    sm={6} 
+                    md={4} 
+                    key={vehicle.id} 
+                    sx={{ 
+                      display: 'flex',
+                      height: '100%'
+                    }}
+                  >
+                    <motion.div variants={itemVariants} style={{ width: '100%', height: '100%' }}>
+                      <VehicleCard vehicle={vehicle} />
+                    </motion.div>
+                  </Grid>
+                ))}
+              </Grid>
+            </motion.div>
+          </SubmissionProvider>
         </Container>
       </Box>
     </>
