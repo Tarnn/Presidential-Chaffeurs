@@ -211,8 +211,8 @@ const ServicesSection: React.FC = () => {
         >
           <Slider {...settings}>
             {services.map((service, index) => (
-              <Box key={index} sx={{ p: 1 }}>
-                <motion.div variants={itemVariants}>
+              <Box key={index} sx={{ p: 1, height: 500 }}>
+                <motion.div variants={itemVariants} style={{ height: '100%' }}>
                   <Card
                     sx={{
                       height: "100%",
@@ -241,6 +241,7 @@ const ServicesSection: React.FC = () => {
                         p: 3,
                         display: "flex",
                         flexDirection: "column",
+                        height: 260,
                       }}
                     >
                       <Box
@@ -248,6 +249,7 @@ const ServicesSection: React.FC = () => {
                           display: "flex",
                           alignItems: "center",
                           mb: 2,
+                          height: 40,
                         }}
                       >
                         {service.icon}
@@ -258,6 +260,8 @@ const ServicesSection: React.FC = () => {
                             fontWeight: "bold",
                             color: "white",
                             ml: 1,
+                            fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                            lineHeight: 1.2,
                           }}
                         >
                           <FormattedMessage
@@ -272,6 +276,15 @@ const ServicesSection: React.FC = () => {
                           color: "#cccccc",
                           mb: 2,
                           flexGrow: 1,
+                          height: 160,
+                          overflow: 'auto',
+                          fontSize: { xs: '0.875rem', sm: '0.875rem' },
+                          lineHeight: 1.6,
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 7,
+                          textOverflow: 'ellipsis',
+                          overflowY: 'hidden',
                         }}
                       >
                         <FormattedMessage
@@ -288,6 +301,8 @@ const ServicesSection: React.FC = () => {
                           color: "#D0A42B",
                           textDecoration: "none",
                           fontWeight: "bold",
+                          mt: 'auto',
+                          height: 24,
                           "&:hover": {
                             textDecoration: "underline",
                           },
