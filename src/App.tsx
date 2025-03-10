@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import {
   CssBaseline,
 } from "@mui/material";
@@ -15,7 +15,6 @@ import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
 import ScrollToTop from "./components/common/ScrollToTop";
-import CorsTest from "./components/common/CorsTest";
 
 // Import locale data
 import en from "./locales/en.json";
@@ -123,7 +122,8 @@ const App: React.FC = () => {
               <Route path="/vehicles" element={<VehicleListPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/services" element={<ServicesPage />} />
-              <Route path="/cors-test" element={<CorsTest />} />
+              {/* Fallback route - redirect to homepage for any non-existent routes */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Footer handleWhatsAppClick={handleWhatsAppClick} />
             <AudioControls />
