@@ -1,6 +1,7 @@
 {
-  "short_name": "Presidential Chauffeurs",
-  "name": "Presidential Chauffeurs - Executive Chauffeur Services",
+  "short_name": "Presidential",
+  "name": "Presidential Chauffeurs",
+  "description": "Luxury chauffeur services for executive travel and special occasions",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,13 +9,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "favicon.png",
+      "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "favicon.png",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
@@ -23,5 +24,8 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#D0A42B",
-  "background_color": "#2a2a2a"
+  "background_color": "#1A1A1A",
+  "categories": ["travel", "transportation", "luxury", "chauffeur"],
+  "orientation": "portrait",
+  "lang": "en-US"
 }

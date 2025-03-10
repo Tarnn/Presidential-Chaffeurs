@@ -5,6 +5,7 @@ import {
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { IntlProvider } from "react-intl";
+import { HelmetProvider } from 'react-helmet-async';
 import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import VehicleListPage from "./pages/VehicleListPage";
@@ -93,24 +94,26 @@ const App: React.FC = () => {
   };
 
   return (
-    <IntlProvider locale={locale} messages={messages[locale]}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Navbar locale={locale} onLanguageChange={setLocale} />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutUsPage />} />
-            <Route path="/vehicles" element={<VehicleListPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-          </Routes>
-          <Footer handleWhatsAppClick={handleWhatsAppClick} />
-          <AudioControls />
-          <ScrollToTop />
-        </Router>
-      </ThemeProvider>
-    </IntlProvider>
+    <HelmetProvider>
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router>
+            <Navbar locale={locale} onLanguageChange={setLocale} />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutUsPage />} />
+              <Route path="/vehicles" element={<VehicleListPage />} />
+              <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+            </Routes>
+            <Footer handleWhatsAppClick={handleWhatsAppClick} />
+            <AudioControls />
+            <ScrollToTop />
+          </Router>
+        </ThemeProvider>
+      </IntlProvider>
+    </HelmetProvider>
   );
 };
 
