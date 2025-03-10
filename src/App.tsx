@@ -113,6 +113,7 @@ const App: React.FC = () => {
             <Footer handleWhatsAppClick={handleWhatsAppClick} />
             <AudioControls />
             <ScrollToTop />
+            <Analytics />
           </Router>
         </ThemeProvider>
       </IntlProvider>
