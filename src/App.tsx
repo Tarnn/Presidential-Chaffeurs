@@ -16,6 +16,7 @@ import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
 import ScrollToTop from "./components/common/ScrollToTop";
 import CorsTest from "./components/common/CorsTest";
+import { Analytics } from "@vercel/analytics/react"
 // Import locale data
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
