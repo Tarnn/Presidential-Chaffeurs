@@ -244,7 +244,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       const token = await executeRecaptcha('vehicleInquiry');
       
       // Send form data with token to server
-      await axios.post("/api/inquiry", {
+      await axios.post("https://presidential-chauffeurs-node-nqnv.vercel.app/api/inquiry", {
         vehicleId: vehicle.id,
         vehicleName: vehicle.name,
         purpose: formData.purpose,
