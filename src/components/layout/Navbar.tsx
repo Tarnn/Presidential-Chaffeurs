@@ -218,7 +218,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
             gap: 1.5,
             alignItems: "center"
           }}>
-            <NavButton to="/" id="nav.aboutUs" onClick={scrollToTop} />
+            <NavButton to="/about" id="nav.aboutUs" onClick={scrollToTop} />
             <NavButton to="/services" id="nav.services" onClick={scrollToTop} />
             <NavButton to="/vehicles" id="nav.fleet" onClick={scrollToTop} />
             <NavButton to="/gallery" id="nav.gallery" onClick={scrollToTop} />
@@ -300,7 +300,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
           }}
         >
           <NavMenuItem 
-            to="/" 
+            to="/about" 
             id="nav.aboutUs" 
             onClick={() => {
               handleCloseNavMenu();
