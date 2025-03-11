@@ -175,7 +175,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, onLanguageChange }) => {
           padding: '8px 12px',
         }
       }}>
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }} onClick={scrollToTop}>
           <Typography
             variant="h6"
             sx={{
