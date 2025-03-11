@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FormattedMessage } from "react-intl";
 import mediaConfig from "../../config/media.json";
+import AnimatedTypography from "../common/AnimatedTypography";
 
 const HeroSection: React.FC = () => {
   const { hero: videoUrl } = mediaConfig.videos;
@@ -82,20 +83,35 @@ const HeroSection: React.FC = () => {
           margin: "0 auto"
         }}
       >
-        <Typography 
+        <AnimatedTypography 
           variant="h3" 
+          fadeDelay={0.2}
+          fadeDuration={0.8}
+          fadeDirection="up"
+          fadeDistance={30}
           sx={{ 
             fontFamily: "Cinzel, serif",
             fontWeight: 700,
             color: "#FFFFFF",
-            fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3.5rem" },
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)" 
+            fontSize: { xs: "1.2rem", sm: "2.5rem", md: "3.5rem" },
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
+            '@media (max-width: 410px)': {
+              fontSize: '1.1rem',
+              lineHeight: 1.2,
+              letterSpacing: '-0.5px',
+              whiteSpace: 'nowrap',
+              padding: '0 8px'
+            }
           }}
         >
           <FormattedMessage id="hero.title" />
-        </Typography>
-        <Typography 
+        </AnimatedTypography>
+        <AnimatedTypography 
           variant="h6" 
+          fadeDelay={0.4}
+          fadeDuration={0.8}
+          fadeDirection="up"
+          fadeDistance={30}
           sx={{ 
             fontFamily: "Roboto, sans-serif",
             color: "#D0A42B",
@@ -113,24 +129,30 @@ const HeroSection: React.FC = () => {
           }}
         >
           <FormattedMessage id="hero.subtitle" />
-        </Typography>
-        <Button 
-          variant="contained" 
-          component={RouterLink} 
-          to="/vehicles" 
-          sx={{ 
-            background: "linear-gradient(45deg, #D0A42B, #B08A23)",
-            color: "#000000",
-            "&:hover": { background: "linear-gradient(45deg, #B08A23, #D0A42B)" },
-            fontFamily: "Cinzel, serif",
-            fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
-            padding: { xs: "6px 12px", sm: "8px 16px", md: "10px 20px" },
-            textTransform: "none",
-            boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" 
-          }}
+        </AnimatedTypography>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <FormattedMessage id="nav.bookNow" />
-        </Button>
+          <Button 
+            variant="contained" 
+            component={RouterLink} 
+            to="/vehicles" 
+            sx={{ 
+              background: "linear-gradient(45deg, #D0A42B, #B08A23)",
+              color: "#000000",
+              "&:hover": { background: "linear-gradient(45deg, #B08A23, #D0A42B)" },
+              fontFamily: "Cinzel, serif",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
+              padding: { xs: "6px 12px", sm: "8px 16px", md: "10px 20px" },
+              textTransform: "none",
+              boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" 
+            }}
+          >
+            <FormattedMessage id="nav.bookNow" />
+          </Button>
+        </motion.div>
       </motion.div>
     </Box>
   );

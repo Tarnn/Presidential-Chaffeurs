@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Grid, Typography, Box, Button } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { FormattedMessage } from "react-intl";
 import { Link as RouterLink } from "react-router-dom";
 import mediaConfig from "../../config/media.json";
+import { useInView } from 'react-intersection-observer';
+import AnimatedTypography from "../common/AnimatedTypography";
 
 const AboutSection: React.FC = () => {
   const images = Object.values(mediaConfig.images.placeholders.aboutUsSection);
@@ -20,6 +22,32 @@ const AboutSection: React.FC = () => {
   // Handle tap/click to go to the next image
   const handleNextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % images.length);
+  };
+
+  // Use IntersectionObserver for the text section
+  const [textRef, textInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const textControls = useAnimation();
+
+  React.useEffect(() => {
+    if (textInView) {
+      textControls.start("visible");
+    }
+  }, [textControls, textInView]);
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -110,11 +138,18 @@ const AboutSection: React.FC = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Box
+              ref={textRef}
               component={motion.div}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              initial="hidden"
+              animate={textControls}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.2,
+                  },
+                },
+              }}
               sx={{
                 height: { xs: "auto", md: "600px" }, // Match the image container height on desktop
                 display: "flex",
@@ -125,58 +160,76 @@ const AboutSection: React.FC = () => {
               }}
             >
               <Box sx={{ textAlign: "center" }}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    mb: 0,
-                    fontWeight: 700,
-                    textAlign: "center",
-                    fontSize: { xs: "2rem", md: "2.75rem" },
-                    color: "#FFFFFF",
-                    minHeight: { xs: "auto", md: "60px" },
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                    overflow: "hidden",
-                  }}
-                >
-                  <FormattedMessage id="about.eliteStandard" />
-                </Typography>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    mb: 2,
-                    textAlign: "center",
-                    fontSize: { xs: "1.5rem", md: "2rem" },
-                    color: "#D0A42B",
-                    fontWeight: 600,
-                    minHeight: { xs: "auto", md: "48px" },
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 1,
-                    overflow: "hidden",
-                  }}
-                >
-                  <FormattedMessage id="about.trustedChauffeurs" />
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: "#FFFFFF",
-                    mb: 3,
-                    textAlign: "center",
-                    fontSize: { xs: "1rem", md: "1.1rem" },
-                    lineHeight: 1.8,
-                    opacity: 0.9,
-                    minHeight: { xs: "auto", md: "350px" },
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 12,
-                    overflow: "hidden",
-                  }}
-                >
-                  <FormattedMessage id="about.description" />
-                </Typography>
+                <motion.div variants={textVariants}>
+                  <AnimatedTypography
+                    variant="h3"
+                    fadeDelay={0}
+                    fadeDuration={0.6}
+                    fadeDirection="up"
+                    sx={{
+                      mb: 0,
+                      fontWeight: 700,
+                      textAlign: "center",
+                      fontSize: { xs: "2rem", md: "2.75rem" },
+                      color: "#FFFFFF",
+                      minHeight: { xs: "auto", md: "60px" },
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <FormattedMessage id="about.eliteStandard" />
+                  </AnimatedTypography>
+                </motion.div>
+
+                <motion.div variants={textVariants}>
+                  <AnimatedTypography
+                    variant="h4"
+                    fadeDelay={0.2}
+                    fadeDuration={0.6}
+                    fadeDirection="up"
+                    sx={{
+                      mb: 2,
+                      textAlign: "center",
+                      fontSize: { xs: "1.5rem", md: "2rem" },
+                      color: "#D0A42B",
+                      fontWeight: 600,
+                      minHeight: { xs: "auto", md: "48px" },
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 1,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <FormattedMessage id="about.trustedChauffeurs" />
+                  </AnimatedTypography>
+                </motion.div>
+
+                <motion.div variants={textVariants}>
+                  <AnimatedTypography
+                    variant="body1"
+                    fadeDelay={0.4}
+                    fadeDuration={0.6}
+                    fadeDirection="up"
+                    sx={{
+                      color: "#FFFFFF",
+                      mb: 3,
+                      textAlign: "center",
+                      fontSize: { xs: "1rem", md: "1.1rem" },
+                      lineHeight: 1.8,
+                      opacity: 0.9,
+                      minHeight: { xs: "auto", md: "350px" },
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 12,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <FormattedMessage id="about.description" />
+                  </AnimatedTypography>
+                </motion.div>
+
                 <Box
                   sx={{
                     textAlign: "center", // Center the button horizontally
@@ -187,23 +240,25 @@ const AboutSection: React.FC = () => {
                     justifyContent: "center", // Center the button
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    component={RouterLink}
-                    to="/vehicles"
-                    sx={{
-                      backgroundColor: "#D0A42B",
-                      color: "#000000",
-                      px: 4,
-                      py: 1.5,
-                      fontWeight: 600,
-                      "&:hover": {
-                        backgroundColor: "#FFFFFF",
-                      },
-                    }}
-                  >
-                    <FormattedMessage id="nav.bookNow" />
-                  </Button>
+                  <motion.div variants={textVariants}>
+                    <Button
+                      variant="contained"
+                      component={RouterLink}
+                      to="/vehicles"
+                      sx={{
+                        backgroundColor: "#D0A42B",
+                        color: "#000000",
+                        px: 4,
+                        py: 1.5,
+                        fontWeight: 600,
+                        "&:hover": {
+                          backgroundColor: "#FFFFFF",
+                        },
+                      }}
+                    >
+                      <FormattedMessage id="nav.bookNow" />
+                    </Button>
+                  </motion.div>
                 </Box>
               </Box>
             </Box>

@@ -6,6 +6,9 @@ import "slick-carousel/slick/slick-theme.css";
 import StarIcon from "@mui/icons-material/Star";
 import GoogleIcon from "@mui/icons-material/Google";
 import { FormattedMessage } from "react-intl";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from 'react-intersection-observer';
+import AnimatedTypography from "../common/AnimatedTypography";
 
 // Custom CSS to control spacing and height
 const customSliderStyles = `
@@ -90,39 +93,96 @@ const sliderSettings = {
 };
 
 const TestimonialsSection: React.FC = () => {
+  // Use IntersectionObserver for the text section
+  const [textRef, textInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const textControls = useAnimation();
+
+  React.useEffect(() => {
+    if (textInView) {
+      textControls.start("visible");
+    }
+  }, [textControls, textInView]);
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <Box sx={{ backgroundColor: "#2a2a2a", py: 8 }}>
       <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
         {/* Header and Subheader */}
-        <Typography
-          variant="h4"
-          sx={{
-            textAlign: "center",
-            color: "#D0A42B",
-            mb: 2,
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            fontSize: { xs: "1.75rem", sm: "2.125rem" }
+        <Box
+          ref={textRef}
+          component={motion.div}
+          initial="hidden"
+          animate={textControls}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
           }}
         >
-          <FormattedMessage id="about.trustedByElite" />
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            textAlign: "center",
-            color: "#FFFFFF",
-            mb: 6,
-            maxWidth: "800px",
-            mx: "auto",
-            px: { xs: 1, sm: 2 }
-          }}
-        >
-          <FormattedMessage id="about.trustedDescription" />
-        </Typography>
+          <motion.div variants={textVariants}>
+            <AnimatedTypography
+              variant="h4"
+              fadeDelay={0}
+              fadeDuration={0.6}
+              fadeDirection="up"
+              sx={{
+                textAlign: "center",
+                color: "#D0A42B",
+                mb: 2,
+                textTransform: "uppercase",
+                fontWeight: "bold",
+                fontSize: { xs: "1.75rem", sm: "2.125rem" }
+              }}
+            >
+              <FormattedMessage id="about.trustedByElite" />
+            </AnimatedTypography>
+          </motion.div>
+
+          <motion.div variants={textVariants}>
+            <AnimatedTypography
+              variant="body1"
+              fadeDelay={0.2}
+              fadeDuration={0.6}
+              fadeDirection="up"
+              sx={{
+                textAlign: "center",
+                color: "#FFFFFF",
+                mb: 6,
+                maxWidth: "800px",
+                mx: "auto",
+                px: { xs: 1, sm: 2 }
+              }}
+            >
+              <FormattedMessage id="about.trustedDescription" />
+            </AnimatedTypography>
+          </motion.div>
+        </Box>
 
         {/* Testimonials Slider with Custom Styles */}
         <Box 
+          component={motion.div}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
           sx={{ 
             maxWidth: { xs: "100%", sm: "1000px" }, 
             mx: "auto", 
@@ -203,20 +263,31 @@ const TestimonialsSection: React.FC = () => {
         </Box>
 
         {/* Google Rating Footer */}
-        <Typography
-          variant="body2"
-          sx={{ 
-            textAlign: "center", 
-            color: "#FFFFFF", 
-            mt: 0,
-            fontSize: { xs: '0.875rem', sm: '1rem' },
-            px: { xs: 2, sm: 0 },
-            maxWidth: "100%",
-            wordBreak: "break-word"
-          }}
+        <Box
+          component={motion.div}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <FormattedMessage id="testimonials.googleRating" />
-        </Typography>
+          <AnimatedTypography
+            variant="body2"
+            fadeDelay={0.4}
+            fadeDuration={0.6}
+            fadeDirection="up"
+            sx={{ 
+              textAlign: "center", 
+              color: "#FFFFFF", 
+              mt: 0,
+              fontSize: { xs: '0.875rem', sm: '1rem' },
+              px: { xs: 2, sm: 0 },
+              maxWidth: "100%",
+              wordBreak: "break-word"
+            }}
+          >
+            <FormattedMessage id="testimonials.googleRating" />
+          </AnimatedTypography>
+        </Box>
       </Container>
     </Box>
   );

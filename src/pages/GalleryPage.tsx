@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import CloseIcon from '@mui/icons-material/Close';
 import media from '../config/media.json';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { AnimatedTypography, AnimatedSection } from '../components/common';
 
 interface S3Image {
   id: string;
@@ -177,7 +178,7 @@ const GalleryPage: React.FC = () => {
       <Box
         sx={{
           position: 'relative',
-          height: '40vh',
+          height: '50vh',
           width: '100%',
           overflow: 'hidden',
           mb: 6,
@@ -191,7 +192,7 @@ const GalleryPage: React.FC = () => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center',
+            objectPosition: 'center 65%',
             filter: 'brightness(0.7)',
           }}
         />
@@ -207,7 +208,7 @@ const GalleryPage: React.FC = () => {
             padding: 4,
           }}
         >
-          <Typography 
+          <AnimatedTypography 
             variant="h1" 
             component="h1" 
             gutterBottom 
@@ -222,6 +223,10 @@ const GalleryPage: React.FC = () => {
               alignItems: 'center',
               gap: '2px'
             }}
+            fadeDelay={0.1}
+            fadeDuration={1.0}
+            fadeDirection="up"
+            fadeDistance={40}
           >
             <Box component="span" sx={{ color: 'white' }}>
               <FormattedMessage id="galleryPage.titleStart" />
@@ -229,16 +234,52 @@ const GalleryPage: React.FC = () => {
             <Box component="span" sx={{ color: '#D0A42B' }}>
               <FormattedMessage id="galleryPage.titleEnd" />
             </Box>
-          </Typography>
+          </AnimatedTypography>
         </Box>
       </Box>
 
       <Container maxWidth="lg">
         {/* Description Section */}
-        <Box sx={{ textAlign: 'center', mb: 8, maxWidth: '800px', mx: 'auto' }}>
-          <Typography variant="h5" color="text.primary" sx={{ mb: 4 }}>
-            <FormattedMessage id="galleryPage.description" defaultMessage="Explore our collection of memorable moments captured at real events with our valued customers. Each photo tells a story of luxury, elegance, and exceptional service." />
-          </Typography>
+        <Box sx={{ 
+          textAlign: 'center', 
+          mb: 8, 
+          maxWidth: '800px', 
+          mx: 'auto',
+          px: { xs: 2, md: 0 },
+          position: 'relative'
+        }}>
+          <AnimatedTypography 
+            variant="h5" 
+            color="text.primary" 
+            sx={{ 
+              mb: 2,
+              fontFamily: 'Cinzel, serif',
+              fontWeight: 500,
+              lineHeight: 1.5
+            }}
+            fadeDelay={0.2}
+            fadeDuration={0.8}
+            fadeDirection="up"
+            fadeDistance={30}
+          >
+            <FormattedMessage id="galleryPage.description" defaultMessage="Explore our collection of memorable moments captured at real events with our valued customers." />
+          </AnimatedTypography>
+          <AnimatedTypography 
+            variant="body1" 
+            color="text.secondary"
+            sx={{ 
+              fontStyle: 'italic',
+              maxWidth: '90%',
+              mx: 'auto',
+              fontSize: '1.1rem'
+            }}
+            fadeDelay={0.4}
+            fadeDuration={0.8}
+            fadeDirection="up"
+            fadeDistance={20}
+          >
+            <FormattedMessage id="galleryPage.subDescription" defaultMessage="Each photo tells a story of luxury, elegance, and exceptional service." />
+          </AnimatedTypography>
         </Box>
 
         {loading && images.length === 0 ? (
@@ -250,31 +291,53 @@ const GalleryPage: React.FC = () => {
             <Typography color="error">{error}</Typography>
           </Box>
         ) : (
-          <>
+          <AnimatedSection
+            delay={0.2}
+            duration={0.8}
+            direction="up"
+            distance={30}
+            staggerChildren={true}
+            staggerDelay={0.1}
+          >
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                gridTemplateColumns: {
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(2, 1fr)',
+                  md: 'repeat(3, 1fr)',
+                  lg: 'repeat(4, 1fr)',
+                },
                 gap: 3,
-                minHeight: '200px',
+                mb: 6,
               }}
             >
-              {images.map((image) => (
+              {images.map((image, index) => (
                 <Fade 
                   key={image.id}
                   in={loadedImages.has(image.id)}
                   timeout={1000}
-                  style={{ transitionDelay: '200ms' }}
+                  style={{ 
+                    transitionDelay: `${200 + (index % 12) * 100}ms`,
+                  }}
                 >
                   <Paper
-                    elevation={2}
+                    elevation={3}
                     sx={{
                       overflow: 'hidden',
-                      transition: 'transform 0.3s ease-in-out',
+                      borderRadius: 2,
+                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                       opacity: loadedImages.has(image.id) ? 1 : 0,
+                      transform: loadedImages.has(image.id) ? 'translateY(0)' : 'translateY(20px)',
+                      height: '100%',
+                      position: 'relative',
                       '&:hover': {
-                        transform: 'scale(1.02)',
-                        cursor: 'pointer'
+                        transform: 'scale(1.03) translateY(-5px)',
+                        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+                        cursor: 'pointer',
+                        '& .image-overlay': {
+                          opacity: 1,
+                        }
                       },
                     }}
                     onClick={() => handleImageClick(image.url)}
@@ -288,9 +351,41 @@ const GalleryPage: React.FC = () => {
                         width: '100%',
                         height: '300px',
                         objectFit: 'cover',
+                        transition: 'transform 0.6s ease',
+                        '&:hover': {
+                          transform: 'scale(1.1)',
+                        }
                       }}
                       loading="lazy"
                     />
+                    <Box 
+                      className="image-overlay"
+                      sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)',
+                        padding: '30px 15px 15px',
+                        opacity: 0,
+                        transition: 'opacity 0.3s ease',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'white',
+                          textAlign: 'center',
+                          fontWeight: 'medium',
+                          textShadow: '0 1px 2px rgba(0,0,0,0.6)'
+                        }}
+                      >
+                        <FormattedMessage id="galleryPage.clickToEnlarge" defaultMessage="Click to enlarge" />
+                      </Typography>
+                    </Box>
                   </Paper>
                 </Fade>
               ))}
@@ -310,7 +405,7 @@ const GalleryPage: React.FC = () => {
             >
               {loading && <CircularProgress />}
             </Box>
-          </>
+          </AnimatedSection>
         )}
       </Container>
 

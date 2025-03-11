@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { FormattedMessage } from "react-intl";
 import mediaConfig from "../../config/media.json";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -21,6 +21,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useInView } from 'react-intersection-observer';
+import AnimatedTypography from "../common/AnimatedTypography";
 
 const NextArrow = (props: any) => {
   const { onClick } = props;
@@ -157,50 +159,107 @@ const ServicesSection: React.FC = () => {
     }
   };
 
+  // Use IntersectionObserver for the text section
+  const [textRef, textInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const textControls = useAnimation();
+
+  React.useEffect(() => {
+    if (textInView) {
+      textControls.start("visible");
+    }
+  }, [textControls, textInView]);
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <Box component="section" sx={{ py: 8, backgroundColor: "#1a1a1a" }}>
       <Container maxWidth="lg">
-        <Box sx={{ textAlign: "center", mb: 6 }}>
-          <Typography
-            variant="h3"
-            component="h2"
-            sx={{
-              fontWeight: "bold",
-              color: "white",
-              mb: 2,
-              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-            }}
-          >
-            <FormattedMessage id="services.title" defaultMessage="Our Services" />
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "#D0A42B",
-              mb: 4,
-              maxWidth: "800px",
-              mx: "auto",
-              fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
-            }}
-          >
-            <FormattedMessage
-              id="services.subtitle"
-              defaultMessage="Tailored to your needs"
-            />
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: "white",
-              maxWidth: "900px",
-              mx: "auto",
-              mb: 6,
-              lineHeight: 1.8,
-              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
-            }}
-          >
-            <FormattedMessage id="services.description" />
-          </Typography>
+        <Box 
+          ref={textRef}
+          component={motion.div}
+          initial="hidden"
+          animate={textControls}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+          sx={{ textAlign: "center", mb: 6 }}
+        >
+          <motion.div variants={textVariants}>
+            <AnimatedTypography
+              variant="h3"
+              component="h2"
+              fadeDelay={0}
+              fadeDuration={0.6}
+              fadeDirection="up"
+              sx={{
+                fontWeight: "bold",
+                color: "white",
+                mb: 2,
+                fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              }}
+            >
+              <FormattedMessage id="services.title" defaultMessage="Our Services" />
+            </AnimatedTypography>
+          </motion.div>
+
+          <motion.div variants={textVariants}>
+            <AnimatedTypography
+              variant="h6"
+              fadeDelay={0.2}
+              fadeDuration={0.6}
+              fadeDirection="up"
+              sx={{
+                color: "#D0A42B",
+                mb: 4,
+                maxWidth: "800px",
+                mx: "auto",
+                fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
+              }}
+            >
+              <FormattedMessage
+                id="services.subtitle"
+                defaultMessage="Tailored to your needs"
+              />
+            </AnimatedTypography>
+          </motion.div>
+
+          <motion.div variants={textVariants}>
+            <AnimatedTypography
+              variant="body1"
+              fadeDelay={0.4}
+              fadeDuration={0.6}
+              fadeDirection="up"
+              sx={{
+                color: "white",
+                maxWidth: "900px",
+                mx: "auto",
+                mb: 6,
+                lineHeight: 1.8,
+                fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
+              }}
+            >
+              <FormattedMessage id="services.description" />
+            </AnimatedTypography>
+          </motion.div>
         </Box>
 
         <motion.div

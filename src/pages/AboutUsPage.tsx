@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import media from "../config/media.json";
 import TestimonialsSection from "../components/home/TestimonialsSection";
+import { AnimatedTypography } from "../components/common";
 
 const AboutUsPage: React.FC = () => {
   return (
@@ -45,7 +46,7 @@ const AboutUsPage: React.FC = () => {
             padding: 4,
           }}
         >
-          <Typography 
+          <AnimatedTypography 
             variant="h2"
             component="h1" 
             gutterBottom 
@@ -54,12 +55,16 @@ const AboutUsPage: React.FC = () => {
               mb: 3,
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             }}
+            fadeDelay={0.1}
+            fadeDuration={1.0}
+            fadeDirection="up"
+            fadeDistance={40}
           >
             <FormattedMessage id="aboutPage.hero.about" defaultMessage="ABOUT" />{" "}
             <span style={{ color: "#D0A42B" }}>
               <FormattedMessage id="aboutPage.hero.us" defaultMessage="US" />
             </span>
-          </Typography>
+          </AnimatedTypography>
         </Box>
       </Box>
 

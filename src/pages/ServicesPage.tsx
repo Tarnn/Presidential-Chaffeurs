@@ -3,6 +3,7 @@ import { Typography, Box, Container, Grid, Paper } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import media from "../config/media.json";
 import { motion } from "framer-motion";
+import { AnimatedTypography } from "../components/common";
 
 const ServicesPage: React.FC = () => {
   // Animation variants for staggered animations
@@ -55,7 +56,7 @@ const ServicesPage: React.FC = () => {
             padding: 4,
           }}
         >
-          <Typography 
+          <AnimatedTypography 
             variant="h2"
             component="h1" 
             gutterBottom 
@@ -64,12 +65,16 @@ const ServicesPage: React.FC = () => {
               mb: 2,
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             }}
+            fadeDelay={0.1}
+            fadeDuration={1.0}
+            fadeDirection="up"
+            fadeDistance={40}
           >
             <FormattedMessage id="servicesPage.hero.our" defaultMessage="OUR" />{" "}
             <span style={{ color: "#D0A42B" }}>
               <FormattedMessage id="servicesPage.hero.services" defaultMessage="SERVICES" />
             </span>
-          </Typography>
+          </AnimatedTypography>
         </Box>
       </Box>
 

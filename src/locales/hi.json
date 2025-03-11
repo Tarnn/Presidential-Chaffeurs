@@ -107,9 +107,11 @@
   "servicesPage.wedding.point5": "रिसेप्शन वेन्यू और पोस्ट-वेडिंग ट्रांसपोर्टेशन",
 
   "galleryPage.title": "हमारी गैलरी",
-  "galleryPage.description": "हमारे मूल्यवान ग्राहकों के साथ वास्तविक कार्यक्रमों में कैप्चर किए गए यादगार पलों का हमारा संग्रह देखें। प्रत्येक तस्वीर विलासिता, सौंदर्य और असाधारण सेवा की कहानी कहती है।",
+  "galleryPage.description": "हमारे मूल्यवान ग्राहकों के साथ वास्तविक कार्यक्रमों में कैप्चर किए गए यादगार पलों का हमारा संग्रह देखें।",
+  "galleryPage.subDescription": "प्रत्येक तस्वीर विलासिता, सौंदर्य और असाधारण सेवा की कहानी कहती है।",
   "galleryPage.titleStart": "गैल",
   "galleryPage.titleEnd": "री",
+  "galleryPage.clickToEnlarge": "बड़ा करने के लिए क्लिक करें",
 
   "vehiclePage.title": "हमारा एलीट बेड़ा",
   "vehiclePage.titleStart": "हमारा एलीट",

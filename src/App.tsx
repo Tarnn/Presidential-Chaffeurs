@@ -6,6 +6,7 @@ import {
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { IntlProvider } from "react-intl";
 import { HelmetProvider } from 'react-helmet-async';
+import "./scrollbar.css"; // Import scrollbar styles
 import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import VehicleListPage from "./pages/VehicleListPage";
@@ -15,6 +16,7 @@ import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import AudioControls from "./components/common/AudioControls";
 import ScrollToTop from "./components/common/ScrollToTop";
+import { AnimationProvider } from "./context/AnimationContext";
 
 // Import locale data
 import en from "./locales/en.json";
@@ -113,23 +115,25 @@ const App: React.FC = () => {
     <HelmetProvider>
       <IntlProvider locale={locale} messages={messages[locale]}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router>
-            <Navbar locale={locale} onLanguageChange={setLocale} />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutUsPage />} />
-              <Route path="/vehicles" element={<VehicleListPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              {/* Fallback route - redirect to homepage for any non-existent routes */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-            <Footer handleWhatsAppClick={handleWhatsAppClick} />
-            <AudioControls />
-            <ScrollToTop />
-            {AnalyticsComponent && <AnalyticsComponent />}
-          </Router>
+          <AnimationProvider>
+            <CssBaseline />
+            <Router>
+              <Navbar locale={locale} onLanguageChange={setLocale} />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutUsPage />} />
+                <Route path="/vehicles" element={<VehicleListPage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route path="/services" element={<ServicesPage />} />
+                {/* Fallback route - redirect to homepage for any non-existent routes */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+              <Footer handleWhatsAppClick={handleWhatsAppClick} />
+              <AudioControls />
+              <ScrollToTop />
+              {AnalyticsComponent && <AnalyticsComponent />}
+            </Router>
+          </AnimationProvider>
         </ThemeProvider>
       </IntlProvider>
     </HelmetProvider>

@@ -108,9 +108,11 @@
   "servicesPage.wedding.point5": "Transport vers le lieu de réception et post-mariage",
 
   "galleryPage.title": "Notre Galerie",
-  "galleryPage.description": "Explorez notre collection de moments mémorables capturés lors d'événements réels avec nos précieux clients. Chaque photo raconte une histoire de luxe, d'élégance et de service exceptionnel.",
+  "galleryPage.description": "Explorez notre collection de moments mémorables capturés lors d'événements réels avec nos précieux clients.",
+  "galleryPage.subDescription": "Chaque photo raconte une histoire de luxe, d'élégance et de service exceptionnel.",
   "galleryPage.titleStart": "GALE",
   "galleryPage.titleEnd": "RIE",
+  "galleryPage.clickToEnlarge": "Cliquez pour agrandir",
 
   "vehiclePage.title": "Notre Flotte d'Élite",
   "vehiclePage.titleStart": "NOTRE ÉLITE",

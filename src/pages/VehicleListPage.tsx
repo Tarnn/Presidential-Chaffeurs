@@ -10,6 +10,7 @@ import SEO from "../components/SEO";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import LazyImage from "../components/common/LazyImage";
 import { motion } from "framer-motion";
+import { AnimatedTypography } from "../components/common";
 
 const VehicleListPage: React.FC = () => {
   // Use static data instead of state and API call
@@ -62,11 +63,8 @@ const VehicleListPage: React.FC = () => {
     }))
   };
 
-  // Custom breadcrumbs for this page
-  const breadcrumbs = [
-    { name: "Home", url: "/", translationKey: "breadcrumbs.home" },
-    { name: "Fleet", url: "/vehicles", translationKey: "breadcrumbs.fleet" }
-  ];
+  // Empty breadcrumbs - keeping the container but removing the content
+  const breadcrumbs: any[] = [];
 
   return (
     <>
@@ -109,7 +107,7 @@ const VehicleListPage: React.FC = () => {
               padding: 4,
             }}
           >
-            <Typography 
+            <AnimatedTypography 
               variant="h2"
               component="h1" 
               gutterBottom 
@@ -123,6 +121,10 @@ const VehicleListPage: React.FC = () => {
                 gap: '8px',
                 flexWrap: 'wrap'
               }}
+              fadeDelay={0.1}
+              fadeDuration={1.0}
+              fadeDirection="up"
+              fadeDistance={40}
             >
               <Box component="span" sx={{ color: 'white' }}>
                 <FormattedMessage id="vehiclePage.titleStart" defaultMessage="Our Elite" />
@@ -130,13 +132,21 @@ const VehicleListPage: React.FC = () => {
               <Box component="span" sx={{ color: '#D0A42B' }}>
                 <FormattedMessage id="vehiclePage.titleEnd" defaultMessage="Fleet" />
               </Box>
-            </Typography>
+            </AnimatedTypography>
           </Box>
         </Box>
 
         <Container maxWidth="lg" sx={{ mb: 6 }}>
-          {/* Breadcrumbs */}
-          <Breadcrumbs items={breadcrumbs} />
+          {/* Empty breadcrumb container for layout purposes */}
+          <Box 
+            sx={{ 
+              py: 2, 
+              px: { xs: 2, sm: 3 },
+              backgroundColor: 'background.paper',
+              borderRadius: 1,
+              mb: 3
+            }}
+          />
           
           <SubmissionProvider>
             <motion.div
