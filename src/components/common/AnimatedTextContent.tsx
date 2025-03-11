@@ -109,7 +109,7 @@ const AnimatedTextContent: React.FC<AnimatedTextContentProps> = ({
   // If staggering children, wrap each child in a motion element
   if (staggerChildren && React.Children.count(children) > 1) {
     // Use type assertion to handle dynamic tag
-    const MotionComponent = motion[tag as keyof typeof motion] as React.FC<HTMLMotionProps<typeof tag>>;
+    const MotionComponent = motion[tag as keyof typeof motion] as any;
     
     if (MotionComponent) {
       return (
@@ -140,7 +140,7 @@ const AnimatedTextContent: React.FC<AnimatedTextContentProps> = ({
   }
 
   // Otherwise, animate the whole container
-  const MotionComponent = motion[tag as keyof typeof motion] as React.FC<HTMLMotionProps<typeof tag>>;
+  const MotionComponent = motion[tag as keyof typeof motion] as any;
   
   if (MotionComponent) {
     return (
