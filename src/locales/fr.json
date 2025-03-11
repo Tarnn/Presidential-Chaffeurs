@@ -150,5 +150,9 @@
   "vehicle.maybach.description": "Un chef-d'œuvre de l'ingénierie allemande, offrant un luxe exceptionnel aux places arrière et une expérience avec chauffeur incomparable.",
   
   "vehicle.silverarrow.name": "Rolls-Royce Silver Arrow",
-  "vehicle.silverarrow.description": "Un chef-d'œuvre rare et exclusif qui allie design intemporel et technologie de pointe, offrant une expérience de luxe inégalée."
+  "vehicle.silverarrow.description": "Un chef-d'œuvre rare et exclusif qui allie design intemporel et technologie de pointe, offrant une expérience de luxe inégalée.",
+  
+  "footer.recaptchaNotice": "Ce site est protégé par reCAPTCHA et les {privacyPolicy} et {termsOfService} de Google s'appliquent.",
+  "footer.privacyPolicy": "Règles de confidentialité",
+  "footer.termsOfService": "Conditions d'utilisation"
 }

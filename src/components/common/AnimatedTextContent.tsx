@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps, AnimationControls } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useAnimation as useFramerAnimation } from 'framer-motion';
 import { useAnimation } from '../../context/AnimationContext';
@@ -99,38 +99,70 @@ const AnimatedTextContent: React.FC<AnimatedTextContentProps> = ({
     },
   };
 
+  // Common props for motion components
+  const motionProps = {
+    className,
+    initial: "hidden",
+    animate: controls,
+  };
+
   // If staggering children, wrap each child in a motion element
   if (staggerChildren && React.Children.count(children) > 1) {
-    const Component = motion[tag as keyof typeof motion] || motion.div;
+    // Use type assertion to handle dynamic tag
+    const MotionComponent = motion[tag as keyof typeof motion] as React.FC<HTMLMotionProps<typeof tag>>;
     
+    if (MotionComponent) {
+      return (
+        <MotionComponent
+          {...motionProps}
+          ref={ref}
+          variants={containerVariants}
+        >
+          {React.Children.map(children, (child) => (
+            <motion.div variants={itemVariants}>{child}</motion.div>
+          ))}
+        </MotionComponent>
+      );
+    }
+    
+    // Fallback to motion.div if the tag doesn't exist in motion
     return (
-      <Component
+      <motion.div
+        {...motionProps}
         ref={ref}
-        className={className}
-        initial="hidden"
-        animate={controls}
         variants={containerVariants}
       >
         {React.Children.map(children, (child) => (
           <motion.div variants={itemVariants}>{child}</motion.div>
         ))}
-      </Component>
+      </motion.div>
     );
   }
 
   // Otherwise, animate the whole container
-  const Component = motion[tag as keyof typeof motion] || motion.div;
+  const MotionComponent = motion[tag as keyof typeof motion] as React.FC<HTMLMotionProps<typeof tag>>;
   
+  if (MotionComponent) {
+    return (
+      <MotionComponent
+        {...motionProps}
+        ref={ref}
+        variants={itemVariants}
+      >
+        {children}
+      </MotionComponent>
+    );
+  }
+  
+  // Fallback to motion.div
   return (
-    <Component
+    <motion.div
+      {...motionProps}
       ref={ref}
-      className={className}
-      initial="hidden"
-      animate={controls}
       variants={itemVariants}
     >
       {children}
-    </Component>
+    </motion.div>
   );
 };
 

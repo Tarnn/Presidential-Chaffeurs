@@ -150,5 +150,9 @@
   "vehicle.maybach.description": "Una obra maestra de la ingeniería alemana, que ofrece un lujo excepcional en los asientos traseros y una experiencia con chófer como ninguna otra.",
   
   "vehicle.silverarrow.name": "Rolls-Royce Silver Arrow",
-  "vehicle.silverarrow.description": "Una obra maestra rara y exclusiva que combina un diseño atemporal con tecnología de vanguardia, ofreciendo una experiencia de lujo inigualable."
+  "vehicle.silverarrow.description": "Una obra maestra rara y exclusiva que combina un diseño atemporal con tecnología de vanguardia, ofreciendo una experiencia de lujo inigualable.",
+  
+  "footer.recaptchaNotice": "Este sitio está protegido por reCAPTCHA y se aplican la {privacyPolicy} y los {termsOfService} de Google.",
+  "footer.privacyPolicy": "Política de Privacidad",
+  "footer.termsOfService": "Términos de Servicio"
 }

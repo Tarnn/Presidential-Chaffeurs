@@ -150,5 +150,9 @@
   "vehicle.maybach.description": "德国工程的杰作，提供卓越的后排座椅奢华体验和无与伦比的专属司机服务。",
   
   "vehicle.silverarrow.name": "劳斯莱斯银箭",
-  "vehicle.silverarrow.description": "一件稀有而独特的杰作，将永恒设计与尖端技术相结合，提供无与伦比的奢华体验。"
+  "vehicle.silverarrow.description": "一款稀有而独特的杰作，将永恒的设计与尖端技术相结合，提供无与伦比的豪华体验。",
+  
+  "footer.recaptchaNotice": "本网站受 reCAPTCHA 保护，适用 Google {privacyPolicy} 和 {termsOfService}。",
+  "footer.privacyPolicy": "隐私政策",
+  "footer.termsOfService": "服务条款"
 }

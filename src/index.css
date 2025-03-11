@@ -50,4 +50,14 @@ html {
 * {
   scrollbar-width: thin;
   scrollbar-color: #D0A42B #1a1a1a;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Hide Google reCAPTCHA badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
 }
