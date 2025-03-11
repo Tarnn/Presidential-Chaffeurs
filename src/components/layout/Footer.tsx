@@ -125,7 +125,7 @@ const Footer: React.FC<FooterProps> = ({ handleWhatsAppClick }) => {
               }}
             >
               <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)", mb: 1 }}>
-                2025 © Copyright Presidential Chauffeurs. All Rights Reserved.
+                2025 © Copyright Presidential Chauffeurs.
               </Typography>
               <Typography variant="caption" sx={{ color: "rgba(255, 255, 255, 0.5)", display: "block" }}>
                 <FormattedMessage 
