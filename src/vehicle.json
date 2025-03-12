@@ -5,11 +5,7 @@
       "description": "The pinnacle of luxury SUVs, offering unparalleled comfort and presence for elite travel.",
       "rate": 1800,
       "photos": [
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_8.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_11.webp",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_1.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_2.webp",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_17.heic"
+        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_8.heic"
       ]
     },
     {
@@ -18,10 +14,7 @@
       "description": "The epitome of automotive elegance, delivering effortless luxury and a serene driving experience.",
       "rate": 1600,
       "photos": [
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_18.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_4.webp",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_3.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_6.webp"
+        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_18.heic"
       ]
     },
     {
@@ -31,11 +24,8 @@
       "rate": 1900,
       "photos": [
         "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_16.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_13.webp",
         "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_12.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_14.webp",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_5.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_9.webp"
+        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_5.heic"
       ]
     },
     {
@@ -44,9 +34,7 @@
       "description": "A masterpiece of German engineering, offering exceptional rear-seat luxury and a chauffeur-driven experience like no other.",
       "rate": 1700,
       "photos": [
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_71.heic",
         "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_72.webp",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_73.heic",
         "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_74.webp"
       ]
     },
@@ -55,10 +43,6 @@
       "name": "Rolls-Royce Silver Arrow",
       "description": "A rare and exclusive masterpiece that combines timeless design with cutting-edge technology, offering an unmatched luxury experience.",
       "rate": 2000,
-      "photos": [
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_58.heic",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_59.webp",
-        "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_60.heic"
-      ]
+      "photos": []
     }
   ]
