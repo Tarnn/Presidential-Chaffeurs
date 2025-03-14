@@ -1,0 +1,446 @@
+{
+  "images": [
+    {
+      "id": "gallery_1",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_1.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_10",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_10.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_11",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_11.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_12",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_12.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_13",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_13.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_14",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_14.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_15",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_15.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_16",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_16.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_17",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_17.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_18",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_18.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_19",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_19.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_2",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_2.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_20",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_20.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_21",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_21.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_22",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_22.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_23",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_23.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_24",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_24.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_25",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_25.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_26",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_26.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_27",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_27.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_28",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_28.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_29",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_29.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_3",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_3.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_30",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_30.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_31",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_31.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_32",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_32.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_33",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_33.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_34",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_34.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_35",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_35.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_36",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_36.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_37",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_37.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_38",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_38.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_39",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_39.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_4",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_4.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_40",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_40.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_41",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_41.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_42",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_42.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_43",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_43.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_44",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_44.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_45",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_45.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_46",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_46.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_47",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_47.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_48",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_48.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_49",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_49.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_5",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_5.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_50",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_50.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_51",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_51.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_52",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_52.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_53",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_53.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_54",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_54.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_55",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_55.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_56",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_56.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_57",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_57.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_58",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_58.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_59",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_59.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_6",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_6.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_60",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_60.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_61",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_61.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_62",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_62.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_63",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_63.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_64",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_64.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_65",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_65.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_66",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_66.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_67",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_67.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_68",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_68.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_69",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_69.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_7",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_7.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_70",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_70.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_71",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_71.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_72",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_72.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_73",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_73.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_74",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_74.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_75",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_75.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_76",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_76.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_77",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_77.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_78",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_78.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_79",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_79.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_8",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_8.heic",
+      "type": "heic"
+    },
+    {
+      "id": "gallery_80",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_80.webp",
+      "type": "webp"
+    },
+    {
+      "id": "gallery_81",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_81.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_82",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_82.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_83",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_83.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_84",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_84.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_85",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_85.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_86",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_86.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_87",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_87.jpeg",
+      "type": "jpeg"
+    },
+    {
+      "id": "gallery_9",
+      "url": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_9.heic",
+      "type": "heic"
+    }
+  ],
+  "baseUrl": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com",
+  "imageTypes": [
+    "heic",
+    "webp",
+    "jpeg"
+  ],
+  "fallbackImage": "/logo.png"
+}

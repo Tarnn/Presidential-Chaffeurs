@@ -3,68 +3,59 @@ import { Container, Typography, Box, Paper, CircularProgress, Fade, Modal, IconB
 import { FormattedMessage } from 'react-intl';
 import CloseIcon from '@mui/icons-material/Close';
 import mediaConfig from '../config/media.json';
-import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import galleryConfig from '../config/gallery.json';
 import { AnimatedTypography, AnimatedSection } from '../components/common';
 
-interface S3Media {
+interface GalleryImage {
   id: string;
   url: string;
-  key: string;
-  type: 'image';
-  fileType: 'webp' | 'heic' | 'jpeg';
+  type: string;
   loaded?: boolean;
 }
 
-const MEDIA_PER_PAGE = 12;
-const GALLERY_PREFIX = 'gallery_';
-
-// Initialize S3 Client
-const s3Client = new S3Client({
-  region: import.meta.env.VITE_AWS_REGION,
-  credentials: {
-    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID?.trim() || '',
-    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY?.trim() || '',
-  },
-  maxAttempts: 3,
-});
-
-// Verify credentials before component renders
-const verifyCredentials = async () => {
-  const credentials = await s3Client.config.credentials();
-};
-
-verifyCredentials().catch(() => {
-  // Error handled silently
-});
+const IMAGES_PER_PAGE = 12;
 
 const GalleryPage: React.FC = () => {
   const isMobile = useMediaQuery('(max-width:1000px)');
-  const [media, setMedia] = useState<S3Media[]>([]);
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [displayedImages, setDisplayedImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [continuationToken, setContinuationToken] = useState<string | undefined>();
   
-  // Add state for the lightbox modal
+  // Modal state
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentMedia, setCurrentMedia] = useState<S3Media | null>(null);
+  const [currentImage, setCurrentImage] = useState<GalleryImage | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
 
   // Create a ref for the intersection observer target
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Add new state for tracking loaded images
-  const [loadedMedia, setLoadedMedia] = useState<Set<string>>(new Set());
+  // Add state for tracking loaded images
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
 
-  // Handle media load
-  const handleMediaLoad = (mediaId: string) => {
-    setLoadedMedia(prev => new Set([...Array.from(prev), mediaId]));
+  // Initialize images from gallery config
+  useEffect(() => {
+    setImages(galleryConfig.images as GalleryImage[]);
+    setLoading(false);
+  }, []);
+
+  // Update displayed images based on current page
+  useEffect(() => {
+    const end = currentPage * IMAGES_PER_PAGE;
+    setDisplayedImages(images.slice(0, end));
+    setHasMore(end < images.length);
+  }, [images, currentPage]);
+
+  // Handle image load
+  const handleImageLoad = (imageId: string) => {
+    setLoadedImages(prev => new Set([...Array.from(prev), imageId]));
   };
 
   // Handle image click to open the lightbox modal
-  const handleMediaClick = (mediaItem: S3Media) => {
-    if (isMobile) return; // Don't open modal on mobile
-    setCurrentMedia(mediaItem);
+  const handleImageClick = (image: GalleryImage) => {
+    if (isMobile) return;
+    setCurrentImage(image);
     setImageLoading(true);
     setModalOpen(true);
   };
@@ -72,107 +63,34 @@ const GalleryPage: React.FC = () => {
   // Handle closing the lightbox modal
   const handleCloseModal = () => {
     setModalOpen(false);
+    setCurrentImage(null);
   };
 
-  const fetchMedia = async (token?: string) => {
-    try {
-      setLoading(true);
-
-      // Add the new static image files
-      const newImages: S3Media[] = Array.from({ length: 6 }, (_, i) => ({
-        id: `gallery_8${i + 1}`,
-        key: `gallery_8${i + 1}.jpeg`,
-        url: `https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_8${i + 1}.jpeg`,
-        type: 'image',
-        fileType: 'jpeg'
-      }));
-
-      const command = new ListObjectsV2Command({
-        Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
-        MaxKeys: MEDIA_PER_PAGE,
-        ContinuationToken: token,
-        Prefix: GALLERY_PREFIX,
-      });
-
-      const response = await s3Client.send(command);
-      
-      if (response.Contents) {
-        const galleryMedia = response.Contents
-          .filter(obj => obj.Key && (obj.Key.endsWith('.webp') || obj.Key.endsWith('.heic') || obj.Key.endsWith('.jpeg')))
-          .map(obj => {
-            const fileType = obj.Key?.endsWith('.webp') ? 'webp' as const : 
-                           obj.Key?.endsWith('.heic') ? 'heic' as const : 'jpeg' as const;
-            const baseName = obj.Key?.replace(GALLERY_PREFIX, '').split('.')[0] || '';
-            const uniqueId = `${baseName}_${fileType}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            
-            return {
-              id: uniqueId,
-              key: obj.Key || '',
-              url: `https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/${obj.Key}`,
-              type: 'image' as const,
-              fileType,
-              loaded: false
-            };
-          });
-
-        // Combine all media and sort by file type (JPEG first), then randomize within each type
-        const mediaGroups = [...newImages, ...galleryMedia]
-          // First separate JPEGs from other formats
-          .reduce<{ jpegs: S3Media[]; others: S3Media[] }>((acc, item: S3Media) => {
-            if (item.fileType === 'jpeg') {
-              acc.jpegs.push(item);
-            } else {
-              acc.others.push(item);
-            }
-            return acc;
-          }, { jpegs: [], others: [] });
-
-        // Randomize and combine both groups
-        const allMedia: S3Media[] = [
-          ...mediaGroups.jpegs.sort(() => Math.random() - 0.5),
-          ...mediaGroups.others.sort(() => Math.random() - 0.5)
-        ];
-
-        setMedia(prev => {
-          const mediaMap = new Map<string, S3Media>();
-          if (token) {
-            prev.forEach((item: S3Media) => {
-              const baseKey = item.key.split('.')[0];
-              mediaMap.set(baseKey, item);
-            });
-          }
-          
-          allMedia.forEach((item: S3Media) => {
-            const baseKey = item.key.split('.')[0];
-            // Only update if the item doesn't exist or if it's a JPEG
-            if (!mediaMap.has(baseKey) || item.fileType === 'jpeg') {
-              mediaMap.set(baseKey, item);
-            }
-          });
-          
-          // Convert map values to array and randomize the order
-          return Array.from(mediaMap.values())
-            .sort(() => Math.random() - 0.5);
-        });
-        
-        setHasMore(!!response.IsTruncated);
-        setContinuationToken(response.NextContinuationToken);
-        setError(null);
+  // Handle image error fallback
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    const currentSrc = target.src;
+    const imageId = currentSrc.split('/').pop()?.split('.')[0] || '';
+    
+    // Try different image formats in order
+    for (const type of galleryConfig.imageTypes) {
+      if (!currentSrc.endsWith(type)) {
+        target.src = `${galleryConfig.baseUrl}/${imageId}.${type}`;
+        return;
       }
-    } catch (error: any) {
-      setError('Failed to load gallery media. Please try again later.');
-    } finally {
-      setLoading(false);
     }
+    
+    // If all formats fail, use the fallback image
+    target.src = galleryConfig.fallbackImage;
   };
 
   // Intersection Observer callback
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const [target] = entries;
     if (target.isIntersecting && hasMore && !loading) {
-      fetchMedia(continuationToken);
+      setCurrentPage(prev => prev + 1);
     }
-  }, [continuationToken, hasMore, loading]);
+  }, [hasMore, loading]);
 
   // Set up the intersection observer
   useEffect(() => {
@@ -188,11 +106,6 @@ const GalleryPage: React.FC = () => {
 
     return () => observer.disconnect();
   }, [handleObserver]);
-
-  // Initial fetch
-  useEffect(() => {
-    fetchMedia();
-  }, []);
 
   return (
     <Box component="section">
@@ -265,9 +178,9 @@ const GalleryPage: React.FC = () => {
         <Box sx={{ 
           textAlign: 'center', 
           mb: 8, 
-          maxWidth: '800px', 
+          maxWidth: { xs: '800px', md: '1000px', lg: '1200px' }, 
           mx: 'auto',
-          px: { xs: 2, md: 0 },
+          px: { xs: 2, md: 4 },
           position: 'relative'
         }}>
           <AnimatedTypography 
@@ -277,14 +190,18 @@ const GalleryPage: React.FC = () => {
               mb: 2,
               fontFamily: 'Cinzel, serif',
               fontWeight: 500,
-              lineHeight: 1.5
+              lineHeight: 1.5,
+              fontSize: { xs: '1.2rem', sm: '1.3rem', md: '1.5rem' },
+              width: { xs: '100%', md: '100%' },
+              mx: 'auto',
+              whiteSpace: { md: 'nowrap' }
             }}
             fadeDelay={0.2}
             fadeDuration={0.8}
             fadeDirection="up"
             fadeDistance={30}
           >
-            <FormattedMessage id="galleryPage.description" defaultMessage="Explore our collection of memorable moments captured at real events with our valued customers." />
+            <FormattedMessage id="galleryPage.description" defaultMessage="Explore our collection of memorable moments captured at real events with our valued clients." />
           </AnimatedTypography>
           <AnimatedTypography 
             variant="body1" 
@@ -304,13 +221,9 @@ const GalleryPage: React.FC = () => {
           </AnimatedTypography>
         </Box>
 
-        {loading && media.length === 0 ? (
+        {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
             <CircularProgress sx={{ color: '#D0A42B' }} />
-          </Box>
-        ) : error ? (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography color="error">{error}</Typography>
           </Box>
         ) : (
           <AnimatedSection
@@ -334,13 +247,13 @@ const GalleryPage: React.FC = () => {
                 mb: 6,
               }}
             >
-              {media.map((mediaItem, index) => (
+              {displayedImages.map((image, index) => (
                 <Fade 
-                  key={mediaItem.id}
-                  in={loadedMedia.has(mediaItem.id)}
+                  key={image.id}
+                  in={loadedImages.has(image.id)}
                   timeout={1000}
                   style={{ 
-                    transitionDelay: `${200 + (index % 12) * 100}ms`,
+                    transitionDelay: `${200 + (index % IMAGES_PER_PAGE) * 100}ms`,
                   }}
                 >
                   <Paper
@@ -349,8 +262,8 @@ const GalleryPage: React.FC = () => {
                       overflow: 'hidden',
                       borderRadius: 2,
                       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      opacity: loadedMedia.has(mediaItem.id) ? 1 : 0,
-                      transform: loadedMedia.has(mediaItem.id) ? 'translateY(0)' : 'translateY(20px)',
+                      opacity: loadedImages.has(image.id) ? 1 : 0,
+                      transform: loadedImages.has(image.id) ? 'translateY(0)' : 'translateY(20px)',
                       height: '100%',
                       position: 'relative',
                       '&:hover': {
@@ -362,39 +275,14 @@ const GalleryPage: React.FC = () => {
                         }
                       },
                     }}
-                    onClick={() => handleMediaClick(mediaItem)}
+                    onClick={() => handleImageClick(image)}
                   >
                     <Box
                       component="img"
-                      src={mediaItem.url}
-                      alt={`Gallery image ${mediaItem.key.replace(GALLERY_PREFIX, '').split('.')[0]}`}
-                      onLoad={() => handleMediaLoad(mediaItem.id)}
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        const currentSrc = target.src;
-                        const baseUrl = currentSrc.substring(0, currentSrc.lastIndexOf('.'));
-                        
-                        // Try loading JPEG first
-                        if (!currentSrc.endsWith('.jpeg')) {
-                          target.src = `${baseUrl}.jpeg`;
-                          return;
-                        }
-                        
-                        // If JPEG fails, try WebP
-                        if (!currentSrc.endsWith('.webp')) {
-                          target.src = `${baseUrl}.webp`;
-                          return;
-                        }
-                        
-                        // If WebP fails, try HEIC
-                        if (!currentSrc.endsWith('.heic')) {
-                          target.src = `${baseUrl}.heic`;
-                          return;
-                        }
-                        
-                        // If all formats fail, use the logo
-                        target.src = '/logo.png';
-                      }}
+                      src={image.url}
+                      alt={`Gallery image ${image.id}`}
+                      onLoad={() => handleImageLoad(image.id)}
+                      onError={handleImageError}
                       sx={{
                         width: '100%',
                         height: '300px',
@@ -443,19 +331,21 @@ const GalleryPage: React.FC = () => {
             </Box>
             
             {/* Intersection Observer Target */}
-            <Box
-              ref={observerTarget}
-              sx={{
-                width: '100%',
-                height: '50px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                mt: 4,
-              }}
-            >
-              {loading && <CircularProgress />}
-            </Box>
+            {hasMore && (
+              <Box
+                ref={observerTarget}
+                sx={{
+                  width: '100%',
+                  height: '50px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  mt: 4,
+                }}
+              >
+                {loading && <CircularProgress sx={{ color: '#D0A42B' }} />}
+              </Box>
+            )}
           </AnimatedSection>
         )}
       </Container>
@@ -464,8 +354,8 @@ const GalleryPage: React.FC = () => {
       <Modal
         open={modalOpen}
         onClose={handleCloseModal}
-        aria-labelledby="gallery-media-modal"
-        aria-describedby="enlarged view of gallery media"
+        aria-labelledby="gallery-image-modal"
+        aria-describedby="enlarged view of gallery image"
       >
         <Box
           sx={{
@@ -500,32 +390,35 @@ const GalleryPage: React.FC = () => {
             <CloseIcon />
           </IconButton>
           
-          <>
-            {imageLoading && (
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center',
-                  minHeight: '300px',
-                  minWidth: '300px'
+          {currentImage && (
+            <>
+              {imageLoading && (
+                <Box 
+                  sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    minHeight: '300px',
+                    minWidth: '300px'
+                  }}
+                >
+                  <CircularProgress sx={{ color: '#D0A42B' }} />
+                </Box>
+              )}
+              <img
+                src={currentImage.url}
+                alt={`Gallery image ${currentImage.id}`}
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '85vh',
+                  display: imageLoading ? 'none' : 'block',
+                  margin: '0 auto',
                 }}
-              >
-                <CircularProgress sx={{ color: '#D0A42B' }} />
-              </Box>
-            )}
-            <img
-              src={currentMedia?.url}
-              alt="Gallery media"
-              style={{
-                maxWidth: '100%',
-                maxHeight: '85vh',
-                display: imageLoading ? 'none' : 'block',
-                margin: '0 auto',
-              }}
-              onLoad={() => setImageLoading(false)}
-            />
-          </>
+                onLoad={() => setImageLoading(false)}
+                onError={handleImageError}
+              />
+            </>
+          )}
         </Box>
       </Modal>
     </Box>
