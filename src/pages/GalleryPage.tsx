@@ -115,28 +115,34 @@ const GalleryPage: React.FC = () => {
             };
           });
 
-        // Combine all media and sort by file type (JPEG first)
-        const allMedia = [...newImages, ...galleryMedia].sort((a, b) => {
-          // First, sort by file type (JPEG first)
-          if (a.fileType === 'jpeg' && b.fileType !== 'jpeg') return -1;
-          if (a.fileType !== 'jpeg' && b.fileType === 'jpeg') return 1;
-          
-          // Then sort by number in filename
-          const numA = parseInt(a.key.replace(GALLERY_PREFIX, '').split('.')[0]) || 0;
-          const numB = parseInt(b.key.replace(GALLERY_PREFIX, '').split('.')[0]) || 0;
-          return numB - numA;
-        });
+        // Combine all media and sort by file type (JPEG first), then randomize within each type
+        const mediaGroups = [...newImages, ...galleryMedia]
+          // First separate JPEGs from other formats
+          .reduce<{ jpegs: S3Media[]; others: S3Media[] }>((acc, item: S3Media) => {
+            if (item.fileType === 'jpeg') {
+              acc.jpegs.push(item);
+            } else {
+              acc.others.push(item);
+            }
+            return acc;
+          }, { jpegs: [], others: [] });
+
+        // Randomize and combine both groups
+        const allMedia: S3Media[] = [
+          ...mediaGroups.jpegs.sort(() => Math.random() - 0.5),
+          ...mediaGroups.others.sort(() => Math.random() - 0.5)
+        ];
 
         setMedia(prev => {
-          const mediaMap = new Map();
+          const mediaMap = new Map<string, S3Media>();
           if (token) {
-            prev.forEach(item => {
+            prev.forEach((item: S3Media) => {
               const baseKey = item.key.split('.')[0];
               mediaMap.set(baseKey, item);
             });
           }
           
-          allMedia.forEach(item => {
+          allMedia.forEach((item: S3Media) => {
             const baseKey = item.key.split('.')[0];
             // Only update if the item doesn't exist or if it's a JPEG
             if (!mediaMap.has(baseKey) || item.fileType === 'jpeg') {
@@ -144,7 +150,9 @@ const GalleryPage: React.FC = () => {
             }
           });
           
-          return Array.from(mediaMap.values());
+          // Convert map values to array and randomize the order
+          return Array.from(mediaMap.values())
+            .sort(() => Math.random() - 0.5);
         });
         
         setHasMore(!!response.IsTruncated);
