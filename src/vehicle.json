@@ -44,7 +44,7 @@
   },
   {
     "id": 4,
-    "name": "Maybach 62S",
+    "name": "Maybach 57S",
     "description": "A masterpiece of German engineering, offering exceptional rear-seat luxury and a chauffeur-driven experience like no other.",
     "rate": 1700,
     "photos": [
@@ -56,7 +56,7 @@
   },
   {
     "id": 5,
-    "name": "Rolls-Royce Silver Arrow",
+    "name": "Rolls-Royce 1962 Phantom",
     "description": "A rare and exclusive masterpiece that combines timeless design with cutting-edge technology, offering an unmatched luxury experience.",
     "rate": 2000,
     "video": "https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/silver_arrow.mp4",
