@@ -93,7 +93,7 @@ const ScrollingBanner: React.FC<ScrollingBannerProps> = ({ items = [] }) => {
                     mr: 0,
                     fontSize: '0.85em',
                     color: 'rgba(208, 164, 43, 0.85)',
-                    display: index === items.length - 1 ? 'none' : 'block',
+                    display: index === items.length - 1 && groupIndex === 3 ? 'none' : 'block',
                     position: 'relative',
                     top: 0,
                   },
