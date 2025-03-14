@@ -200,6 +200,9 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     autoplaySpeed: 4000,
     pauseOnHover: true,
     adaptiveHeight: false,
+    accessibility: true,
+    focusOnSelect: false,
+    swipe: true,
     responsive: [
       {
         breakpoint: 768,
@@ -458,10 +461,13 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
                 key={`${vehicle.id}-${photo}-${index}`} 
                 onClick={() => handleImageClick(getImageUrl(photo), index)}
                 style={{ cursor: isMobile ? 'default' : 'pointer' }}
+                role="tabpanel"
+                aria-roledescription="slide"
+                aria-label={`${vehicle.name} image ${index + 1} of ${vehicle.photos.length}`}
               >
                 <img
                   src={getImageUrl(photo)}
-                  alt={`${vehicle.name} ${index}`}
+                  alt={`${vehicle.name} ${index + 1} of ${vehicle.photos.length}`}
                   style={{ 
                     width: "100%", 
                     height: "250px", 
@@ -490,6 +496,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
                     target.src = '/logo.png';
                   }}
                   loading="lazy"
+                  tabIndex={-1}
                 />
               </div>
             ))}
