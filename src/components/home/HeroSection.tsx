@@ -5,10 +5,24 @@ import { motion } from "framer-motion";
 import { FormattedMessage } from "react-intl";
 import mediaConfig from "../../config/media.json";
 import AnimatedTypography from "../common/AnimatedTypography";
+import ScrollingBanner from "../common/ScrollingBanner";
 
 const HeroSection: React.FC = () => {
   const { hero: videoUrl } = mediaConfig.videos;
   const { heroLoading: posterUrl } = mediaConfig.images.placeholders.servicesSection;
+
+  const bannerItems = [
+    "Toronto",
+    "Vaughan",
+    "Richmond Hill",
+    "Mississauga",
+    "Brampton",
+    "Oakville",
+    "Milton",
+    "Guelph",
+    "Waterloo",
+    "Kitchener"
+  ];
 
   return (
     <Box 
@@ -154,6 +168,7 @@ const HeroSection: React.FC = () => {
           </Button>
         </motion.div>
       </motion.div>
+      <ScrollingBanner items={bannerItems} />
     </Box>
   );
 };
