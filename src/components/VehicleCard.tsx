@@ -11,6 +11,7 @@ import {
   IconButton,
   CircularProgress,
   Snackbar,
+  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -70,6 +71,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const intl = useIntl();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const { anySubmitted, setAnySubmitted } = useContext(SubmissionContext);
+  const isMobile = useMediaQuery('(max-width:1000px)');
   
   const [formData, setFormData] = useState<{ purpose: string; date: string; description: string; email: string }>({
     purpose: "",
@@ -169,9 +171,20 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
 
   // Function to get appropriate image URL based on file extension
   const getImageUrl = (url: string) => {
-    if (url.endsWith('.heic') && heicSupported === false) {
-      // If HEIC is not supported, try to use WebP version instead
-      return url.replace('.heic', '.webp');
+    // If the URL is already from the S3 bucket, try JPEG first
+    if (url.includes('presidential-chaffeurs.s3.us-east-2.amazonaws.com')) {
+      const baseUrl = url.substring(0, url.lastIndexOf('.'));
+      // Always try JPEG first
+      if (!url.endsWith('.jpeg')) {
+        return `${baseUrl}.jpeg`;
+      }
+      return url;
+    }
+    // For local URLs, convert them to S3 URLs and ensure JPEG extension
+    const filename = url.split('/').pop();
+    if (filename) {
+      const baseFilename = filename.substring(0, filename.lastIndexOf('.'));
+      return `https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/${baseFilename}.jpeg`;
     }
     return url;
   };
@@ -199,6 +212,10 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   };
 
   const handleImageClick = (imageUrl: string, index: number) => {
+    // Don't open modal for mobile screens
+    if (isMobile) {
+      return;
+    }
     setCurrentImage(imageUrl);
     setCurrentImageIndex(index);
     setImageLoading(true);
@@ -427,30 +444,55 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
         transition: 'all 0.3s ease'
       }}>
         <Slider {...sliderSettings}>
-          {vehicle.photos.map((photo, index) => (
-            <div key={`${vehicle.id}-${photo}-${index}`} onClick={() => handleImageClick(getImageUrl(photo), index)}>
-              <img
-                src={getImageUrl(photo)}
-                alt={`${vehicle.name} ${index}`}
-                style={{ 
-                  width: "100%", 
-                  height: "250px", 
-                  objectFit: "cover", 
-                  cursor: "pointer",
-                  transition: "transform 0.3s ease",
-                }}
-                onError={(e) => {
-                  // If image fails to load, try the alternative format
-                  const target = e.target as HTMLImageElement;
-                  if (target.src.endsWith('.heic')) {
-                    target.src = target.src.replace('.heic', '.webp');
-                  } else if (target.src.endsWith('.webp')) {
-                    target.src = target.src.replace('.webp', '.heic');
-                  }
-                }}
-              />
-            </div>
-          ))}
+          {vehicle.photos
+            .sort((a, b) => {
+              // Sort JPEG files first
+              const aIsJpeg = a.toLowerCase().endsWith('.jpeg');
+              const bIsJpeg = b.toLowerCase().endsWith('.jpeg');
+              if (aIsJpeg && !bIsJpeg) return -1;
+              if (!aIsJpeg && bIsJpeg) return 1;
+              return 0;
+            })
+            .map((photo, index) => (
+              <div 
+                key={`${vehicle.id}-${photo}-${index}`} 
+                onClick={() => handleImageClick(getImageUrl(photo), index)}
+                style={{ cursor: isMobile ? 'default' : 'pointer' }}
+              >
+                <img
+                  src={getImageUrl(photo)}
+                  alt={`${vehicle.name} ${index}`}
+                  style={{ 
+                    width: "100%", 
+                    height: "250px", 
+                    objectFit: "cover", 
+                    cursor: isMobile ? 'default' : 'pointer',
+                    transition: "transform 0.3s ease",
+                  }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    const currentSrc = target.src;
+                    const baseUrl = currentSrc.substring(0, currentSrc.lastIndexOf('.'));
+                    
+                    // If JPEG fails, try WebP
+                    if (!currentSrc.endsWith('.webp')) {
+                      target.src = `${baseUrl}.webp`;
+                      return;
+                    }
+                    
+                    // If WebP fails, try HEIC
+                    if (!currentSrc.endsWith('.heic')) {
+                      target.src = `${baseUrl}.heic`;
+                      return;
+                    }
+                    
+                    // If all formats fail, use the logo
+                    target.src = '/logo.png';
+                  }}
+                  loading="lazy"
+                />
+              </div>
+            ))}
         </Slider>
         <CardContent sx={{ 
           flexGrow: 1, 
@@ -732,13 +774,24 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               }}
               onLoad={() => setImageLoading(false)}
               onError={(e) => {
-                // If image fails to load, try the alternative format
                 const target = e.target as HTMLImageElement;
-                if (target.src.endsWith('.heic')) {
-                  target.src = target.src.replace('.heic', '.webp');
-                } else if (target.src.endsWith('.webp')) {
-                  target.src = target.src.replace('.webp', '.heic');
+                const currentSrc = target.src;
+                const baseUrl = currentSrc.substring(0, currentSrc.lastIndexOf('.'));
+                
+                // If JPEG fails, try WebP
+                if (!currentSrc.endsWith('.webp')) {
+                  target.src = `${baseUrl}.webp`;
+                  return;
                 }
+                
+                // If WebP fails, try HEIC
+                if (!currentSrc.endsWith('.heic')) {
+                  target.src = `${baseUrl}.heic`;
+                  return;
+                }
+                
+                // If all formats fail, use the logo
+                target.src = '/logo.png';
               }}
             />
             

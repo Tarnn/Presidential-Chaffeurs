@@ -1,20 +1,21 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Container, Typography, Box, Paper, CircularProgress, Fade, Modal, IconButton } from '@mui/material';
+import { Container, Typography, Box, Paper, CircularProgress, Fade, Modal, IconButton, useMediaQuery } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import CloseIcon from '@mui/icons-material/Close';
-import media from '../config/media.json';
+import mediaConfig from '../config/media.json';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { AnimatedTypography, AnimatedSection } from '../components/common';
 
-interface S3Image {
+interface S3Media {
   id: string;
   url: string;
   key: string;
-  fileType: 'webp' | 'heic';
+  type: 'image';
+  fileType: 'webp' | 'heic' | 'jpeg';
   loaded?: boolean;
 }
 
-const IMAGES_PER_PAGE = 12;
+const MEDIA_PER_PAGE = 12;
 const GALLERY_PREFIX = 'gallery_';
 
 // Initialize S3 Client
@@ -37,7 +38,8 @@ verifyCredentials().catch(() => {
 });
 
 const GalleryPage: React.FC = () => {
-  const [images, setImages] = useState<S3Image[]>([]);
+  const isMobile = useMediaQuery('(max-width:1000px)');
+  const [media, setMedia] = useState<S3Media[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
@@ -45,23 +47,24 @@ const GalleryPage: React.FC = () => {
   
   // Add state for the lightbox modal
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState("");
+  const [currentMedia, setCurrentMedia] = useState<S3Media | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
 
   // Create a ref for the intersection observer target
   const observerTarget = useRef<HTMLDivElement>(null);
 
   // Add new state for tracking loaded images
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [loadedMedia, setLoadedMedia] = useState<Set<string>>(new Set());
 
-  // Handle image load
-  const handleImageLoad = (imageId: string) => {
-    setLoadedImages(prev => new Set([...Array.from(prev), imageId]));
+  // Handle media load
+  const handleMediaLoad = (mediaId: string) => {
+    setLoadedMedia(prev => new Set([...Array.from(prev), mediaId]));
   };
 
   // Handle image click to open the lightbox modal
-  const handleImageClick = (imageUrl: string) => {
-    setCurrentImage(imageUrl);
+  const handleMediaClick = (mediaItem: S3Media) => {
+    if (isMobile) return; // Don't open modal on mobile
+    setCurrentMedia(mediaItem);
     setImageLoading(true);
     setModalOpen(true);
   };
@@ -71,13 +74,22 @@ const GalleryPage: React.FC = () => {
     setModalOpen(false);
   };
 
-  const fetchImages = async (token?: string) => {
+  const fetchMedia = async (token?: string) => {
     try {
       setLoading(true);
-      
+
+      // Add the new static image files
+      const newImages: S3Media[] = Array.from({ length: 6 }, (_, i) => ({
+        id: `gallery_8${i + 1}`,
+        key: `gallery_8${i + 1}.jpeg`,
+        url: `https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/gallery_8${i + 1}.jpeg`,
+        type: 'image',
+        fileType: 'jpeg'
+      }));
+
       const command = new ListObjectsV2Command({
         Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
-        MaxKeys: IMAGES_PER_PAGE,
+        MaxKeys: MEDIA_PER_PAGE,
         ContinuationToken: token,
         Prefix: GALLERY_PREFIX,
       });
@@ -85,52 +97,54 @@ const GalleryPage: React.FC = () => {
       const response = await s3Client.send(command);
       
       if (response.Contents) {
-        const galleryImages = response.Contents
-          .filter(obj => obj.Key && (obj.Key.endsWith('.webp') || obj.Key.endsWith('.heic')))
+        const galleryMedia = response.Contents
+          .filter(obj => obj.Key && (obj.Key.endsWith('.webp') || obj.Key.endsWith('.heic') || obj.Key.endsWith('.jpeg')))
           .map(obj => {
-            const fileType = obj.Key?.endsWith('.webp') ? 'webp' as const : 'heic' as const;
+            const fileType = obj.Key?.endsWith('.webp') ? 'webp' as const : 
+                           obj.Key?.endsWith('.heic') ? 'heic' as const : 'jpeg' as const;
             const baseName = obj.Key?.replace(GALLERY_PREFIX, '').split('.')[0] || '';
-            // Create a unique ID by combining the base name and file type
             const uniqueId = `${baseName}_${fileType}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             
             return {
-              id: uniqueId, // Use the unique ID instead of just the key
+              id: uniqueId,
               key: obj.Key || '',
-              url: `https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${obj.Key}`,
+              url: `https://presidential-chaffeurs.s3.us-east-2.amazonaws.com/${obj.Key}`,
+              type: 'image' as const,
               fileType,
               loaded: false
             };
           });
 
-        // Sort images by their number in the filename
-        const sortedImages = galleryImages.sort((a, b) => {
-          const numA = parseInt(a.key.replace(GALLERY_PREFIX, '').split('.')[0]);
-          const numB = parseInt(b.key.replace(GALLERY_PREFIX, '').split('.')[0]);
-          return numA - numB;
+        // Combine all media and sort by file type (JPEG first)
+        const allMedia = [...newImages, ...galleryMedia].sort((a, b) => {
+          // First, sort by file type (JPEG first)
+          if (a.fileType === 'jpeg' && b.fileType !== 'jpeg') return -1;
+          if (a.fileType !== 'jpeg' && b.fileType === 'jpeg') return 1;
+          
+          // Then sort by number in filename
+          const numA = parseInt(a.key.replace(GALLERY_PREFIX, '').split('.')[0]) || 0;
+          const numB = parseInt(b.key.replace(GALLERY_PREFIX, '').split('.')[0]) || 0;
+          return numB - numA;
         });
 
-        // Ensure we don't have duplicate images by using a Map to track unique keys
-        setImages(prev => {
-          // Create a Map of existing images using the key as the identifier
-          const imageMap = new Map();
-          
-          // Add previous images to the map (if we're paginating)
+        setMedia(prev => {
+          const mediaMap = new Map();
           if (token) {
-            prev.forEach(img => {
-              // Use the base filename (without extension) as the key to detect duplicates
-              const baseKey = img.key.split('.')[0];
-              imageMap.set(baseKey, img);
+            prev.forEach(item => {
+              const baseKey = item.key.split('.')[0];
+              mediaMap.set(baseKey, item);
             });
           }
           
-          // Add new images to the map, potentially replacing duplicates with newer versions
-          sortedImages.forEach(img => {
-            const baseKey = img.key.split('.')[0];
-            imageMap.set(baseKey, img);
+          allMedia.forEach(item => {
+            const baseKey = item.key.split('.')[0];
+            // Only update if the item doesn't exist or if it's a JPEG
+            if (!mediaMap.has(baseKey) || item.fileType === 'jpeg') {
+              mediaMap.set(baseKey, item);
+            }
           });
           
-          // Convert the Map back to an array and return
-          return Array.from(imageMap.values());
+          return Array.from(mediaMap.values());
         });
         
         setHasMore(!!response.IsTruncated);
@@ -138,7 +152,7 @@ const GalleryPage: React.FC = () => {
         setError(null);
       }
     } catch (error: any) {
-      setError('Failed to load gallery images. Please try again later.');
+      setError('Failed to load gallery media. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -148,7 +162,7 @@ const GalleryPage: React.FC = () => {
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const [target] = entries;
     if (target.isIntersecting && hasMore && !loading) {
-      fetchImages(continuationToken);
+      fetchMedia(continuationToken);
     }
   }, [continuationToken, hasMore, loading]);
 
@@ -169,7 +183,7 @@ const GalleryPage: React.FC = () => {
 
   // Initial fetch
   useEffect(() => {
-    fetchImages();
+    fetchMedia();
   }, []);
 
   return (
@@ -186,7 +200,7 @@ const GalleryPage: React.FC = () => {
       >
         <Box
           component="img"
-          src={media.images.placeholders.gallery["1"]}
+          src={mediaConfig.images.placeholders.gallery["1"]}
           alt="Gallery Hero"
           sx={{
             width: '100%',
@@ -282,7 +296,7 @@ const GalleryPage: React.FC = () => {
           </AnimatedTypography>
         </Box>
 
-        {loading && images.length === 0 ? (
+        {loading && media.length === 0 ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
             <CircularProgress sx={{ color: '#D0A42B' }} />
           </Box>
@@ -312,10 +326,10 @@ const GalleryPage: React.FC = () => {
                 mb: 6,
               }}
             >
-              {images.map((image, index) => (
+              {media.map((mediaItem, index) => (
                 <Fade 
-                  key={image.id}
-                  in={loadedImages.has(image.id)}
+                  key={mediaItem.id}
+                  in={loadedMedia.has(mediaItem.id)}
                   timeout={1000}
                   style={{ 
                     transitionDelay: `${200 + (index % 12) * 100}ms`,
@@ -327,26 +341,52 @@ const GalleryPage: React.FC = () => {
                       overflow: 'hidden',
                       borderRadius: 2,
                       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      opacity: loadedImages.has(image.id) ? 1 : 0,
-                      transform: loadedImages.has(image.id) ? 'translateY(0)' : 'translateY(20px)',
+                      opacity: loadedMedia.has(mediaItem.id) ? 1 : 0,
+                      transform: loadedMedia.has(mediaItem.id) ? 'translateY(0)' : 'translateY(20px)',
                       height: '100%',
                       position: 'relative',
                       '&:hover': {
                         transform: 'scale(1.03) translateY(-5px)',
                         boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-                        cursor: 'pointer',
-                        '& .image-overlay': {
-                          opacity: 1,
+                        cursor: isMobile ? 'default' : 'pointer',
+                        '& .media-overlay': {
+                          opacity: isMobile ? 0 : 1,
                         }
                       },
                     }}
-                    onClick={() => handleImageClick(image.url)}
+                    onClick={() => handleMediaClick(mediaItem)}
                   >
                     <Box
                       component="img"
-                      src={image.url}
-                      alt={`Gallery image ${image.key.replace(GALLERY_PREFIX, '').split('.')[0]}`}
-                      onLoad={() => handleImageLoad(image.id)}
+                      src={mediaItem.url}
+                      alt={`Gallery image ${mediaItem.key.replace(GALLERY_PREFIX, '').split('.')[0]}`}
+                      onLoad={() => handleMediaLoad(mediaItem.id)}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        const currentSrc = target.src;
+                        const baseUrl = currentSrc.substring(0, currentSrc.lastIndexOf('.'));
+                        
+                        // Try loading JPEG first
+                        if (!currentSrc.endsWith('.jpeg')) {
+                          target.src = `${baseUrl}.jpeg`;
+                          return;
+                        }
+                        
+                        // If JPEG fails, try WebP
+                        if (!currentSrc.endsWith('.webp')) {
+                          target.src = `${baseUrl}.webp`;
+                          return;
+                        }
+                        
+                        // If WebP fails, try HEIC
+                        if (!currentSrc.endsWith('.heic')) {
+                          target.src = `${baseUrl}.heic`;
+                          return;
+                        }
+                        
+                        // If all formats fail, use the logo
+                        target.src = '/logo.png';
+                      }}
                       sx={{
                         width: '100%',
                         height: '300px',
@@ -359,7 +399,7 @@ const GalleryPage: React.FC = () => {
                       loading="lazy"
                     />
                     <Box 
-                      className="image-overlay"
+                      className="media-overlay"
                       sx={{
                         position: 'absolute',
                         bottom: 0,
@@ -383,7 +423,10 @@ const GalleryPage: React.FC = () => {
                           textShadow: '0 1px 2px rgba(0,0,0,0.6)'
                         }}
                       >
-                        <FormattedMessage id="galleryPage.clickToEnlarge" defaultMessage="Click to enlarge" />
+                        <FormattedMessage 
+                          id="galleryPage.clickToEnlarge"
+                          defaultMessage="Click to enlarge"
+                        />
                       </Typography>
                     </Box>
                   </Paper>
@@ -409,12 +452,12 @@ const GalleryPage: React.FC = () => {
         )}
       </Container>
 
-      {/* Image Lightbox Modal */}
+      {/* Image Modal */}
       <Modal
         open={modalOpen}
         onClose={handleCloseModal}
-        aria-labelledby="gallery-image-modal"
-        aria-describedby="enlarged view of gallery image"
+        aria-labelledby="gallery-media-modal"
+        aria-describedby="enlarged view of gallery media"
       >
         <Box
           sx={{
@@ -448,39 +491,33 @@ const GalleryPage: React.FC = () => {
           >
             <CloseIcon />
           </IconButton>
-          {imageLoading && (
-            <Box 
-              sx={{ 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center',
-                minHeight: '300px',
-                minWidth: '300px'
+          
+          <>
+            {imageLoading && (
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center',
+                  minHeight: '300px',
+                  minWidth: '300px'
+                }}
+              >
+                <CircularProgress sx={{ color: '#D0A42B' }} />
+              </Box>
+            )}
+            <img
+              src={currentMedia?.url}
+              alt="Gallery media"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '85vh',
+                display: imageLoading ? 'none' : 'block',
+                margin: '0 auto',
               }}
-            >
-              <CircularProgress sx={{ color: '#D0A42B' }} />
-            </Box>
-          )}
-          <img
-            src={currentImage}
-            alt="Gallery image"
-            style={{
-              maxWidth: '100%',
-              maxHeight: '85vh',
-              display: imageLoading ? 'none' : 'block',
-              margin: '0 auto',
-            }}
-            onLoad={() => setImageLoading(false)}
-            onError={(e) => {
-              // If image fails to load, try the alternative format
-              const target = e.target as HTMLImageElement;
-              if (target.src.endsWith('.heic')) {
-                target.src = target.src.replace('.heic', '.webp');
-              } else if (target.src.endsWith('.webp')) {
-                target.src = target.src.replace('.webp', '.heic');
-              }
-            }}
-          />
+              onLoad={() => setImageLoading(false)}
+            />
+          </>
         </Box>
       </Modal>
     </Box>
